@@ -4,9 +4,7 @@ coverage
 dist
 .DS_Store
 .cache
-.rdoc-dist
 .vscode
-.next
 .env.local
 .env.development.local
 .env.test.local

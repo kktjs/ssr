@@ -1,11 +1,10 @@
 node_modules
 npm-debug.log*
+coverage
 dist
 .DS_Store
 .cache
-.rdoc-dist
 .vscode
-.next
 
 *.bak
 *.tem
