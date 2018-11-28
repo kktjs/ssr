@@ -20,13 +20,10 @@ class Home extends React.Component {
             <Link to="/about/">About</Link>
           </li>
           <li>
-            <a href="https://github.com/jaywcjlove/KKT">Docs</a>
+            <a href="https://github.com/jaywcjlove/kkt-ssr">Docs</a>
           </li>
           <li>
-            <a href="https://github.com/jaywcjlove/KKT/issues">Issues</a>
-          </li>
-          <li>
-            <a href="https://wangchujiang.com">Community Slack</a>
+            <a href="https://github.com/jaywcjlove/kkt-ssr/issues">Issues</a>
           </li>
         </ul>
       </div>
