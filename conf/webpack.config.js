@@ -226,6 +226,6 @@ module.exports = (
     child_process: 'empty',
   };
   // Load private .kkt.conf.js config file.
-  conf = require('../dev-utils/loadConfig')(conf, optionConf, webpack); // eslint-disable-line
+  conf = require('../utils/loadConfig')(conf, optionConf, webpack); // eslint-disable-line
   return conf;
 };
