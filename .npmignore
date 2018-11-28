@@ -1,0 +1,13 @@
+node_modules
+coverage
+npm-debug.log*
+example
+dist
+.DS_Store
+.cache
+.vscode
+
+*.bak
+*.tem
+*.temp
+#.swp
