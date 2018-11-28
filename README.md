@@ -9,5 +9,6 @@ npm i @kkt/ssr
 
 ## Example
 
-- [simple](example/simple) A simple for server side rendering for your React application.
+- [basic](example/basic) Server-side rendering of the React base application.
+- [react-router](example/react-router) React uses server-side rendering of the react-router.
 - [dynamic-loadable](example/dynamic-loadable) A dynamic loadable for server side rendering for your React application.

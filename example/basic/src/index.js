@@ -1,23 +1,23 @@
 import http from 'http';
 import app from './server';
 
+const logs = console.log; // eslint-disable-line
+
 const server = http.createServer(app);
-
 let currentApp = app;
-
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, (error) => {
   if (error) {
-    console.log(error);
+    logs(error);
   }
-  console.log('🚀 started!', `PORT: ${PORT}`);
+  logs('🚀 started!', `PORT: ${PORT}`);
 });
 
 if (module.hot) {
-  console.log('✅  Server-side HMR Enabled!');
+  logs('✅  Server-side HMR Enabled!');
   module.hot.accept('./server', () => {
-    console.log('🔁  HMR Reloading `./server`...');
+    logs('🔁  HMR Reloading `./server`...');
     server.removeListener('request', currentApp);
     const newApp = require('./server').default; // eslint-disable-line
     server.on('request', newApp);
