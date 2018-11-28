@@ -1,7 +1,7 @@
 {
   "name": "dynamic-loadable",
   "version": "1.0.0",
-  "description": "React uses server-side rendering of the react-router.",
+  "description": "A dynamic loadable for server side rendering for your React application.",
   "private": true,
   "main": "index.js",
   "scripts": {

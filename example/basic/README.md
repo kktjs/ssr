@@ -1,4 +1,4 @@
-simple
+Basic Example
 ---
 
 Server-side rendering of the React base application.

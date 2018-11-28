@@ -1,4 +1,4 @@
-simple
+loadable-components example
 ---
 
 A dynamic loadable for server side rendering for your React application.

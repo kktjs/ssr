@@ -1,7 +1,7 @@
 {
   "name": "simple",
   "version": "1.0.0",
-  "description": "A simple for server side rendering for your React application.",
+  "description": "A react-router for server side rendering for your React application.",
   "private": true,
   "main": "index.js",
   "scripts": {
