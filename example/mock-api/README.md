@@ -52,7 +52,7 @@ server
   })
 ```
 
-⚠️ webpack-api-mocker mock configured in [`mocker/index.js`](mocker/index.js).
+⚠️ [`webpack-api-mocker`](https://github.com/jaywcjlove/webpack-api-mocker) mock configured in [`mocker/index.js`](mocker/index.js).
 
 ```js
 const delay = require('webpack-api-mocker/utils/delay');
