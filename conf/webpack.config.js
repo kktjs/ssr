@@ -200,13 +200,13 @@ module.exports = (
       };
       conf.plugins.push(new webpack.HashedModuleIdsPlugin());
       conf.plugins.push(new webpack.optimize.AggressiveMergingPlugin());
-      conf.plugins.push(new MiniCssExtractPlugin({
-        // Options similar to the same options in webpackOptions.output
-        // both options are optional
-        filename: 'static/css/[name].[hash].css',
-        chunkFilename: 'static/css/[id].[hash].css',
-      }));
     }
+    conf.plugins.push(new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: 'static/css/[name].[hash].css',
+      chunkFilename: 'static/css/[id].[hash].css',
+    }));
   }
 
   conf.plugins.push(new SimpleProgressWebpackPlugin({
