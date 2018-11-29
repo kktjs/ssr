@@ -1,0 +1,29 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start": "react-ssr start",
+    "build": "react-ssr build",
+    "server": "NODE_ENV=production node dist/server.js"
+  },
+  "keywords": [],
+  "author": "Kenny Wong <wowohoo@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@rematch/core": "^1.0.6",
+    "express": "^4.16.4",
+    "i": "^0.3.6",
+    "npm": "^6.4.1",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-dynamic-loadable": "^1.0.10",
+    "react-helmet": "^5.2.0",
+    "react-router-dom": "^4.3.1",
+    "serialize-javascript": "^1.5.0"
+  },
+  "devDependencies": {
+    "@kkt/ssr": "file:../../"
+  }
+}
