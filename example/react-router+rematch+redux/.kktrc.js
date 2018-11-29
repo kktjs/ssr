@@ -1,5 +1,4 @@
-// const { DynamicLoadablePlugin } = require('react-dynamic-loadable/DynamicLoadablePlugin');
-const { DynamicLoadablePlugin } = require('./plugins/DynamicLoadablePlugin');
+const { DynamicLoadablePlugin } = require('react-dynamic-loadable/DynamicLoadablePlugin');
 
 module.exports = {
   config: (conf, { target, dev, env }, webpack) => {
