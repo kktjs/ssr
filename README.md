@@ -36,10 +36,11 @@ npm run server
 
 ## Example
 
-- [basic](example/basic) Server-side rendering of the React base application.
-- [react-router](example/react-router) React uses server-side rendering of the react-router.
-- [dynamic-loadable](example/dynamic-loadable) A dynamic loadable for server side rendering for your React application.
-- [react + react-router + rematch(redux)](example/react-router+rematch(redux)) This is a sophisticated example of server-side rendering.
+- [`basic`](example/basic) Server-side rendering of the React base application.
+- [`react-router`](example/react-router) React uses server-side rendering of the react-router.
+- [`dynamic-loadable`](example/dynamic-loadable) A dynamic loadable for server side rendering for your React application.
+- [`react + react-router + rematch(redux)`](example/react-router+rematch(redux)) This is a sophisticated example of server-side rendering.
+- [`mock-api`](example/mock-api) This is a sophisticated example of server-side rendering.
 
 ## License
 
