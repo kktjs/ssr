@@ -1,6 +1,6 @@
 {
   "name": "@kkt/ssr",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A baseline for server side rendering for your React application.",
   "bin": {
     "react-ssr": "./bin/ssr.js"
@@ -16,7 +16,12 @@
     "ssr",
     "next.js"
   ],
-  "author": "Kenny Wong <wowohoo@qq.com>",
+  "repository": "https://github.com/jaywcjlove/kkt-ssr.git",
+  "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
+  "bugs": {
+    "mail": "wowohoo@qq.com",
+    "url": "https://github.com/jaywcjlove/kkt-ssr/issues"
+  },
   "license": "MIT",
   "dependencies": {
     "@kkt/simple-progress-webpack-plugin": "^1.1.5",
