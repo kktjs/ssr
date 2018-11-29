@@ -1,9 +1,9 @@
-React SSR
+kkt-ssr
 ---
 
-Create server-side rendering universal JavaScript applications with no configuration.
+Create [React](https://github.com/facebook/react) server-side rendering universal JavaScript applications with no configuration.
 
-## Install
+### Install
 
 ```bash
 npm i @kkt/ssr
