@@ -21,11 +21,7 @@ export async function ensureReady(routes, pathname) {
   let data;
   // eslint-disable-next-line
   if (typeof window !== undefined && !!document) {
-    const dom = document.getElementById('server-app-state');
-    if (dom) {
-      // deserialize state from 'serialize-javascript' format
-      data = eval('(' + dom.textContent + ')'); // eslint-disable-line
-    }
+    data = window._KKT_SSR;
   }
   return Promise.resolve(data);
 }

@@ -6,8 +6,7 @@ import styles from './home.module.css';
 
 export default class Home extends React.Component {
   static async getInitialProps({ req, res, match, history, location, ...ctx }) {
-    console.log('ctx:', ctx);
-    return { whatever: 'stuff' };
+    return { whatever: 'Home stuff', ...ctx };
   }
   render() {
     return (
@@ -15,6 +14,12 @@ export default class Home extends React.Component {
         <Helmet titleTemplate="kkt - %s">
           <title>Home</title>
         </Helmet>
+        <div>
+          {this.props.whatever} <br />
+          {this.props.whatever} <br />
+          {this.props.whatever} <br />
+          {this.props.whatever} <br />
+        </div>
         <ul className={styles.resources}>
           <li>
             <Link to="/about/">About</Link>

@@ -6,8 +6,7 @@ import styles from './home.module.css';
 
 export default class Home extends React.Component {
   static async getInitialProps({ req, res, match, history, location, ...ctx }) {
-    console.log('ctx:', ctx);
-    return { whatever: 'stuff' };
+    return { whatever: 'stuff', ...ctx };
   }
   render() {
     return (

@@ -1,15 +1,12 @@
 import React from 'react';
-import serialize from 'serialize-javascript';
 
 function InitData({ data }) {
+  let JSSTR = null;
+  try {
+    JSSTR = JSON.stringify(data);
+  } catch (error) {} // eslint-disable-line
   return (
-    <script
-      id="server-app-state"
-      type="application/json"
-      dangerouslySetInnerHTML={{
-        __html: serialize({ ...data }),
-      }}
-    />
+    <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `var _KKT_SSR = ${JSSTR};` }}/>
   );
 }
 

@@ -16,6 +16,7 @@ export default class Container extends React.Component {
             <Link to="/">Home</Link>
             <Link to="/about/">About</Link>
             <Link to="/repos">Repos</Link>
+            <Link to="/repos/detail/123">Repos Detail</Link>
           </div>
         </div>
         {this.props.children}

@@ -1,18 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Container } from '../../../components';
 import './index.css';
 
 class Details extends React.Component {
+  static async getInitialProps({ req, res, match, history, location, ...ctx }) {
+    return { whatever: `This params id: ${match.params.id}. `, ...ctx };
+  }
   render() {
+    const { match } = this.props;
     return (
-      <Container title="Details">
-        <Helmet titleTemplate="kkt - %s">
-          <title>Home</title>
+      <Container title={`Repos Details ${match.params.id}`}>
+        <Helmet titleTemplate="%s - kkt">
+          <title>Repos Details</title>
         </Helmet>
         <div className="blue">
-          Details <Link to="/">Home</Link> <Link to="/repos">Repos</Link>
+          {this.props.whatever}
+          Repos Details
+          <span>{match.params.id}</span>
         </div>
       </Container>
     );

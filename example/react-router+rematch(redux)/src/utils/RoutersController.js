@@ -33,7 +33,6 @@ class Controller extends React.PureComponent {
     });
   }
   prefetch = (pathname) => {
-    // console.log('prefetch:', this.props, pathname);
     loadInitialProps(this.props.routes, pathname, {
       history: this.props.history,
     }).then(({ data }) => {
@@ -41,10 +40,12 @@ class Controller extends React.PureComponent {
         ...this.prefetcherCache,
         [pathname]: data,
       };
-    }).catch(e => console.log(e));
+    }).catch(e => console.log(e)); // eslint-disable-line
   }
   render() {
+    const { previousLocation, data } = this.state;
     const { routes, location } = this.props;
+    const initialData = this.prefetcherCache[location.pathname] || data;
     return (
       <Switch>
         {Object.keys(routes).map((path, idx) => (
@@ -52,11 +53,12 @@ class Controller extends React.PureComponent {
             path={path}
             exact={routes[path].exact}
             key={idx}
-            location={location}
+            location={previousLocation || location}
             render={props => (
               React.createElement(routes[path].component, {
+                ...initialData,
                 history: props.history,
-                location,
+                location: previousLocation || location,
                 match: props.match,
                 prefetch: this.prefetch,
               })
