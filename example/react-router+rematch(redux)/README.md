@@ -3,7 +3,7 @@ react-router+rematch
 
 A simple for server side rendering for your React application.
 
-[Rematch](https://github.com/rematch/rematch) is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks.
+[Rematch](https://github.com/rematch/rematch) is [Redux](https://github.com/reduxjs/redux) best practices without the boilerplate. No more action types, action creators, switch statements or thunks.
 
 [React](https://github.com/facebook/react) + [React Router](https://github.com/ReactTraining/react-router) + [Rematch](https://github.com/rematch/rematch) + [Express](https://expressjs.com/)
 
