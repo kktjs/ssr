@@ -1,6 +1,6 @@
 {
   "name": "@kkt/ssr",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A baseline for server side rendering for your React application.",
   "bin": {
     "react-ssr": "./bin/ssr.js"
@@ -8,8 +8,13 @@
   "scripts": {},
   "keywords": [
     "react",
+    "react-router",
     "redux",
-    "rematch"
+    "rematch",
+    "webpack",
+    "express",
+    "ssr",
+    "next.js"
   ],
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
