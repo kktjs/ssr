@@ -57,11 +57,13 @@ module.exports = (conf, options) => {
             },
           });
         } else {
-          if (IS_DEV) {
-            rulers.push(require.resolve('style-loader'));
-          } else {
-            rulers.push(MiniCssExtractPlugin.loader);
-          }
+          // if (IS_DEV) {
+          //   rulers.push(require.resolve('style-loader'));
+          // } else {
+          //   rulers.push(MiniCssExtractPlugin.loader);
+          // }
+          // Generating inline styles makes it harder to locate problems.
+          rulers.push(MiniCssExtractPlugin.loader);
           rulers.push({
             loader: require.resolve('css-loader'),
             options: {
@@ -89,11 +91,13 @@ module.exports = (conf, options) => {
             options: cssModuleOption,
           });
         } else {
-          if (IS_DEV) {
-            rulers.push(require.resolve('style-loader'));
-          } else {
-            rulers.push(MiniCssExtractPlugin.loader);
-          }
+          // if (IS_DEV) {
+          //   rulers.push(require.resolve('style-loader'));
+          // } else {
+          //   rulers.push(MiniCssExtractPlugin.loader);
+          // }
+          // Generating inline styles makes it harder to locate problems.
+          rulers.push(MiniCssExtractPlugin.loader);
           rulers.push({
             loader: require.resolve('css-loader'),
             options: cssModuleOption,
