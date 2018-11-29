@@ -3,10 +3,10 @@ mock-api
 
 Server-side rendering of the React base application, Mock the API in development mode.
 
-[React](https://github.com/facebook/react) + [Express](https://expressjs.com/) + [webpack-api-mocker](https://github.com/jaywcjlove/webpack-api-mocker) + [http-proxy-middleware](https://www.npmjs.com/package/http-proxy-middleware)
+[`React`](https://github.com/facebook/react) + [`Express`](https://expressjs.com/) + [`webpack-api-mocker`](https://github.com/jaywcjlove/webpack-api-mocker) + [`http-proxy-middleware`](https://www.npmjs.com/package/http-proxy-middleware)
 
-- [webpack-api-mocker](https://github.com/jaywcjlove/webpack-api-mocker) is a webpack-dev-server middleware that creates mocks for REST APIs. It will be helpful when you try to test your application without the actual REST API server.
-- [http-proxy-middleware](https://www.npmjs.com/package/http-proxy-middleware) Configure proxy middleware with ease for connect, express, browser-sync and many more.
+- [`webpack-api-mocker`](https://github.com/jaywcjlove/webpack-api-mocker) is a webpack-dev-server middleware that creates mocks for REST APIs. It will be helpful when you try to test your application without the actual REST API server.
+- [`http-proxy-middleware`](https://www.npmjs.com/package/http-proxy-middleware) Configure proxy middleware with ease for connect, express, browser-sync and many more.
 
 ### development
 
