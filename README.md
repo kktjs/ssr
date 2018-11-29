@@ -1,7 +1,7 @@
 React SSR
 ---
 
-A baseline for server side rendering for your React application.
+Create server-side rendering universal JavaScript applications with no configuration.
 
 ## Install
 
@@ -40,3 +40,7 @@ npm run server
 - [react-router](example/react-router) React uses server-side rendering of the react-router.
 - [dynamic-loadable](example/dynamic-loadable) A dynamic loadable for server side rendering for your React application.
 - [react + react-router + rematch(redux)](example/react-router+rematch(redux)) This is a sophisticated example of server-side rendering.
+
+## License
+
+[MIT © Kenny Wong](./LICENSE)
