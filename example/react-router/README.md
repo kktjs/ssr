@@ -3,7 +3,7 @@ react-router example
 
 A react-router for server side rendering for your React application.
 
-[React](https://github.com/facebook/react) + [React Router](https://github.com/ReactTraining/react-router) + [Express](https://expressjs.com/)
+[`React`](https://github.com/facebook/react) + [`React Router`](https://github.com/ReactTraining/react-router) + [`Express`](https://expressjs.com/)
 
 ### development
 

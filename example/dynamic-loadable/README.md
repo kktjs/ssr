@@ -3,7 +3,7 @@ loadable-components example
 
 A dynamic loadable for server side rendering for your React application.
 
-[React](https://github.com/facebook/react) + [React Router](https://github.com/ReactTraining/react-router) + [Express](https://expressjs.com/)
+[`React`](https://github.com/facebook/react) + [`React Router`](https://github.com/ReactTraining/react-router) + [`Express`](https://expressjs.com/)
 
 ### development
 
