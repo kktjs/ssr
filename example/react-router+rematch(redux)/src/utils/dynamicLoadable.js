@@ -6,8 +6,9 @@ import React from 'react';
  * instance of Component to the static implementation of `load`.
  */
 export default function dynamicLoadable({
-  loader,
-  Loading,
+  component,
+  LoadingComponent,
+  models: resolveModels,
 }) {
   // keep Component in a closure to avoid doing this stuff more than once
   let Component = null;
@@ -18,9 +19,13 @@ export default function dynamicLoadable({
      * this component. This should only be called one time outside of the
      * normal render path.
      */
-    static load() {
-      return loader().then((ResolvedComponent) => {
-        Component = ResolvedComponent.default || ResolvedComponent;
+    static async load() {
+      let models = typeof resolveModels === 'function' ? resolveModels() : [];
+      models = !models ? [] : models;
+      return Promise.all([...models]).then(() => {
+        return component().then((ResolvedComponent) => {
+          Component = ResolvedComponent.default || ResolvedComponent;
+        });
       });
     }
 
@@ -59,8 +64,8 @@ export default function dynamicLoadable({
         return <ComponentFromState {...this.props} />;
       }
 
-      if (Loading) {
-        return <Loading {...this.props} />;
+      if (LoadingComponent) {
+        return <LoadingComponent {...this.props} />;
       }
 
       return null;

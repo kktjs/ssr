@@ -3,6 +3,10 @@ kkt-ssr
 
 Create [React](https://github.com/facebook/react) server-side rendering universal JavaScript applications with no configuration.
 
+## Usage
+
+You will need [`Node.js`](https://nodejs.org) installed on your system.
+
 ### Install
 
 ```bash
@@ -35,6 +39,8 @@ npm run server
 ```
 
 ## Example
+
+A complete [`react + react-router + rematch(redux)`](example/react-router+rematch(redux)) example is recommended for production projects.
 
 - [`basic`](example/basic) Server-side rendering of the React base application.
 - [`react-router`](example/react-router) React uses server-side rendering of the react-router.

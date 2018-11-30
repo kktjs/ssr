@@ -5,5 +5,9 @@ export default {
   reducers: {
     updateState: (state, payload) => ({ ...state, ...payload }),
   },
-  effects: {},
+  effects: {
+    async verify(payload, rootState) {
+      console.log(rootState); // eslint-disable-line
+    },
+  },
 };

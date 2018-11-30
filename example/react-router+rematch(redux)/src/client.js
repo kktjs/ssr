@@ -1,10 +1,13 @@
-import BrowserRouter from 'react-router-dom/BrowserRouter';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import RoutersController from './utils/RoutersController';
 import routes from './routes';
 import { ensureReady } from './utils/ensureReady';
+import store from './store';
 import './client.css';
+
 
 ensureReady(routes).then((data) => {
   // Fix: Expected server HTML to contain a matching <a> in
@@ -12,9 +15,11 @@ ensureReady(routes).then((data) => {
   // Replace the ReactDOM.render() call with ReactDOM.hydrate() if you want React to attach to the server HTML.
   const renderMethod = !!module.hot ? ReactDOM.render : ReactDOM.hydrate; // eslint-disable-line
   renderMethod(
-    <BrowserRouter>
-      <RoutersController data={data} routes={routes} />
-    </BrowserRouter>,
+    <Provider store={store}>
+      <BrowserRouter>
+        <RoutersController data={data} routes={routes} />
+      </BrowserRouter>
+    </Provider>,
     document.getElementById('root')
   );
 });

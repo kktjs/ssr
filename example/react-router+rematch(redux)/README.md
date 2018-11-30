@@ -1,11 +1,13 @@
 react-router+rematch
 ---
 
+[![](https://img.shields.io/github/release/jaywcjlove/kkt-ssr.svg)](https://github.com/jaywcjlove/kkt-ssr/releases)
+
 A simple for server side rendering for your React application.
 
 [Rematch](https://github.com/rematch/rematch) is [Redux](https://github.com/reduxjs/redux) best practices without the boilerplate. No more action types, action creators, switch statements or thunks.
 
-[React](https://github.com/facebook/react) + [React Router](https://github.com/ReactTraining/react-router) + [Rematch](https://github.com/rematch/rematch) + [Express](https://expressjs.com/)
+[`React`](https://github.com/facebook/react) + [`React Router`](https://github.com/ReactTraining/react-router) + [`Rematch`](https://github.com/rematch/rematch) + [`Express`](https://expressjs.com/)
 
 ### development
 

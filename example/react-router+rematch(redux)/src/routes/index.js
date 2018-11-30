@@ -6,8 +6,8 @@ import '../client.module.css';
 
 // wrapper of dynamic
 const dynamicWrapper = (models, component) => dynamic({
-  loader: component,
-  Loading: () => <div>...LOADING...</div>,
+  component,
+  LoadingComponent: () => <div>...LOADING...</div>,
   models: () => models.map((m) => {
     return import(`../models/${m}.js`).then((md) => {
       const model = md.default || md;

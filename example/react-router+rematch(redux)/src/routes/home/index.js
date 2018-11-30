@@ -1,12 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { Container } from '../../components';
 import styles from './home.module.css';
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   static async getInitialProps({ req, res, match, history, location, ...ctx }) {
     return { whatever: 'Home stuff', ...ctx };
+  }
+  componentDidMount() {
+    this.props.verify();
   }
   render() {
     return (
@@ -15,6 +19,8 @@ export default class Home extends React.Component {
           <title>Home</title>
         </Helmet>
         <div>
+          {this.props.test} <br />
+          {this.props.testHome} <br />
           {this.props.whatever} <br />
           {this.props.whatever} <br />
           {this.props.whatever} <br />
@@ -35,3 +41,15 @@ export default class Home extends React.Component {
     );
   }
 }
+
+const mapState = ({ global, home }) => ({
+  test: global.test,
+  testHome: home.test,
+});
+
+const mapDispatch = ({ global }) => ({
+  verify: global.verify,
+});
+
+export default connect(mapState, mapDispatch)(Home);
+
