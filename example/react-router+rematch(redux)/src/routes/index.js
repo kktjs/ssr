@@ -1,11 +1,10 @@
 import React from 'react';
-// import dynamic from 'react-dynamic-loadable';
+import loadable from 'react-dynamic-loadable';
 import store from '../store';
-import dynamic from '../utils/dynamicLoadable';
 import '../client.module.css';
 
 // wrapper of dynamic
-const dynamicWrapper = (models, component) => dynamic({
+const dynamicWrapper = (models, component) => loadable({
   component,
   LoadingComponent: () => <div>...LOADING...</div>,
   models: () => models.map((m) => {
