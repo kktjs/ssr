@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "@rematch/core": "^1.0.6",
+    "@kkt/ssr": "file:../../",
     "express": "^4.16.4",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
@@ -22,6 +23,5 @@
     "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
-    "@kkt/ssr": "file:../../"
   }
 }
