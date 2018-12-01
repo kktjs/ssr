@@ -1,0 +1,26 @@
+{
+  "name": "simple",
+  "version": "1.0.0",
+  "description": "A react-router loadable-components for server side rendering for your React application.",
+  "private": true,
+  "scripts": {
+    "start": "react-ssr start",
+    "build": "react-ssr build",
+    "server": "NODE_ENV=production node dist/server.js"
+  },
+  "keywords": [],
+  "repository": "https://github.com/jaywcjlove/kkt-ssr.git",
+  "author": "Kenny Wong <wowohoo@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kkt/ssr": "file:../../",
+    "@loadable/babel-plugin": "^5.0.1",
+    "@loadable/component": "^5.2.1",
+    "@loadable/server": "^5.2.0",
+    "@loadable/webpack-plugin": "^5.2.1",
+    "express": "^4.16.4",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-router-dom": "^4.3.1"
+  }
+}
