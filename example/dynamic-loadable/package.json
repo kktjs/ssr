@@ -10,6 +10,7 @@
     "server": "NODE_ENV=production node dist/server.js"
   },
   "keywords": [],
+  "repository": "https://github.com/jaywcjlove/kkt-ssr.git",
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {

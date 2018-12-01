@@ -1,12 +1,16 @@
 {
   "name": "kkt-examples-with-reach-router",
-  "version": "3.0.0-alpha.0",
+  "version": "1.0.0",
+  "private": true,
   "license": "MIT",
   "scripts": {
     "start": "react-ssr start",
     "build": "react-ssr build",
     "server": "NODE_ENV=production node dist/server.js"
   },
+  "keywords": [],
+  "repository": "https://github.com/jaywcjlove/kkt-ssr.git",
+  "author": "Kenny Wong <wowohoo@qq.com>",
   "dependencies": {
     "@kkt/ssr": "file:../../",
     "@loadable/babel-plugin": "^5.0.1",
