@@ -9,7 +9,7 @@ module.exports = (conf, { appSrc, kktrc, ...otherOption }) => {
   mainBabelOptions.presets.push(require.resolve('../babel'));
 
   // Allow app to override babel options
-  const babelOptions = kktrc.babel
+  const babelOptions = kktrc && kktrc.babel
     ? kktrc.babel(mainBabelOptions, { appSrc, ...otherOption })
     : mainBabelOptions;
 
