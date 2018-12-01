@@ -43,10 +43,11 @@ npm run server
 A complete [`react + react-router + rematch(redux)`](example/react-router+rematch(redux)) example is recommended for production projects.
 
 - [`basic`](example/basic) Server-side rendering of the React base application.
-- [`react-router`](example/react-router) React uses server-side rendering of the react-router.
 - [`dynamic-loadable`](example/dynamic-loadable) A dynamic loadable for server side rendering for your React application.
-- [`react + react-router + rematch(redux)`](example/react-router+rematch(redux)) This is a sophisticated example of server-side rendering.
 - [`mock-api`](example/mock-api) Server-side rendering mock api of the React base application.
+- [`reach-router-loadable`](example/reach-router-loadable) A reach-router loadable for server side rendering for your React application.
+- [`react-router`](example/react-router) React uses server-side rendering of the react-router.
+- [`react + react-router + rematch(redux)`](example/react-router+rematch(redux)) This is a sophisticated example of server-side rendering.
 
 ## License
 
