@@ -8,6 +8,7 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const SimpleProgressWebpackPlugin = require('@kkt/simple-progress-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const paths = require('./');
 const devServer = require('./webpack.config.server');
 
@@ -78,10 +79,6 @@ module.exports = (
     // conf.devtool = shouldUseSourceMap ? 'source-map' : false;
   }
 
-  // const optimization = require('./plugs/optimization'); // eslint-disable-line
-  // =============================================
-  // conf.optimization = optimization(conf); // eslint-disable-line
-  // =============================================
   conf.resolveLoader = {
     modules: [paths.appNodeModules, paths.ownNodeModules],
   };
@@ -89,7 +86,9 @@ module.exports = (
   // =============================================
   // Disable require.ensure as it's not a standard language feature.
   conf.module.rules.push({ parser: { requireEnsure: false } });
-  const optionConf = { target, env, dev: IS_DEV, ...paths };
+
+  const kktrc = require('../utils/loadKKTRC')(paths.appKKTRC); // eslint-disable-line
+  const optionConf = { target, env, dev: IS_DEV, kktrc, ...paths };
 
   conf = require('../plugs/rule-eslint')(conf, optionConf); // eslint-disable-line
   conf = require('../plugs/rule-url')(conf, optionConf); // eslint-disable-line
@@ -180,13 +179,14 @@ module.exports = (
       };
       conf.plugins.push(new webpack.HotModuleReplacementPlugin({ multiStep: true }));
       conf.plugins.push(new FriendlyErrorsWebpackPlugin());
+      // conf.plugins.push(new ErrorOverlayPlugin());
       // Configure webpack-dev-server to serve our client-side bundle from
       // http://${dotenv.raw.HOST}:3001
       conf.devServer = devServer(dotenv);
     } else {
       // Specify production entry point (/client/index.js)
       conf.entry = {
-        client: [paths.appClientIndexJs].filter(Boolean),
+        client: paths.appClientIndexJs,
       };
       // Specify the client output directory and paths. Notice that we have
       // changed the publiPath to just '/' from http://localhost:3001. This is because
@@ -200,12 +200,25 @@ module.exports = (
       };
       conf.plugins.push(new webpack.HashedModuleIdsPlugin());
       conf.plugins.push(new webpack.optimize.AggressiveMergingPlugin());
+      conf = require('../plugs/optimization')(conf, { target, env }); // eslint-disable-line
     }
+    // Generate a manifest file which contains a mapping of all asset filenames
+    // to their corresponding output file so that tools can pick it up without
+    // having to parse `index.html`.
+    conf.plugins.push(new ManifestPlugin({
+      fileName: 'asset-manifest.json',
+      publicPath: dotenv.raw.PUBLIC_PATH || '/',
+    }));
+
     conf.plugins.push(new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: 'static/css/[name].[hash].css',
-      chunkFilename: 'static/css/[id].[hash].css',
+      filename: 'static/css/bundle.[contenthash:8].css',
+      chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+      // allChunks: true because we want all css to be included in the main
+      // css bundle when doing code splitting to avoid FOUC:
+      // https://github.com/facebook/create-react-app/issues/2415
+      allChunks: true,
     }));
   }
 

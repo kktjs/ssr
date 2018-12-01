@@ -1,19 +1,10 @@
-const fs = require('fs-extra');
-require('colors-cli/toxic');
+const color = require('colors-cli/safe');
 
-module.exports = (conf, options, webpack) => {
-  // Check for .kkt.conf.js file
-  if (fs.existsSync(options.appKKTRC)) {
-    try {
-      const kktrc = require(options.appKKTRC); // eslint-disable-line
-      if (kktrc && kktrc.config && typeof kktrc.config === 'function') {
-        conf = kktrc.config(conf, options, webpack);
-      } else if (kktrc && kktrc.config) {
-        console.log('Check for .kkt.conf.js file, kktrc.config is not a function.'.yellow); // eslint-disable-line
-      }
-    } catch (error) {
-      console.log('Invalid .kkt.conf.js file.'.red, error); // eslint-disable-line
-    }
+module.exports = (conf, { kktrc, ...optionConf }, webpack) => {
+  if (kktrc && kktrc.config && typeof kktrc.config === 'function') {
+    conf = kktrc.config(conf, optionConf, webpack) || conf;
+  } else if (kktrc && kktrc.config) {
+    console.log(color.yellow('Check for .kkt.conf.js file, kktrc.config is not a function.')); // eslint-disable-line
   }
   return conf;
 };
