@@ -1,10 +1,9 @@
 reach-router-loadable
 ---
 
+A [reach-router](https://github.com/reach/router) loadable for server side rendering for your React application.
 
-A reach-router loadable for server side rendering for your React application.
-
-[`React`](https://github.com/facebook/react) + [`React Router`](https://github.com/ReactTraining/react-router) + [`loadable-components`](https://github.com/smooth-code/loadable-components) + [`Express`](https://expressjs.com/)
+[`React`](https://github.com/facebook/react) + [`Reach Router`](https://github.com/reach/router) + [`loadable-components`](https://github.com/smooth-code/loadable-components) + [`Express`](https://expressjs.com/)
 
 ### development
 
