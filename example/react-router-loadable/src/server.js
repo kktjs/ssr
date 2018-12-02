@@ -4,9 +4,7 @@ import express from 'express';
 import { StaticRouter } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
-import App from './App';
-
-const assets = require(process.env.KKT_ASSETS_MANIFEST); // eslint-disable-line
+import App from './routes';
 
 const server = express();
 server
