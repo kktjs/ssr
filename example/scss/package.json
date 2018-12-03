@@ -1,0 +1,22 @@
+{
+  "name": "with-sass",
+  "version": "1.0.0",
+  "description": "React uses the server side rendering of the scss/sass based application..",
+  "private": true,
+  "scripts": {
+    "start": "react-ssr start",
+    "build": "react-ssr build",
+    "server": "NODE_ENV=production node dist/server.js"
+  },
+  "keywords": [],
+  "repository": "https://github.com/jaywcjlove/kkt-ssr.git",
+  "author": "Kenny Wong <wowohoo@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kkt/plugin-scss": "^1.0.1",
+    "@kkt/ssr": "file:../../",
+    "express": "^4.16.4",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  }
+}
