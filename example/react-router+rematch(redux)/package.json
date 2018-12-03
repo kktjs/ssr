@@ -12,6 +12,7 @@
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
+    "@kkt/plugin-less": "^1.0.1",
     "@kkt/ssr": "file:../../",
     "@loadable/babel-plugin": "^5.0.1",
     "@loadable/component": "^5.2.1",

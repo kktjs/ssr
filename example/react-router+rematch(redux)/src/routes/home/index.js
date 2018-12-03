@@ -10,13 +10,12 @@ class Home extends React.Component {
   static async getInitialProps({ req, res, match, store, history, location }) {
     // only on the server side
     if (store.dispatch.global && store.dispatch.global.verify) {
-      store.dispatch.global.verify();
+      await store.dispatch.global.verify();
     }
     return { whatever: 'Home stuff', isServer: true };
   }
   componentDidMount() {}
   render() {
-    console.log('isServer:', this.props);
     return (
       <Container title="Welcome to KKT, This Home!">
         <Helmet titleTemplate="kkt - %s">

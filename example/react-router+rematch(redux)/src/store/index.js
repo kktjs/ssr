@@ -16,15 +16,21 @@ export const store = init({
   ],
 });
 
+// Initial Rematch State
 export default async function createStore(initialState) {
-  const oldState = store.getState();
+  const promises = [];
   if (initialState) {
     Object.keys(initialState).forEach((name) => {
-      let state = { ...initialState[name] };
-      if (oldState[name]) {
-        state = { ...oldState[name], ...state };
-      }
-      store.model({ name, state });
+      promises.push(import(`../models/${name}.js`).then((md) => {
+        const model = md.default || md;
+        model.state = initialState[name];
+        model.name = name;
+        return model;
+      }));
+    });
+    const models = (await Promise.all(promises));
+    models.forEach((model) => {
+      store.model({ ...model });
     });
   }
 }

@@ -7,7 +7,7 @@ export async function loadInitialProps(routes, pathname, ctx) {
     const match = matchPath(pathname || window.location.pathname, {
       path, exact: routes[path].exact || false, strict: routes[path].strict || false,
     });
-    if (match && path && routes[path] && routes[path].component && routes[path].component.getInitialProps) {
+    if (match && path && routes[path] && routes[path].component) {
       const component = routes[path].component;
       promises.push(
         component.load

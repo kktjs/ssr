@@ -5,6 +5,9 @@ const LoadableBabelPlugin = require('@loadable/babel-plugin');
 const babelPreset = require('@kkt/ssr/babel');
 
 module.exports = {
+  plugins: [
+    require.resolve('@kkt/plugin-less'),
+  ],
   // Modify the babel config
   // babel: (conf) => {
   //   conf = {
@@ -27,8 +30,6 @@ module.exports = {
         ],
       };
     }
-    console.log('proxyURL:!!!', target, dev);
-    console.log('proxyURL:!!!1111:', target, dev);
     if (target === 'web' && dev && conf.devServer) {
       conf.devServer = {
         ...conf.devServer,
