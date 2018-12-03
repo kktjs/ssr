@@ -1,26 +1,39 @@
 import React from 'react';
 
 function InitData({ data }) {
+  if (!data) return null;
   let JSSTR = null;
   try {
     JSSTR = JSON.stringify(data);
-  } catch (error) {} // eslint-disable-line
+  } catch (error) { } // eslint-disable-line
+  if (JSSTR === null) return null;
   return (
-    <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `var _KKT_SSR = ${JSSTR};` }}/>
+    <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `window._KKT_SSR = ${JSSTR};` }}/>
+  );
+}
+
+function InitStore({ data }) {
+  if (!data) return null;
+  let JSSTR = null;
+  try {
+    JSSTR = JSON.stringify(data);
+  } catch (error) { } // eslint-disable-line
+  if (!JSSTR) return;
+  return (
+    <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `window._KKT_STORE = ${JSSTR};` }} />
   );
 }
 
 export class Document extends React.Component {
-  static async getInitialProps({ assets, data, renderPage }) {
+  static async getInitialProps({ assets, data, extractor, renderPage, store }) {
     const page = await renderPage();
-    return { assets, data, ...page };
+    return { assets, data, extractor, store, ...page };
   }
   render() {
-    const { helmet, assets, data } = this.props;
+    const { helmet, extractor, data, store } = this.props;
     // get attributes from React Helmet
     const htmlAttrs = helmet.htmlAttributes.toComponent();
     const bodyAttrs = helmet.bodyAttributes.toComponent();
-
     return (
       <html lang="en" {...htmlAttrs}>
         <head>
@@ -30,18 +43,14 @@ export class Document extends React.Component {
           {helmet.title.toComponent()}
           {helmet.meta.toComponent()}
           {helmet.link.toComponent()}
-          {assets.client.css && <link rel="stylesheet" href={assets.client.css} />}
-          {assets.loadable && assets.loadable.css.map((item, idx) => {
-            return <link rel="stylesheet" id={idx} key={idx} href={item} />;
-          })}
+          {extractor.getLinkElements()}
+          {extractor.getStyleElements()}
         </head>
         <body {...bodyAttrs}>
           <div id="root">___SERVER_SSR_RENDER___</div>
           <InitData data={data} />
-          {assets.loadable && assets.loadable.js.map((item, idx) => {
-            return <script key={idx} type="text/javascript" src={item} defer crossOrigin="anonymous" />;
-          })}
-          <script type="text/javascript" src={assets.client.js} defer crossOrigin="anonymous" />
+          {store && store.getState && <InitStore data={store.getState()} />}
+          {extractor.getScriptElements()}
         </body>
       </html>
     );

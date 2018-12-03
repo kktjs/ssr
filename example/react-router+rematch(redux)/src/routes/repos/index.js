@@ -4,9 +4,9 @@ import { Helmet } from 'react-helmet';
 import { Container } from '../../components';
 import styles from './home.module.css';
 
-export default class Home extends React.Component {
+export default class Repos extends React.Component {
   static async getInitialProps({ req, res, match, history, location, ...ctx }) {
-    return { whatever: 'stuff', ...ctx };
+    return { whatever: 'Repos stuff', ...ctx };
   }
   render() {
     return (
@@ -15,13 +15,7 @@ export default class Home extends React.Component {
           <title>Home</title>
         </Helmet>
         <div className={styles.Home}>
-          <div className={styles.header}>
-            <h2>Welcome to Repos</h2>
-          </div>
-          <p className={styles.intro}>
-            To get started, edit <code>src/App.js</code> or{' '}
-            <code>src/Home.js</code> and save to reload.
-          </p>
+          {this.props.whatever}
           <ul className={styles.resources}>
             <li>
               <Link to="/about/">About</Link>

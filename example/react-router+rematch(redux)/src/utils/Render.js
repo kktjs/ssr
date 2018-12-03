@@ -5,28 +5,13 @@ import Helmet from 'react-helmet';
 import { matchPath } from 'react-router-dom';
 import { Document as DefaultDoc } from './Document';
 import { loadInitialProps } from './loadInitialProps';
-import loadableAssets from '../../dist/loadable-assets.json';
 
 export default async (options) => {
-  const { req, res, routes, assets, document: Document, customRenderer, renderStatic, ...rest } = options;
+  const { req, res, routes, assets, document: Document, customRenderer, renderStatic, extractor, ...rest } = options;
   const Doc = Document || DefaultDoc;
   const context = {};
 
-  const { match, data } = await loadInitialProps(routes, url.parse(req.url).pathname, {
-    req,
-    res,
-    ...rest,
-  });
-
-  const renderPage = async () => {
-    // By default, we keep ReactDOMServer synchronous renderToString function
-    const defaultRenderer = element => ({ html: ReactDOMServer.renderToString(element) });
-    const renderer = customRenderer || defaultRenderer;
-    const asyncOrSyncRender = await renderer(renderStatic({ location: req.url, context, data }));
-    const renderedContent = await asyncOrSyncRender;
-    const helmet = Helmet.renderStatic();
-    return { helmet, ...renderedContent };
-  };
+  const { match, data } = await loadInitialProps(routes, url.parse(req.url).pathname, { req, res, ...rest });
 
   if (!match) {
     res.status(404);
@@ -38,33 +23,29 @@ export default async (options) => {
     res.redirect(301, req.originalUrl.replace(match.path, match.redirectTo));
     return;
   }
-  // The server loads the js/css resources as needed.
-  assets.loadable = {
-    css: [], js: [],
+
+  const renderPage = async () => {
+    // By default, we keep ReactDOMServer synchronous renderToString function
+    const defaultRenderer = element => ({ html: ReactDOMServer.renderToString(element) });
+    const renderer = customRenderer || defaultRenderer;
+    const asyncOrSyncRender = await renderer(renderStatic({ location: req.url, context, data, extractor }));
+    const renderedContent = await asyncOrSyncRender;
+    const helmet = await Helmet.renderStatic();
+    return { helmet, ...renderedContent };
   };
-  if (routes && routes[match] && routes[match].file) {
-    if (loadableAssets[routes[match].file]) {
-      assets.loadable.css = loadableAssets[routes[match].file].filter(item => /.css$/.test(item.publicPath));
-      assets.loadable.js = loadableAssets[routes[match].file].filter(item => /.js$/.test(item.publicPath));
-
-      assets.loadable.css = assets.loadable.css.map(item => item.publicPath);
-      assets.loadable.js = assets.loadable.js.map(item => item.publicPath);
-    }
-  }
-
   const reactRouterMatch = matchPath(req.url, match);
-
   const { html, ...docProps } = await Doc.getInitialProps({
     req,
     res,
     assets,
     renderPage,
+    extractor,
     data,
     helmet: Helmet.renderStatic(),
     match: reactRouterMatch,
     ...rest,
   });
-
+  // console.log('docProps:', data, rest);
   const doc = ReactDOMServer.renderToStaticMarkup(<Doc {...docProps} />);
   return `<!doctype html>${doc.replace('___SERVER_SSR_RENDER___', html)}`;
 };

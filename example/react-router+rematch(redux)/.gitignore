@@ -11,6 +11,7 @@ dist
 .env.test.local
 .env.production.local
 
+*.log
 *.bak
 *.tem
 *.temp

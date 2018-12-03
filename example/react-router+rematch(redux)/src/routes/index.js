@@ -1,12 +1,12 @@
-import React from 'react';
+// import React from 'react';
 import loadable from 'react-dynamic-loadable';
-import store from '../store';
+import { store } from '../store';
 import '../client.module.css';
 
 // wrapper of dynamic
 const dynamicWrapper = (models, component) => loadable({
   component,
-  LoadingComponent: () => <div>...LOADING...</div>,
+  // LoadingComponent: () => <div>...LOADING...</div>,
   models: () => models.map((m) => {
     return import(`../models/${m}.js`).then((md) => {
       const model = md.default || md;
@@ -22,8 +22,8 @@ export default {
     exact: true,
   },
   '/about': {
-    file: './abouts',
-    component: dynamicWrapper([], () => import('./abouts')),
+    file: './about',
+    component: dynamicWrapper([], () => import('./about')),
     exact: true,
   },
   '/repos': {

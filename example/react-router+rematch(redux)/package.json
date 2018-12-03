@@ -12,9 +12,15 @@
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@rematch/core": "^1.0.6",
     "@kkt/ssr": "file:../../",
+    "@loadable/babel-plugin": "^5.0.1",
+    "@loadable/component": "^5.2.1",
+    "@loadable/server": "^5.2.0",
+    "@loadable/webpack-plugin": "^5.2.1",
+    "@rematch/core": "^1.0.6",
+    "axios": "^0.18.0",
     "express": "^4.16.4",
+    "http-proxy-middleware": "^0.19.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-dynamic-loadable": "^1.1.0",
@@ -23,5 +29,6 @@
     "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
+    "webpack-api-mocker": "^1.6.1"
   }
 }

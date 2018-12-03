@@ -1,5 +1,24 @@
 import axios from 'axios';
-import { splitUrl } from './utils.js';
+
+
+axios.defaults.baseURL = `http://${process.env.HOST}:${process.env.PORT}`;
+
+// 拼接url参数
+function splitUrl(url, options) {
+  let urlNew = url;
+  const paramsArray = [];
+  Object.keys(options).forEach(key => paramsArray.push(`${key}=${options[key]}`));
+  if (Object.keys(options).length === 0) {
+    return url;
+  }
+  if (/\?/.test(urlNew) === false) {
+    urlNew = `${urlNew}?${paramsArray.join('&')}`;
+  } else {
+    urlNew += `&${paramsArray.join('&')}`;
+  }
+  return urlNew;
+}
+
 
 // Get the current location.
 // const location = history.location;

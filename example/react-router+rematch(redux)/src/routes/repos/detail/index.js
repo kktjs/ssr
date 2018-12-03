@@ -4,8 +4,9 @@ import { Container } from '../../../components';
 import './index.css';
 
 class Details extends React.Component {
+  // eslint-disable-next-line
   static async getInitialProps({ req, res, match, history, location, ...ctx }) {
-    return { whatever: `This params id: ${match.params.id}. `, ...ctx };
+    return { whatever: `This params id: ${match.params.id}. ` };
   }
   render() {
     const { match } = this.props;
@@ -16,7 +17,7 @@ class Details extends React.Component {
         </Helmet>
         <div className="blue">
           {this.props.whatever}
-          Repos Details
+          Repos 2 Details
           <span>{match.params.id}</span>
         </div>
       </Container>

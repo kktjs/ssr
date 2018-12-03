@@ -1,10 +1,5 @@
 import { matchPath } from 'react-router-dom';
 
-async function isAsyncComponent(Component) {
-  return Component.getInitialProps !== undefined;
-}
-
-
 export async function loadInitialProps(routes, pathname, ctx) {
   const promises = [];
 
@@ -12,8 +7,7 @@ export async function loadInitialProps(routes, pathname, ctx) {
     const match = matchPath(pathname || window.location.pathname, {
       path, exact: routes[path].exact || false, strict: routes[path].strict || false,
     });
-
-    if (match && path && routes[path].component && isAsyncComponent(routes[path].component) && routes[path].component.load) {
+    if (match && path && routes[path] && routes[path].component && routes[path].component.getInitialProps) {
       const component = routes[path].component;
       promises.push(
         component.load
@@ -24,7 +18,6 @@ export async function loadInitialProps(routes, pathname, ctx) {
 
     return !!match;
   });
-
   return {
     match: matchedComponent,
     data: (await Promise.all(promises))[0],

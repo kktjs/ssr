@@ -1,10 +1,30 @@
 import { init } from '@rematch/core';
-import * as models from '../models/global';
+import * as global from '../models/global';
+import request from '../utils/request';
 
-const store = init({
+export const store = init({
   models: {
-    global: models.default,
+    global: global.default,
   },
+  plugins: [
+    {
+      onStoreCreated(mstore) {
+        mstore.api = request;
+        return mstore;
+      },
+    },
+  ],
 });
 
-export default store;
+export default async function createStore(initialState) {
+  const oldState = store.getState();
+  if (initialState) {
+    Object.keys(initialState).forEach((name) => {
+      let state = { ...initialState[name] };
+      if (oldState[name]) {
+        state = { ...oldState[name], ...state };
+      }
+      store.model({ name, state });
+    });
+  }
+}

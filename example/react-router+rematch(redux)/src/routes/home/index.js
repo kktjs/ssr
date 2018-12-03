@@ -6,12 +6,15 @@ import { Container } from '../../components';
 import styles from './home.module.css';
 
 class Home extends React.Component {
-  static async getInitialProps({ req, res, match, history, location, ...ctx }) {
-    return { whatever: 'Home stuff', ...ctx };
+  // eslint-disable-next-line
+  static async getInitialProps({ req, res, match, store, history, location }) {
+    // only on the server side
+    if (store.dispatch.global && store.dispatch.global.verify) {
+      store.dispatch.global.verify();
+    }
+    return { whatever: 'Home stuff' };
   }
-  componentDidMount() {
-    this.props.verify();
-  }
+  componentDidMount() {}
   render() {
     return (
       <Container title="Welcome to KKT, This Home!">
@@ -45,6 +48,7 @@ class Home extends React.Component {
 const mapState = ({ global, home }) => ({
   test: global.test,
   testHome: home.test,
+  name: global.name,
 });
 
 const mapDispatch = ({ global }) => ({
@@ -52,4 +56,3 @@ const mapDispatch = ({ global }) => ({
 });
 
 export default connect(mapState, mapDispatch)(Home);
-
