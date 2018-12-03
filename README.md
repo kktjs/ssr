@@ -1,6 +1,8 @@
 kkt-ssr
 ---
 
+[![](https://img.shields.io/github/release/jaywcjlove/kkt-ssr.svg)](https://github.com/jaywcjlove/kkt-ssr/releases)
+
 Create [React](https://github.com/facebook/react) server-side rendering universal JavaScript applications with no configuration.
 
 ## Usage

@@ -12,10 +12,11 @@ class Home extends React.Component {
     if (store.dispatch.global && store.dispatch.global.verify) {
       store.dispatch.global.verify();
     }
-    return { whatever: 'Home stuff' };
+    return { whatever: 'Home stuff', isServer: true };
   }
   componentDidMount() {}
   render() {
+    console.log('isServer:', this.props);
     return (
       <Container title="Welcome to KKT, This Home!">
         <Helmet titleTemplate="kkt - %s">
