@@ -1,0 +1,22 @@
+{
+  "name": "@kkt/plugin-scss",
+  "version": "1.0.1",
+  "description": "Support sass.",
+  "main": "index.js",
+  "keywords": [
+    "sass",
+    "scss",
+    "react"
+  ],
+  "repository": "https://github.com/jaywcjlove/kkt-ssr.git",
+  "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
+  "bugs": {
+    "mail": "wowohoo@qq.com",
+    "url": "https://github.com/jaywcjlove/kkt-ssr/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "node-sass": "^4.10.0",
+    "sass-loader": "^7.1.0"
+  }
+}
