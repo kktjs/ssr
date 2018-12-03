@@ -1,12 +1,15 @@
 {
   "name": "@kkt/plugin-scss",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Support sass.",
   "main": "index.js",
   "keywords": [
     "sass",
     "scss",
-    "react"
+    "react",
+    "kkt",
+    "ssr",
+    "@kkt/ssr"
   ],
   "repository": "https://github.com/jaywcjlove/kkt-ssr.git",
   "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
