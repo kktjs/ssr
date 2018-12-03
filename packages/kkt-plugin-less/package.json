@@ -1,0 +1,20 @@
+{
+  "name": "@kkt/plugin-less",
+  "version": "1.0.1",
+  "description": "Support less.",
+  "main": "index.js",
+  "keywords": [
+    "less"
+  ],
+  "repository": "https://github.com/jaywcjlove/kkt-ssr.git",
+  "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
+  "bugs": {
+    "mail": "wowohoo@qq.com",
+    "url": "https://github.com/jaywcjlove/kkt-ssr/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0"
+  }
+}
