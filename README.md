@@ -52,6 +52,7 @@ npm run server
 - [**`react-router`**](example/react-router) React uses server-side rendering of the [react-router](https://github.com/ReactTraining/react-router).
 - [**`react-router-loadable`**](example/react-router-loadable) A react-router [loadable-components](https://github.com/smooth-code/loadable-components) for server side rendering for your React application.
 - [**`react + react-router + rematch(redux)`**](example/react-router+rematch(redux)) This is a sophisticated example of server-side rendering.
+- [`styled-components`](https://github.com/styled-components/styled-components)
 
 ## License
 
