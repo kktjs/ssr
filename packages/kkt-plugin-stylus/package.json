@@ -1,6 +1,6 @@
 {
   "name": "@kkt/plugin-stylus",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Support stylus.",
   "main": "index.js",
   "keywords": [
