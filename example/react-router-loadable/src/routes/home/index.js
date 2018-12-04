@@ -1,16 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from './react.svg';
+import loadable from '@loadable/component';
 import styles from './home.module.css';
+
+const Container = loadable(() => import('../../components/Container'));
 
 class Home extends React.Component {
   render() {
     return (
-      <div className={styles.Home}>
-        <div className={styles.header}>
-          <img src={logo} className={styles.logo} alt="logo" />
-          <h2>Welcome to KKT</h2>
-        </div>
+      <Container title="This About!">
         <p className={styles.intro}>
           To get started, edit <code>src/App.js</code> or{' '}
           <code>src/Home.js</code> and save to reload.
@@ -26,7 +24,7 @@ class Home extends React.Component {
             <a href="https://github.com/jaywcjlove/kkt-ssr/issues">Issues</a>
           </li>
         </ul>
-      </div>
+      </Container>
     );
   }
 }

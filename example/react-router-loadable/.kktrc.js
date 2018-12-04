@@ -12,6 +12,7 @@ module.exports = {
       presets: [babelPreset],
       plugins: [LoadableBabelPlugin],
     }
+    console.log('conf:', conf);
     return conf;
   },
   // Modify the webpack config

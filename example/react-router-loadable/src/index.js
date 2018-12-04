@@ -4,7 +4,6 @@ import app from './server';
 const server = http.createServer(app);
 
 let currentApp = app;
-
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, (error) => {

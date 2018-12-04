@@ -19,6 +19,7 @@
     "@loadable/server": "^5.2.0",
     "@loadable/webpack-plugin": "^5.2.1",
     "express": "^4.16.4",
+    "p-min-delay": "^2.0.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-router-dom": "^4.3.1"
