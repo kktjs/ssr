@@ -1,0 +1,24 @@
+{
+  "name": "@kkt/plugin-stylus",
+  "version": "1.0.2",
+  "description": "Support stylus.",
+  "main": "index.js",
+  "keywords": [
+    "stylus",
+    "react",
+    "kkt",
+    "ssr",
+    "@kkt/ssr"
+  ],
+  "repository": "https://github.com/jaywcjlove/kkt-ssr.git",
+  "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
+  "bugs": {
+    "mail": "wowohoo@qq.com",
+    "url": "https://github.com/jaywcjlove/kkt-ssr/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "stylus": "0.54.5",
+    "stylus-loader": "3.0.2"
+  }
+}
