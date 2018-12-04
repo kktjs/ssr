@@ -1,13 +1,13 @@
-@kkt/plugin-less
+@kkt/plugin-stylus
 ---
 
-This package contains a plugin for using [Less](https://github.com/less/less.js) with [@kkt/ssr](https://github.com/jaywcjlove/kkt-ssr).
+This package contains a plugin for using [stylus](https://github.com/stylus/stylus/) with [@kkt/ssr](https://github.com/jaywcjlove/kkt-ssr).
 
 
 ## Usage in @kkt/ssr Projects
 
 ```bash
-npm add @kkt/plugin-less --dev
+npm add @kkt/plugin-stylus --dev
 ```
 
 ### With the default options
@@ -16,7 +16,7 @@ npm add @kkt/plugin-less --dev
 // .kktrc.js
 module.exports = {
   plugins: [
-    require.resolve('@kkt/plugin-less'),
+    require.resolve('@kkt/plugin-stylus'),
   ],
 };
 ```
