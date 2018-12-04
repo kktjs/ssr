@@ -40,6 +40,22 @@ Runs the compiled app in production.
 npm run server
 ```
 
+### Plugins
+
+you can add your plugins to modify your `.kktrc.js` setup.
+
+```js
+module.exports = {
+  plugins: [
+    require.resolve('@kkt/plugin-stylus'),
+  ],
+};
+```
+
+- [@kkt/plugin-less](packages/kkt-plugin-less)
+- [@kkt/plugin-stylus](packages/kkt-plugin-stylus)
+- [@kkt/plugin-scss](packages/kkt-plugin-scss)
+
 ## Example
 
 > A complete [`react + react-router + rematch(redux)`](example/react-router+rematch(redux)) example is recommended for production projects.
