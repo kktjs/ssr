@@ -195,7 +195,7 @@ module.exports = (
         path: paths.appBuildPublic,
         publicPath: dotenv.raw.PUBLIC_PATH || '/',
         filename: 'static/js/bundle.[chunkhash:8].js',
-        chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+        chunkFilename: 'static/js/[chunkhash:8].chunk.js',
         libraryTarget: 'var',
       };
       conf.plugins.push(new webpack.HashedModuleIdsPlugin());
@@ -214,7 +214,7 @@ module.exports = (
       // Options similar to the same options in webpackOptions.output
       // both options are optional
       filename: 'static/css/bundle.[contenthash:8].css',
-      chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+      chunkFilename: 'static/css/[contenthash:8].chunk.css',
       // allChunks: true because we want all css to be included in the main
       // css bundle when doing code splitting to avoid FOUC:
       // https://github.com/facebook/create-react-app/issues/2415
