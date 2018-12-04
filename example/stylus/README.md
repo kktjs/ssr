@@ -1,9 +1,9 @@
 Basic Example
 ---
 
-React uses the server side rendering of the [Scss](https://github.com/sass/node-sass) based application.
+React uses the server side rendering of the [stylus](https://github.com/stylus/stylus/) based application.
 
-[`React`](https://github.com/facebook/react) + [Scss](https://github.com/sass/node-sass) + [`Express`](https://expressjs.com/)
+[`React`](https://github.com/facebook/react) + [`stylus`](https://github.com/stylus/stylus/) + [`Express`](https://expressjs.com/)
 
 **development**
 

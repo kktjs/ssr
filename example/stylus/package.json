@@ -1,7 +1,7 @@
 {
   "name": "with-stylus",
   "version": "1.0.0",
-  "description": "React uses the server side rendering of the stylus based application..",
+  "description": "React uses the server side rendering of the stylus based application.",
   "private": true,
   "scripts": {
     "start": "react-ssr start",

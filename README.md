@@ -55,6 +55,7 @@ npm run server
 - [**`react-router + rematch(redux)`**](example/react-router+rematch(redux)) - This is a sophisticated example of server-side rendering.
 - [**`scss`**](example/scss) - React uses the server side rendering of the [sass](https://github.com/sass/node-sass) based application.
 - [**`styled-components`**](example/styled-components) - Server-side rendering of the react [styled-components](https://github.com/styled-components/styled-components) base application.
+- [**`stylus`**](example/stylus) - React uses the server side rendering of the [stylus](https://github.com/stylus/stylus/) based application.
 
 ## License
 
