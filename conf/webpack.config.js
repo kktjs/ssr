@@ -8,7 +8,6 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const SimpleProgressWebpackPlugin = require('@kkt/simple-progress-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
 const paths = require('./');
 const devServer = require('./webpack.config.server');
 
@@ -195,20 +194,11 @@ module.exports = (
         path: paths.appBuildPublic,
         publicPath: dotenv.raw.PUBLIC_PATH || '/',
         filename: 'static/js/bundle.[chunkhash:8].js',
-        chunkFilename: 'static/js/[chunkhash:8].chunk.js',
+        chunkFilename: 'static/js/[name][chunkhash:8].chunk.js',
         libraryTarget: 'var',
       };
-      conf.plugins.push(new webpack.HashedModuleIdsPlugin());
-      conf.plugins.push(new webpack.optimize.AggressiveMergingPlugin());
       conf = require('../plugs/optimization')(conf, { target, env }); // eslint-disable-line
     }
-    // Generate a manifest file which contains a mapping of all asset filenames
-    // to their corresponding output file so that tools can pick it up without
-    // having to parse `index.html`.
-    conf.plugins.push(new ManifestPlugin({
-      fileName: 'asset-manifest.json',
-      publicPath: dotenv.raw.PUBLIC_PATH || '/',
-    }));
 
     conf.plugins.push(new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
