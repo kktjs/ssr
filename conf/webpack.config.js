@@ -1,10 +1,7 @@
-
-
 const path = require('path');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const SimpleProgressWebpackPlugin = require('@kkt/simple-progress-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -177,8 +174,6 @@ module.exports = (
         devtoolModuleFilenameTemplate: info => path.resolve(info.resourcePath).replace(/\\/g, '/'),
       };
       conf.plugins.push(new webpack.HotModuleReplacementPlugin({ multiStep: true }));
-      conf.plugins.push(new FriendlyErrorsWebpackPlugin());
-      // conf.plugins.push(new ErrorOverlayPlugin());
       // Configure webpack-dev-server to serve our client-side bundle from
       // http://${dotenv.raw.HOST}:3001
       conf.devServer = devServer(dotenv);
