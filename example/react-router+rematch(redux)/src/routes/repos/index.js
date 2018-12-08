@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { Container } from '../../components';
 import styles from './home.module.css';
+
+import Container from '../../components/Container';
 
 export default class Repos extends React.Component {
   static async getInitialProps({ req, res, match, history, location, ...ctx }) {
@@ -12,7 +13,7 @@ export default class Repos extends React.Component {
     return (
       <Container title="This Repos!">
         <Helmet titleTemplate="kkt - %s">
-          <title>Home</title>
+          <title>Repos SSS</title>
         </Helmet>
         <div className={styles.Home}>
           {this.props.whatever}

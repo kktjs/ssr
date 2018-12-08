@@ -69,12 +69,17 @@ export default function request(url, options = {}, isNeedNotice = true) {
       return response.data;
     })
     .catch((err) => {
-      console.log('err:', err); // eslint-disable-line
-      const response = err.response;
+      const response = err.response || {};
       if (response && response.status >= 200 && response.status < 300) {
         return response;
       }
       const errortext = codeMessage[response.status] || response.statusText;
+      // The server renders the error output.
+      if (typeof window === 'undefined') {
+        console.log('request--> :', axios.defaults.baseURL); // eslint-disable-line
+        console.log('request--> :', response.status, errortext); // eslint-disable-line
+        console.log('request--> :', response.statusText); // eslint-disable-line
+      }
       if (isNeedNotice && typeof window !== 'undefined') {
         // if (notification === '') {
         //   // Notification.newInstance({

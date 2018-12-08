@@ -1,4 +1,5 @@
 import React from 'react';
+import './Document.css';
 
 function InitData({ data }) {
   if (!data) return null;
@@ -30,7 +31,8 @@ export class Document extends React.Component {
     return { assets, data, extractor, store, ...page };
   }
   render() {
-    const { helmet, extractor, data, store } = this.props;
+    // eslint-disable-next-line
+    const { helmet, assets, preloadAssets, data, store } = this.props;
     // get attributes from React Helmet
     const htmlAttrs = helmet.htmlAttributes.toComponent();
     const bodyAttrs = helmet.bodyAttributes.toComponent();
@@ -43,14 +45,14 @@ export class Document extends React.Component {
           {helmet.title.toComponent()}
           {helmet.meta.toComponent()}
           {helmet.link.toComponent()}
-          {extractor.getLinkElements()}
-          {extractor.getStyleElements()}
+          {preloadAssets.css && preloadAssets.css.map((csspath, key) => <link key={key} rel="stylesheet" href={csspath} />)}
         </head>
         <body {...bodyAttrs}>
           <div id="root">___SERVER_SSR_RENDER___</div>
           <InitData data={data} />
           {store && store.getState && <InitStore data={store.getState()} />}
-          {extractor.getScriptElements()}
+          {preloadAssets.js && preloadAssets.js.map((jspath, key) => <script key={key} type="text/javascript" src={jspath} />)}
+          <script type="text/javascript" src={assets.client.js} async />
         </body>
       </html>
     );

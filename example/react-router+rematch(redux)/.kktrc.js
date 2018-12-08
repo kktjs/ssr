@@ -1,6 +1,4 @@
-const path = require('path');
-const LoadablePlugin = require('@loadable/webpack-plugin')
-const apiMocker = require('webpack-api-mocker');
+const apiMocker = require('mocker-api');
 
 module.exports = {
   plugins: [
@@ -8,22 +6,40 @@ module.exports = {
   ],
   // Modify the webpack config
   config: (conf, { target, dev, env }, webpack) => {
-    if (target === 'web') {
-      conf = {
-        ...conf,
-        plugins: [
-          ...conf.plugins,
-          new LoadablePlugin({ filename: '../loadable-stats.json', writeToDisk: true }),
-          // Ignore assets.json to avoid infinite recompile bug
-          // conf.plugins.push(new webpack.WatchIgnorePlugin(['./dist/loadable-assets.json']))
-        ],
-      };
+    if (target === 'web' && env === 'prod') {
+      // conf = {
+      //   ...conf,
+      //   optimization: {
+      //     ...conf.optimization,
+      //     // https://webpack.js.org/plugins/split-chunks-plugin/
+      //     splitChunks: {
+      //       chunks: 'async',
+      //       minSize: 30000,
+      //       minChunks: 2,
+      //       maxAsyncRequests: 5,
+      //       maxInitialRequests: 3,
+      //       automaticNameDelimiter: '~',
+      //       name: true,
+      //       cacheGroups: {
+      //         vendors: {
+      //           test: /[\\/]node_modules[\\/]/,
+      //           priority: -10
+      //         },
+      //         default: {
+      //           minChunks: 2,
+      //           priority: -20,
+      //           reuseExistingChunk: true
+      //         }
+      //       }
+      //     }
+      //   }
+      // };
     }
     if (target === 'web' && dev && conf.devServer) {
       conf.devServer = {
         ...conf.devServer,
         before: (app) => {
-          apiMocker(app, path.resolve('./mocker/index.js'), {
+          apiMocker(app, require.resolve('./mocker/index.js'), {
             proxy: {
               '/repos/*': 'https://api.github.com/',
             },

@@ -1,7 +1,8 @@
 // import React from 'react';
-import loadable from 'react-dynamic-loadable';
+// import loadable from 'react-dynamic-loadable';
+import loadable from '../utils/loadable';
 import { store } from '../store';
-import '../client.module.css';
+import './index.css';
 
 // wrapper of dynamic
 const dynamicWrapper = (models, component) => loadable({
@@ -10,6 +11,7 @@ const dynamicWrapper = (models, component) => loadable({
   models: () => models.map((m) => {
     return import(`../models/${m}.js`).then((md) => {
       const model = md.default || md;
+      console.log('~store~~:', store);
       store.model({ name: m, ...model });
     });
   }),
@@ -17,28 +19,28 @@ const dynamicWrapper = (models, component) => loadable({
 
 export default {
   '/': {
-    file: './home',
-    component: dynamicWrapper(['home'], () => import('./home')),
+    name: 'page-home',
+    component: dynamicWrapper(['home'], () => import(/* webpackChunkName: 'page-home' */ './home')),
     exact: true,
   },
   '/about': {
-    file: './about',
-    component: dynamicWrapper([], () => import('./about')),
+    name: 'page-about',
+    component: dynamicWrapper(['about'], () => import(/* webpackChunkName: 'page-about' */ './about')),
     exact: true,
   },
   '/repos': {
-    file: './repos',
-    component: dynamicWrapper([], () => import('./repos')),
+    name: 'page-repos',
+    component: dynamicWrapper([], () => import(/* webpackChunkName: 'page-repos' */ './repos')),
     exact: true,
   },
-  '/repos/detail/:id': {
-    file: './repos/detail',
-    component: dynamicWrapper([], () => import('./repos/detail')),
-    exact: true,
-  },
-  '/:username': {
-    file: './username',
-    component: dynamicWrapper([], () => import('./username')),
-    exact: true,
-  },
+  // '/repos/detail/:id': {
+  //   file: './repos/detail',
+  //   component: dynamicWrapper([], () => import(/* webpackChunkName: 'page-detail' */ './repos/detail')),
+  //   exact: true,
+  // },
+  // '/:username': {
+  //   file: './username',
+  //   component: dynamicWrapper([], () => import(/* webpackChunkName: 'page-username' */ './username')),
+  //   exact: true,
+  // },
 };

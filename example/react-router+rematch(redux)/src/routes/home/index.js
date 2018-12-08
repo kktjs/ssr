@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { Container } from '../../components';
+import Container from '../../components/Container';
 import styles from './home.module.css';
 
 class Home extends React.Component {
@@ -14,12 +14,11 @@ class Home extends React.Component {
     }
     return { whatever: 'Home stuff', isServer: true };
   }
-  componentDidMount() {}
   render() {
     return (
-      <Container title="Welcome to KKT, This Home!">
-        <Helmet titleTemplate="kkt - %s">
-          <title>Home</title>
+      <Container title="Home">
+        <Helmet>
+          <title>HomeSSS</title>
         </Helmet>
         <div>
           {this.props.test} <br />

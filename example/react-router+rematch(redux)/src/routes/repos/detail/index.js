@@ -1,7 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Container } from '../../../components';
 import './index.css';
+
+const Container = import('../../../components/Container');
 
 class Details extends React.Component {
   // eslint-disable-next-line
