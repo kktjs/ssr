@@ -1,0 +1,51 @@
+#! /usr/bin/env node
+
+const program = require('commander');
+const color = require('colors-cli/safe');
+const pkg = require('../package.json');
+const lib = require('..');
+
+const logs = console.log; // eslint-disable-line
+const exampleHelp = 'Example from https://github.com/jaywcjlove/kkt-ssr/tree/master/example example-path';
+
+program
+  .description('A baseline for server side rendering for your React application.')
+  .version(pkg.version, '-v, --version')
+  .usage('<command> [options]');
+
+
+program
+  .arguments('<project-directory>')
+  .usage(`${color.green('<project-directory>')} [options]`)
+  .option('-e, --example <example-path>', exampleHelp, 'basic');
+
+program.on('--help', () => {
+  logs('\n  Examples:');
+  logs();
+  logs(`    $ ${color.green('create-kkt-app')} ${color.yellow('<project-directory>')}`);
+  logs(`    $ ${color.green('create-kkt-app')} my-app`);
+  logs(`    $ ${color.green('create-kkt-app -e')} ${color.yellow('react-router')} my-app`);
+  logs();
+  logs();
+});
+
+program.parse(process.argv);
+
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+}
+
+if (program.args.length > 0) {
+  lib.createKKTApp({
+    projectName: program.args[0],
+    example: program.example,
+  });
+} else {
+  // eslint-disable-next-line
+  console.log(`
+    Only ${color.green('<project-directory>')} is required.
+    If you have any problems, do not hesitate to file an issue:\n
+      ${color.cyan('https://github.com/jaywcjlove/kkt-ssr/issues/new')}
+  `);
+  process.exit(1);
+}
