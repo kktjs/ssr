@@ -1,9 +1,9 @@
-Basic Example
+Unstated Example
 ---
 
 Server-side rendering of the React base application.
 
-[`React`](https://github.com/facebook/react) + [`Express`](https://expressjs.com/)
+[`React`](https://github.com/facebook/react) + [`Express`](https://expressjs.com/) + [Unstated](https://github.com/jamiebuilds/unstated)
 
 ### development
 
