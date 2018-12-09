@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://github.com/jaywcjlove/kkt-ssr">
+    <img src="./assets/kkt.ssr.svg?sanitize=true">
+  </a>
+</p>
+
 kkt-ssr
 ---
 
