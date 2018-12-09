@@ -48,27 +48,97 @@ npm run build
 The build is minified and the filenames include the hashes.
 Your app is ready to be deployed!
 
-Runs the compiled app in production.
-
 ```bash
+# Runs the compiled app in production.
 npm run server
 ```
 
-### Plugins
+### Using Plugins
 
-you can add your plugins to modify your `.kktrc.js` setup.
+You can use KKT plugins by installing in your project and adding them to your `.kktrc.js`. See the README.md of the specific plugin, Just like the following:
+
+```bash
+npm install kkt-plugin-xxxx
+```
 
 ```js
 module.exports = {
   plugins: [
-    require.resolve('@kkt/plugin-stylus'),
+    require.resolve('kkt-plugin-xxxx'),
   ],
 };
 ```
 
-- [@kkt/plugin-less](packages/kkt-plugin-less)
-- [@kkt/plugin-stylus](packages/kkt-plugin-stylus)
-- [@kkt/plugin-scss](packages/kkt-plugin-scss)
+### Writing Plugins
+
+Plugins are simply functions that modify and return KKT's webpack config.
+
+```js
+module.exports = (conf, { target, dev, env, ...other }, webpack) => {
+  // client only
+  if (target === 'web') {}
+  // server only
+  if (target === 'node') {}
+
+  if (dev) {
+    // dev only
+  } else {
+    // prod only
+  }
+  // conf: Webpack config
+  return conf;
+}
+```
+
+### CSS Modules
+
+KKT supports [CSS Modules](https://github.com/css-modules/css-modules) using Webpack's [css-loader](https://github.com/webpack-contrib/css-loader). Simply import your CSS file with the extension `.module.css` and KKT will process the file using `css-loader`.
+
+```jsx
+import React from 'react';
+import styles from './style.module.css';
+
+const Component = () => <div className={styles.className} />;
+
+export default Component;
+```
+
+**Use Less**
+
+Install the less plugin.
+
+```bash
+npm install @kkt/plugin-less --save-dev
+```
+
+Modify the `.kktrc.js` config and add plugins.
+
+```js
+module.exports = {
+  plugins: [
+    require.resolve('@kkt/plugin-less'),
+  ],
+};
+```
+
+## KKT Config
+
+The root directory creates the `.kktrc.js` file.
+
+```js
+module.exports = {
+  // Using plugins
+  plugins: [],
+  // Modify the babel config
+  babel: (conf, option) => {
+    return conf;
+  },
+  // Modify the webpack config
+  config: (conf, { target, dev, env, ...otherOptions }, webpack) => {
+    return conf;
+  }
+};
+```
 
 ## Example
 
