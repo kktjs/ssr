@@ -20,15 +20,19 @@ program
   .option('-e, --example <example-path>', exampleHelp, 'basic');
 
 program.on('--help', () => {
-  logs('\n  Examples:');
+  logs('\nExamples:');
   logs();
-  logs(`    $ ${color.green('create-kkt-app')} ${color.yellow('<project-directory>')}`);
-  logs(`    $ ${color.green('create-kkt-app')} my-app`);
-  logs(`    $ ${color.green('create-kkt-app -e')} ${color.yellow('react-router')} my-app`);
+  logs(`  $ ${color.green('create-kkt-app')} ${color.yellow('<project-directory>')}`);
+  logs(`  $ ${color.green('create-kkt-app')} my-app`);
+  logs(`  $ ${color.green('create-kkt-app -e')} ${color.yellow('react-router')} my-app`);
+  logs(`  $ npx ${color.green('create-kkt-app')} my-app`);
+  logs(`  $ npx ${color.green('create-kkt-app -e')} ${color.yellow('react-router')} my-app`);
+  logs(`  $ yarn ${color.green('kkt-app')} my-app`);
+  logs(`  $ yarn ${color.green('kkt-app -e')} ${color.yellow('react-router')} my-app`);
   logs();
   logs();
 });
-
+// npx create-kkt-app my-app
 program.parse(process.argv);
 
 if (!process.argv.slice(2).length) {
