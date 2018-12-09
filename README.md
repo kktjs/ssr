@@ -94,7 +94,7 @@ module.exports = (conf, { target, dev, env, ...other }, webpack) => {
 
 ### CSS Modules
 
-KKT supports [CSS Modules](https://github.com/css-modules/css-modules) using Webpack's [css-loader](https://github.com/webpack-contrib/css-loader). Simply import your CSS file with the extension `.module.css` and KKT will process the file using `css-loader`.
+KKT supports [CSS Modules](https://github.com/css-modules/css-modules) using Webpack's [css-loader](https://github.com/webpack-contrib/css-loader). Simply import your CSS file with the extension `.module.css` and will process the file using `css-loader`.
 
 ```jsx
 import React from 'react';
@@ -121,6 +121,17 @@ module.exports = {
     require.resolve('@kkt/plugin-less'),
   ],
 };
+```
+
+Use [`@kkt/plugin-less`](./packages/kkt-plugin-less) support Less.
+
+```jsx
+import React from 'react';
+import styles from './style.module.less';
+
+const Component = () => <div className={styles.className} />;
+
+export default Component;
 ```
 
 ## KKT Config
