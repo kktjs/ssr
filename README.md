@@ -69,6 +69,8 @@ module.exports = {
 };
 ```
 
+[See All Plugins](https://www.npmjs.com/search?q=kkt-plugin)
+
 ### Writing Plugins
 
 Plugins are simply functions that modify and return KKT's webpack config.
