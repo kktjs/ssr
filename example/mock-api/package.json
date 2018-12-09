@@ -20,6 +20,6 @@
     "react-dom": "16.6.3"
   },
   "devDependencies": {
-    "webpack-api-mocker": "1.6.1"
+    "mocker-api": "^1.6.6"
   }
 }
