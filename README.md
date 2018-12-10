@@ -23,10 +23,10 @@ cd my-app
 npm start
 ```
 
-You can also initialize a project from one of the examples. Example from [jaywcjlove/kkt-ssr](./example) example-path.
+You can also initialize a project from one of the examples. Example from [jaywcjlove/kkt-ssr](./example) example-path. Using the template method: `npx create-kkt-app my-app [-e example name]`, A perfect example [`react-router+rematch`](example/react-router+rematch) is recommended for production environments.
 
 ```bash
-npx create-kkt-app my-app -e reach-router-loadable
+npx create-kkt-app my-app -e react-router+rematch
 ```
 
 **development**
