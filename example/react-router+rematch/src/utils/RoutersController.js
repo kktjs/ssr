@@ -25,7 +25,7 @@ class Controller extends React.PureComponent {
   }
   render() {
     const { data } = this.state;
-    const { routes, location } = this.props;
+    const { routes, location, store } = this.props;
     const initialData = data;
     return (
       <Switch>
@@ -38,6 +38,7 @@ class Controller extends React.PureComponent {
             render={(props) => {
               return React.createElement(route.component, {
                 ...initialData,
+                store,
                 history: props.history,
                 location,
                 match: props.match,

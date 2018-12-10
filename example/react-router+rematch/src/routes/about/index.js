@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import Container from '../../components/Container';
@@ -12,8 +11,9 @@ class About extends React.Component {
         <Helmet>
           <title>AboutSSS</title>
         </Helmet>
-        <div className="yellow">
-          About <Link to="/">Home</Link> <Link to="/repos">Repos</Link>
+        <div className="red">
+          About <br />
+          {this.props.test}
         </div>
       </Container>
     );
