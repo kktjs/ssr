@@ -1,5 +1,4 @@
 import React from 'react';
-import './Document.css';
 
 function InitData({ data }) {
   if (!data) return null;
@@ -45,13 +44,14 @@ export class Document extends React.Component {
           {helmet.title.toComponent()}
           {helmet.meta.toComponent()}
           {helmet.link.toComponent()}
-          {preloadAssets.css && preloadAssets.css.map((csspath, key) => <link key={key} rel="stylesheet" href={csspath} />)}
+          {assets.client.css && <link rel="stylesheet" href={assets.client.css} />}
+          {preloadAssets && preloadAssets.css && <link rel="stylesheet" href={preloadAssets.css} />}
         </head>
         <body {...bodyAttrs}>
           <div id="root">___SERVER_SSR_RENDER___</div>
           <InitData data={data} />
           {store && store.getState && <InitStore data={store.getState()} />}
-          {preloadAssets.js && preloadAssets.js.map((jspath, key) => <script key={key} type="text/javascript" src={jspath} />)}
+          {preloadAssets && preloadAssets.js && <link rel="stylesheet" href={preloadAssets.js} />}
           <script type="text/javascript" src={assets.client.js} async />
         </body>
       </html>

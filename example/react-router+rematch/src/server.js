@@ -4,26 +4,21 @@ import { StaticRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import proxy from 'http-proxy-middleware';
 import render from './utils/Render';
-import routes from './routes';
+import { getRouterData } from './routes';
 import RoutersController from './utils/RoutersController';
 import createStore, { store } from './store';
 
 const assets = require(process.env.KKT_ASSETS_MANIFEST); // eslint-disable-line
 
+const routes = getRouterData();
 const server = express();
-const modPageFn = (Page) => {
-  return props => <Page {...props} />;
-};
 
 function renderStatic({ location, context, data }) {
   createStore(store.getState());
   return (
     <Provider store={store}>
       <StaticRouter location={location} context={context}>
-        {modPageFn(RoutersController)({
-          routes,
-          data,
-        })}
+        <RoutersController store={store} routes={routes} data={data} />
       </StaticRouter>
     </Provider>
   );

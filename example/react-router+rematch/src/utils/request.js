@@ -1,7 +1,13 @@
 import axios from 'axios';
 
+let HOST = process.env.HOST;
 
-axios.defaults.baseURL = `http://${process.env.HOST}:${process.env.PORT}`;
+// Ensure host consistency.
+if (typeof window !== 'undefined' && window.location && window.location.hostname) {
+  HOST = window.location.hostname;
+}
+
+axios.defaults.baseURL = `http://${HOST}:${process.env.PORT}`;
 
 // 拼接url参数
 function splitUrl(url, options) {

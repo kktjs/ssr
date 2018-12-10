@@ -11,36 +11,42 @@ const dynamicWrapper = (models, component) => loadable({
   models: () => models.map((m) => {
     return import(`../models/${m}.js`).then((md) => {
       const model = md.default || md;
-      console.log('~store~~:', store);
       store.model({ name: m, ...model });
     });
   }),
 });
 
-export default {
-  '/': {
-    name: 'page-home',
-    component: dynamicWrapper(['home'], () => import(/* webpackChunkName: 'page-home' */ './home')),
-    exact: true,
-  },
-  '/about': {
-    name: 'page-about',
-    component: dynamicWrapper(['about'], () => import(/* webpackChunkName: 'page-about' */ './about')),
-    exact: true,
-  },
-  '/repos': {
-    name: 'page-repos',
-    component: dynamicWrapper([], () => import(/* webpackChunkName: 'page-repos' */ './repos')),
-    exact: true,
-  },
-  // '/repos/detail/:id': {
-  //   file: './repos/detail',
-  //   component: dynamicWrapper([], () => import(/* webpackChunkName: 'page-detail' */ './repos/detail')),
-  //   exact: true,
-  // },
-  // '/:username': {
-  //   file: './username',
-  //   component: dynamicWrapper([], () => import(/* webpackChunkName: 'page-username' */ './username')),
-  //   exact: true,
-  // },
+
+export const getRouterData = () => {
+  let conf = {
+    '/': {
+      name: 'page-home',
+      component: dynamicWrapper(['home'], () => import(/* webpackChunkName: 'page-home' */ './home')),
+      exact: true,
+    },
+    '/about': {
+      name: 'page-about',
+      component: dynamicWrapper(['about'], () => import(/* webpackChunkName: 'page-about' */ './about')),
+      exact: true,
+    },
+    '/repos': {
+      name: 'page-repos',
+      component: dynamicWrapper([], () => import(/* webpackChunkName: 'page-repos' */ './repos')),
+      exact: true,
+    },
+    // '/repos/detail/:id': {
+    //   file: './repos/detail',
+    //   component: dynamicWrapper([], () => import(/* webpackChunkName: 'page-detail' */ './repos/detail')),
+    //   exact: true,
+    // },
+    // '/:username': {
+    //   file: './username',
+    //   component: dynamicWrapper([], () => import(/* webpackChunkName: 'page-username' */ './username')),
+    //   exact: true,
+    // },
+  };
+  conf = Object.keys(conf).map((path) => {
+    return { ...conf[path], path };
+  });
+  return conf;
 };

@@ -18,7 +18,7 @@ export default {
       console.log('~~~~~::::', dt);
       /* eslint-enable */
       const state = { test: 'test:global:111----------->' };
-      if (dt.username) {
+      if (dt && dt.username) {
         state.test = `${state.test} + ${dt.username}`;
       }
       await this.updateState({ ...state });

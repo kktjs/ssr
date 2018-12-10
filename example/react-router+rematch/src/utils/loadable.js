@@ -24,7 +24,7 @@ export default function dynamicLoadable({
     static async load() {
       let models = typeof resolveModels === 'function' ? resolveModels() : [];
       models = !models ? [] : models;
-      await Promise.all([...models]);
+      if (models.length > 0) await Promise.all([...models]);
       const Com = await component();
       if (Com) {
         Component = Com.default || Com;

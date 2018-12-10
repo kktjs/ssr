@@ -2,20 +2,16 @@ import { matchPath } from 'react-router-dom';
 
 export async function loadInitialProps(routes, pathname, ctx) {
   const promises = [];
-
-  const matchedComponent = Object.keys(routes).find((path) => {
-    const match = matchPath(pathname || window.location.pathname, {
-      path, exact: routes[path].exact || false, strict: routes[path].strict || false,
-    });
-    if (match && path && routes[path] && routes[path].component) {
-      const component = routes[path].component;
+  const matchedComponent = routes.find((route) => {
+    const match = matchPath(pathname || window.location.pathname, route);
+    if (match && route.component && route.component.getInitialProps !== undefined) {
+      const component = route.component;
       promises.push(
         component.load
           ? component.load().then(() => component.getInitialProps({ match, ...ctx }))
           : component.getInitialProps({ match, ...ctx })
       );
     }
-
     return !!match;
   });
   return {

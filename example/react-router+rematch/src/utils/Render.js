@@ -43,15 +43,15 @@ export default async (options) => {
     match: reactRouterMatch,
     ...rest,
   });
-  if (reactRouterMatch.path && routes[reactRouterMatch.path]) {
-    const name = routes[reactRouterMatch.path].name;
-    docProps.preloadAssets = { css: [], js: [] };
-    Object.keys(assets).forEach((chunkName) => {
-      if (chunkName.indexOf(name) > -1) {
-        if (assets[chunkName].css) docProps.preloadAssets.css.push(assets[chunkName].css);
-        if (assets[chunkName].js) docProps.preloadAssets.js.push(assets[chunkName].js);
+  docProps.preloadAssets = { css: [], js: [] };
+  if (reactRouterMatch.path && routes) {
+    const chunk = routes.find(item => item.path === reactRouterMatch.path);
+    if (chunk && chunk.name) {
+      const chunkAssets = Object.keys(assets).find(item => item === chunk.name);
+      if (assets[chunkAssets]) {
+        docProps.preloadAssets = { ...assets[chunkAssets] };
       }
-    });
+    }
   }
   const doc = ReactDOMServer.renderToStaticMarkup(<Doc {...docProps} />);
   return `<!doctype html>${doc.replace('___SERVER_SSR_RENDER___', html)}`;
