@@ -13,6 +13,10 @@ class Controller extends React.PureComponent {
     const navigated = nextProps.location !== this.props.location;
     if (navigated) {
       window.scrollTo(0, 0);
+      // save the location so we can render the old screen
+      this.setState({
+        data: undefined, // unless you want to keep it
+      });
       const { data, match, routes, history, location, staticContext, ...rest } = nextProps;
       loadInitialProps(this.props.routes, nextProps.location.pathname, {
         location: nextProps.location,
