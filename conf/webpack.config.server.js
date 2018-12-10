@@ -5,7 +5,9 @@ module.exports = (dotenv) => {
     clientLogLevel: 'none',
     // Enable gzip compression of generated files.
     compress: true,
-    // watchContentBase: true,
+    // Tell dev- server to watch the files served by the devServer.contentBase option.
+    // It is disabled by default.When enabled, file changes will trigger a full page reload.
+    watchContentBase: true,
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
