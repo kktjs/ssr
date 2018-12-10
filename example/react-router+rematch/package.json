@@ -19,6 +19,7 @@
     "express": "^4.16.4",
     "http-proxy-middleware": "^0.19.1",
     "react": "^16.6.3",
+    "react-content-loader": "^3.4.1",
     "react-dom": "^16.6.3",
     "react-dynamic-loadable": "^1.1.0",
     "react-helmet": "^5.2.0",

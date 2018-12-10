@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { BulletList } from 'react-content-loader';
 import Container from '../../components/Container';
 import styles from './home.module.css';
 
@@ -23,10 +24,7 @@ class Home extends React.Component {
         <div>
           {this.props.test} <br />
           {this.props.testHome} <br />
-          {this.props.whatever} <br />
-          {this.props.whatever} <br />
-          {this.props.whatever} <br />
-          {this.props.whatever} <br />
+          {this.props.whatever ? this.props.whatever : <BulletList style={{ width: 200 }} />}
         </div>
         <ul className={styles.resources}>
           <li>
