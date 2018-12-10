@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter, matchPath } from 'react-router-dom';
 import { loadInitialProps } from './loadInitialProps';
 
 class Controller extends React.PureComponent {
@@ -22,8 +22,11 @@ class Controller extends React.PureComponent {
         location: nextProps.location,
         history: nextProps.history,
         ...rest,
-      }).then(({ data: newData }) => {
-        this.setState({ data: newData });
+      }).then(({ data: newData, match: currentMatch }) => {
+        const ismatch = matchPath(window.location.pathname, { path: currentMatch.path });
+        if (window.location.pathname === currentMatch.path || (ismatch && ismatch.isExact)) {
+          this.setState({ data: newData });
+        }
       });
     }
   }

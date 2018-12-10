@@ -34,16 +34,16 @@ export const getRouterData = () => {
       component: dynamicWrapper([], () => import(/* webpackChunkName: 'page-repos' */ './repos')),
       exact: true,
     },
+    '/repos/detail/:id': {
+      name: 'page-detail',
+      component: dynamicWrapper([], () => import(/* webpackChunkName: 'page-detail' */ './repos/detail')),
+      exact: true,
+    },
     '*': {
       name: 'page-not-match',
       component: dynamicWrapper([], () => import(/* webpackChunkName: 'page-not-match' */ './notmatch')),
       exact: true,
     },
-    // '/repos/detail/:id': {
-    //   file: './repos/detail',
-    //   component: dynamicWrapper([], () => import(/* webpackChunkName: 'page-detail' */ './repos/detail')),
-    //   exact: true,
-    // },
     // '/:username': {
     //   file: './username',
     //   component: dynamicWrapper([], () => import(/* webpackChunkName: 'page-username' */ './username')),

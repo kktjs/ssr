@@ -1,10 +1,9 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import Container from '../../../components/Container';
 import './index.css';
 
-const Container = import('../../../components/Container');
-
-class Details extends React.Component {
+export default class Details extends React.Component {
   // eslint-disable-next-line
   static async getInitialProps({ req, res, match, history, location, ...ctx }) {
     return { whatever: `This params id: ${match.params.id}. ` };
@@ -25,5 +24,3 @@ class Details extends React.Component {
     );
   }
 }
-
-export default Details;
