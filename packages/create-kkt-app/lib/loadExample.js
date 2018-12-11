@@ -35,7 +35,12 @@ module.exports = function loadExample({ example, projectName, projectPath }) {
       const appPkg = require(`${appPkgPath}`); // eslint-disable-line
       if (!appPkg.dependencies) appPkg.dependencies = {};
       if (appPkg) {
-        appPkg.dependencies[dependName] = `^${pkg.data.version}`;
+        if (appPkg.dependencies && appPkg.dependencies[dependName]) {
+          appPkg.dependencies[dependName] = `^${pkg.data.version}`;
+        }
+        if (appPkg.devDependencies && appPkg.devDependencies[dependName]) {
+          appPkg.devDependencies[dependName] = `^${pkg.data.version}`;
+        }
         fs.writeFileSync(appPkgPath, JSON.stringify(appPkg, null, 2));
       }
       output.success(
