@@ -1,11 +1,14 @@
 import React from 'react';
+import serialize from 'serialize-javascript';
 
 export function InitData({ data, objectName }) {
   if (!data) return null;
   let JSSTR = null;
   try {
-    JSSTR = JSON.stringify(data);
-  } catch (error) { } // eslint-disable-line
+    JSSTR = serialize({ ...JSSTR });
+  } catch (error) {
+    JSSTR = null;
+  }
   if (JSSTR === null) return null;
   return (
     <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `window.${objectName} = ${JSSTR};` }} />
