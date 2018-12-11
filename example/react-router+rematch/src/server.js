@@ -3,9 +3,9 @@ import express from 'express';
 import { StaticRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import proxy from 'http-proxy-middleware';
-import render from './utils/Render';
+import render from '@kkt/react-ssr-enhanced/render';
+import RoutersController from '@kkt/react-ssr-enhanced/RoutersController';
 import { getRouterData } from './routes';
-import RoutersController from './utils/RoutersController';
 import createStore, { store } from './store';
 
 const assets = require(process.env.KKT_ASSETS_MANIFEST); // eslint-disable-line

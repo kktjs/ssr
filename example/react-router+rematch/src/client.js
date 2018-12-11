@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import RoutersController from './utils/RoutersController';
+import ensureReady from '@kkt/react-ssr-enhanced/ensureReady';
+import RoutersController from '@kkt/react-ssr-enhanced/RoutersController';
 import { getRouterData } from './routes';
-import { ensureReady } from './utils/ensureReady';
 import createStore, { store } from './store';
 
 const routes = getRouterData();
