@@ -5,6 +5,14 @@ React uses the server side rendering of the [stylus](https://github.com/stylus/s
 
 [`React`](https://github.com/facebook/react) + [`stylus`](https://github.com/stylus/stylus/) + [`Express`](https://expressjs.com/)
 
+## Quick Start
+
+```bash
+npx create-kkt-app my-app --example stylus
+cd my-app
+npm start
+```
+
 **development**
 
 Runs the project in development mode.  

@@ -5,7 +5,15 @@ React uses the server side rendering of the [Less](https://github.com/less/less.
 
 [`React`](https://github.com/facebook/react) + [`Express`](https://expressjs.com/) + [Less](https://github.com/less/less.js)
 
-### development
+## Quick Start
+
+```bash
+npx create-kkt-app my-app --example less
+cd my-app
+npm start
+```
+
+**development**
 
 Runs the project in development mode.  
 
@@ -13,7 +21,7 @@ Runs the project in development mode.
 npm run start
 ```
 
-### production
+**production**
 
 Builds the app for production to the build folder.
 

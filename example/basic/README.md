@@ -5,7 +5,15 @@ Server-side rendering of the React base application.
 
 [`React`](https://github.com/facebook/react) + [`Express`](https://expressjs.com/)
 
-### development
+## Quick Start
+
+```bash
+npx create-kkt-app my-app
+cd my-app
+npm start
+```
+
+**development**
 
 Runs the project in development mode.  
 
@@ -13,7 +21,7 @@ Runs the project in development mode.
 npm run start
 ```
 
-### production
+**production**
 
 Builds the app for production to the build folder.
 

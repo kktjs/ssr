@@ -5,7 +5,15 @@ A react-router for server side rendering for your React application.
 
 [`React`](https://github.com/facebook/react) + [`React Router`](https://github.com/ReactTraining/react-router) + [`Express`](https://expressjs.com/)
 
-### development
+## Quick Start
+
+```bash
+npx create-kkt-app my-app --example react-router
+cd my-app
+npm start
+```
+
+**development**
 
 Runs the project in development mode.  
 
@@ -13,7 +21,7 @@ Runs the project in development mode.
 npm run start
 ```
 
-### production
+**production**
 
 Builds the app for production to the build folder.
 

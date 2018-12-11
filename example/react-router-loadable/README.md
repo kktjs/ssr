@@ -5,7 +5,15 @@ A react-router loadable-components for server side rendering for your React appl
 
 [`React`](https://github.com/facebook/react) + [`React Router`](https://github.com/ReactTraining/react-router) + [`loadable-components`](https://github.com/smooth-code/loadable-components) + [`Express`](https://expressjs.com/)
 
-### development
+## Quick Start
+
+```bash
+npx create-kkt-app my-app --example react-router-loadable
+cd my-app
+npm start
+```
+
+**development**
 
 Runs the project in development mode.  
 
@@ -13,7 +21,7 @@ Runs the project in development mode.
 npm run start
 ```
 
-### production
+**production**
 
 Builds the app for production to the build folder.
 

@@ -5,6 +5,14 @@ React uses the server side rendering of the [Scss](https://github.com/sass/node-
 
 [`React`](https://github.com/facebook/react) + [`Scss`](https://github.com/sass/node-sass) + [`Express`](https://expressjs.com/)
 
+## Quick Start
+
+```bash
+npx create-kkt-app my-app --example scss
+cd my-app
+npm start
+```
+
 **development**
 
 Runs the project in development mode.  

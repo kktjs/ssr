@@ -8,7 +8,15 @@ Server-side rendering of the React base application, Mock the API in development
 - [`webpack-api-mocker`](https://github.com/jaywcjlove/webpack-api-mocker) is a webpack-dev-server middleware that creates mocks for REST APIs. It will be helpful when you try to test your application without the actual REST API server.
 - [`http-proxy-middleware`](https://www.npmjs.com/package/http-proxy-middleware) Configure proxy middleware with ease for connect, express, browser-sync and many more.
 
-### development
+## Quick Start
+
+```bash
+npx create-kkt-app my-app --example mock-api
+cd my-app
+npm start
+```
+
+**development**
 
 Runs the project in development mode.  
 
@@ -16,7 +24,7 @@ Runs the project in development mode.
 npm run start
 ```
 
-### production
+**production**
 
 Builds the app for production to the build folder.
 
