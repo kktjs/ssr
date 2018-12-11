@@ -38,6 +38,7 @@ const resolveOwn = relativePath => PATH.resolve(__dirname, '..', relativePath);
 module.exports = {
   resolveApp,
   appDirectory,
+  dotenv: resolveApp('.env'),
   appPublicPath: '/',
   appNodeModules: resolveApp('node_modules'),
   ownNodeModules: resolveOwn('node_modules'),
