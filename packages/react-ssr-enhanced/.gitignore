@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log*
+package-lock.json
+lib
+.DS_Store
+.cache
+.vscode
+
+*.log
+*.bak
+*.tem
+*.temp
+#.swp
+*.*~
+~*.*
