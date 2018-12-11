@@ -1,6 +1,6 @@
 {
   "name": "create-kkt-app",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "CLI tool to bootstrap KKT applications with no configuration",
   "bin": {
     "create-kkt-app": "./bin/create-kkt-app"
