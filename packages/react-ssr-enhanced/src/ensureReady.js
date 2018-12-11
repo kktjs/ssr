@@ -1,6 +1,6 @@
 import { matchPath } from 'react-router-dom';
 
-export async function ensureReady(routes, pathname) {
+export default async function ensureReady(routes, pathname) {
   await Promise.all(
     routes.map((route) => {
       const match = matchPath(pathname || window.location.pathname, route);
