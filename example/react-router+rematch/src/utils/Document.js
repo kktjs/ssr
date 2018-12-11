@@ -46,12 +46,12 @@ export class Document extends React.Component {
           {helmet.link.toComponent()}
           {assets.client.css && <link rel="stylesheet" href={assets.client.css} />}
           {preloadAssets && preloadAssets.css && <link rel="stylesheet" href={preloadAssets.css} />}
+          {preloadAssets && preloadAssets.js && <script type="text/javascript" href={preloadAssets.js} async />}
         </head>
         <body {...bodyAttrs}>
           <div id="root">___SERVER_SSR_RENDER___</div>
           <InitData data={data} />
           {store && store.getState && <InitStore data={store.getState()} />}
-          {preloadAssets && preloadAssets.js && <link rel="stylesheet" href={preloadAssets.js} />}
           <script type="text/javascript" src={assets.client.js} async />
         </body>
       </html>
