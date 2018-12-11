@@ -1,6 +1,6 @@
 {
   "name": "@kkt/ssr",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "A baseline for server side rendering for your React application.",
   "bin": {
     "react-ssr": "./bin/ssr.js"
