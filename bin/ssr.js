@@ -6,9 +6,6 @@ require('colors-cli/toxic');
 
 const logs = console.log; // eslint-disable-line
 
-process.env.HOST = '0.0.0.0';
-process.env.PORT = 3723;
-
 program
   .description('A baseline for server side rendering for your React application.')
   .version(pkg.version, '-v, --version')
