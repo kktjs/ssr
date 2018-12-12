@@ -1,5 +1,6 @@
 import React from 'react';
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import { StaticRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import proxy from 'http-proxy-middleware';
@@ -25,6 +26,9 @@ function renderStatic({ location, context, data }) {
 }
 
 server.disable('x-powered-by');
+// API request to pass cookies
+// `getInitialProps` gets the required value via `req.cookies.token`
+server.use(cookieParser());
 server.use(express.static(process.env.KKT_PUBLIC_DIR));
 server.use('/api', proxy({
   target: 'http://127.0.0.1:3724',
