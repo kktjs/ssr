@@ -18,6 +18,14 @@ const proxy = {
       sex: 'male',
     });
   },
+  'GET /api/user/verify': (req, res) => {
+    return res.json({
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+      id: 13,
+      username: 'kenny',
+      sex: 'male',
+    });
+  },
 };
 
 module.exports = (noProxy ? {} : delay(proxy, 1000));

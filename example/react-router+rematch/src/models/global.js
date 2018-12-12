@@ -4,24 +4,20 @@ export default {
   state: {
     test: 'global state test',
     name: 'kkt ssr',
+    token: null,
+    userinfo: null,
   },
   reducers: {
     verify: (state, payload) => ({ ...state, ...payload }),
     updateState: (state, payload) => ({ ...state, ...payload }),
   },
-  effects: {
-    async verify(payload, rootState) {
-      const dt = await store.api('/api/user/123');
-      /* eslint-disable */
-      console.log('~~~~~::::', payload);
-      console.log('~~~~~::::', rootState);
-      console.log('~~~~~::::', dt);
-      /* eslint-enable */
-      const state = { test: 'test:global:111----------->' };
-      if (dt && dt.username) {
-        state.test = `${state.test} + ${dt.username}`;
-      }
+  effects: () => ({
+    async verify({ token }, { global }) {
+      const verify = await store.api('/api/user/verify', { body: { token } });
+      const state = { ...global, test: 'test:global:111----------->' };
+      state.token = verify ? token : null;
+      state.userinfo = verify;
       await this.updateState({ ...state });
     },
-  },
+  }),
 };

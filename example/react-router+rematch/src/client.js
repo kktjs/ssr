@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import ensureReady from '@kkt/react-ssr-enhanced/ensureReady';
 import RoutersController from '@kkt/react-ssr-enhanced/RoutersController';
 import { getRouterData } from './routes';
-import createStore, { store } from './store';
+import { store } from './store';
 
 const routes = getRouterData();
 
@@ -15,10 +15,6 @@ ensureReady(routes).then(async (data) => {
   // Replace the ReactDOM.render() call with ReactDOM.hydrate() if you want React to attach to the server HTML.
   // const renderMethod = module.hot ? ReactDOM.render : ReactDOM.hydrate; // eslint-disable-line
   const renderMethod = ReactDOM.hydrate; // eslint-disable-line
-  await createStore(window._KKT_STORE);
-  // const storeData = createStore(store.getState());
-  // console.log('data:!!!', data, store);
-  // const renderMethod = ReactDOM.hydrate; // eslint-disable-line
   renderMethod(
     <Provider store={store}>
       <BrowserRouter>

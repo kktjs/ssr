@@ -2,7 +2,6 @@ import http from 'http';
 import app from './server';
 
 const logs = console.log; // eslint-disable-line
-
 const server = http.createServer(app);
 let currentApp = app;
 

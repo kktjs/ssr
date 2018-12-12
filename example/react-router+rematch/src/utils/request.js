@@ -53,7 +53,7 @@ const codeMessage = {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, options = {}, isNeedNotice = true) {
+export default function request(url, options = {}) {
   const method = options.method || 'GET';
   const newOptions = {
     url,
@@ -86,16 +86,10 @@ export default function request(url, options = {}, isNeedNotice = true) {
         console.log('request--> :', response.status, errortext); // eslint-disable-line
         console.log('request--> :', response.statusText); // eslint-disable-line
       }
-      if (isNeedNotice && typeof window !== 'undefined') {
-        // if (notification === '') {
-        //   // Notification.newInstance({
-        //   //   maxCount: 5,
-        //   // }, (n) => { notification = n; });
-        // }
-        // notification.notice({
-        //   content: response.data.message,
-        //   duration: 1.5,
-        // });
+      if (typeof window !== 'undefined') {
+        if (response && response.data) {
+          return response.data;
+        }
       }
       const error = new Error(errortext);
       error.name = response.status;

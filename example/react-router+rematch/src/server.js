@@ -7,15 +7,13 @@ import proxy from 'http-proxy-middleware';
 import render from '@kkt/react-ssr-enhanced/render';
 import RoutersController from '@kkt/react-ssr-enhanced/RoutersController';
 import { getRouterData } from './routes';
-import createStore, { store } from './store';
+import { store } from './store';
 
 const assets = require(process.env.KKT_ASSETS_MANIFEST); // eslint-disable-line
-
 const routes = getRouterData();
 const server = express();
 
 function renderStatic({ location, context, data }) {
-  createStore(store.getState());
   return (
     <Provider store={store}>
       <StaticRouter location={location} context={context}>
@@ -31,7 +29,7 @@ server.disable('x-powered-by');
 server.use(cookieParser());
 server.use(express.static(process.env.KKT_PUBLIC_DIR));
 server.use('/api', proxy({
-  target: 'http://127.0.0.1:3724',
+  target: `http://${process.env.HOST}:3724`,
   changeOrigin: true,
 }));
 server.get('/*', async (req, res) => {

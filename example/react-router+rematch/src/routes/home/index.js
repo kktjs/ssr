@@ -9,10 +9,12 @@ import styles from './home.module.css';
 class Home extends React.Component {
   // eslint-disable-next-line
   static async getInitialProps({ req, res, match, store, history, location }) {
+    let token = null;
     // only on the server side
-    if (store.dispatch.global && store.dispatch.global.verify) {
-      await store.dispatch.global.verify();
+    if (req && store.dispatch.global && store.dispatch.global.verify && req.cookies) {
+      token = req.cookies.token;
     }
+    await store.dispatch.global.verify({ token });
     return { whatever: 'Home stuff', isServer: true };
   }
   render() {
