@@ -31,7 +31,7 @@ You can also initialize a project from one of the examples. Example from [jaywcj
 npx create-kkt-app my-app -e react-router+rematch
 ```
 
-> ⚠️ A perfect example [`react-router+rematch`](example/react-router+rematch) is recommended for production environments.
+> ⚠️ A perfect example [`react-router+rematch`](example/react-router+rematch) is recommended for production environments, This example is similar to [`Next.js`](https://github.com/zeit/next.js).
 
 **development**
 
@@ -159,7 +159,7 @@ module.exports = {
 
 ## Example
 
-> A complete [`react + react-router + rematch(redux)`](example/react-router+rematch) example is recommended for production projects.
+> A complete [`react + react-router + rematch(redux)`](example/react-router+rematch) example is recommended for production projects, similar to [next.js](https://github.com/zeit/next.js).
 
 - [**`basic`**](example/basic) - Server-side rendering of the [react](https://github.com/facebook/react) base application.
 - [**`dynamic-loadable`**](example/dynamic-loadable) - A [react-loadable](https://github.com/jamiebuilds/react-loadable) for server side rendering for your [react](https://github.com/facebook/react) application.
@@ -169,7 +169,7 @@ module.exports = {
 - [**`react-router`**](example/react-router) - React uses server-side rendering of the [react-router](https://github.com/ReactTraining/react-router).
 - [**`react-router + loadable-components`**](example/react-router-loadable) - A react-router [loadable-components](https://github.com/smooth-code/loadable-components) for server side rendering.
 - [**`react-router + rematch + loadable-component`**](example/react-router-rematch-loadable-component) - A react-router [loadable-components](https://github.com/smooth-code/loadable-components) for server side rendering.
-- [**`react-router+rematch`**](example/react-router+rematch) - This is a sophisticated example of server-side rendering.
+- [**`react-router+rematch`**](example/react-router+rematch) - This is a sophisticated example, similar to [next.js](https://github.com/zeit/next.js).
 - [**`scss`**](example/scss) - React uses the server side rendering of the [sass](https://github.com/sass/node-sass) based application.
 - [**`styled-components`**](example/styled-components) - Server-side rendering of the react [styled-components](https://github.com/styled-components/styled-components) base application.
 - [**`stylus`**](example/stylus) - React uses the server side rendering of the [stylus](https://github.com/stylus/stylus/) based application.
