@@ -3,15 +3,14 @@ import serialize from 'serialize-javascript';
 
 export function InitData({ data, objectName }) {
   if (!data) return null;
-  let JSSTR = null;
   try {
-    JSSTR = serialize({ ...JSSTR });
+    data = serialize({ ...data });
   } catch (error) {
-    JSSTR = null;
+    data = null;
   }
-  if (JSSTR === null) return null;
+  if (!data) return null;
   return (
-    <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `window.${objectName} = ${JSSTR};` }} />
+    <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `window.${objectName} = ${data};` }} />
   );
 }
 
