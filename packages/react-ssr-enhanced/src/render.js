@@ -43,6 +43,10 @@ export default async (options) => {
     match: reactRouterMatch,
     ...rest,
   });
+  // Resolve there is a redirect in getInitialProps.
+  if (/^(300|301|302|303|304|305|306|307)/.test(res.statusCode)) {
+    return;
+  }
   docProps.preloadAssets = { css: [], js: [] };
   if (reactRouterMatch.path && routes) {
     const chunk = routes.find(item => item.path === reactRouterMatch.path);
