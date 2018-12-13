@@ -1,4 +1,4 @@
-const delay = require('mocker-api/utils/delay');
+// const delay = require('mocker-api/utils/delay');
 
 // Whether to disable the proxy
 const noProxy = process.env.NO_PROXY === 'true';
@@ -28,4 +28,5 @@ const proxy = {
   },
 };
 
-module.exports = (noProxy ? {} : delay(proxy, 1000));
+module.exports = (noProxy ? {} : proxy);
+// module.exports = (noProxy ? {} : delay(proxy, 1000));
