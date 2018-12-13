@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { BulletList } from 'react-content-loader';
+import cookie from 'cookiejs';
 import Container from '../../components/Container';
 import styles from './home.module.css';
 
@@ -13,6 +14,9 @@ class Home extends React.Component {
     // only on the server side
     if (req && store.dispatch.global && store.dispatch.global.verify && req.cookies) {
       token = req.cookies.token;
+    }
+    if (typeof window !== 'undefined') {
+      token = cookie.get('token');
     }
     await store.dispatch.global.verify({ token });
     return { whatever: 'Home stuff', isServer: true };
