@@ -52,9 +52,16 @@ export default async (options) => {
     const chunk = routes.find(item => item.path === reactRouterMatch.path);
     if (chunk && chunk.name) {
       const chunkAssets = Object.keys(assets).find(item => item === chunk.name);
-      if (assets[chunkAssets]) {
-        docProps.preloadAssets = { ...assets[chunkAssets] };
-      }
+      Object.keys(assets).forEach((name) => {
+        if (name.indexOf(chunkAssets) > -1) {
+          if (assets[name] && assets[name].css) {
+            docProps.preloadAssets.css.push(assets[name].css);
+          }
+          if (assets[name] && assets[name].js) {
+            docProps.preloadAssets.js.push(assets[name].js);
+          }
+        }
+      });
     }
   }
   const doc = ReactDOMServer.renderToStaticMarkup(<Doc {...docProps} />);

@@ -39,9 +39,13 @@ export class Document extends React.Component {
           {helmet.title.toComponent()}
           {helmet.meta.toComponent()}
           {helmet.link.toComponent()}
-          {assets.client.css && <link rel="stylesheet" href={assets.client.css} />}
-          {preloadAssets && preloadAssets.css && <link rel="stylesheet" href={preloadAssets.css} />}
-          {preloadAssets && preloadAssets.js && <script type="text/javascript" href={preloadAssets.js} async />}
+          {assets.client.css && <link href={assets.client.css} />}
+          {preloadAssets && preloadAssets.css && preloadAssets.css.length > 0 && preloadAssets.css.map((link) => {
+            return <link rel="stylesheet" type="text/css" href={link} />;
+          })}
+          {preloadAssets && preloadAssets.js && preloadAssets.js.length > 0 && preloadAssets.js.map((src) => {
+            return <script type="text/javascript" src={src} async />;
+          })}
         </head>
         <body {...bodyAttrs}>
           <DocumentRoot />
