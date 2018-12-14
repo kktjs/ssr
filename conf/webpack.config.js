@@ -189,7 +189,7 @@ module.exports = (
         path: paths.appBuildPublic,
         publicPath: dotenv.raw.PUBLIC_PATH || '/',
         filename: 'static/js/bundle.[chunkhash:8].js',
-        chunkFilename: 'static/js/[name][chunkhash:8].chunk.js',
+        chunkFilename: 'static/js/[chunkhash:8].chunk.js',
         libraryTarget: 'var',
       };
       conf = require('../plugs/optimization')(conf, { target, env }); // eslint-disable-line
