@@ -11,6 +11,12 @@ kkt-ssr
 
 Create [React](https://github.com/facebook/react) server-side rendering universal JavaScript applications with no configuration.
 
+<p align="center">
+  <a href="https://github.com/jaywcjlove/kkt-ssr/tree/master/example/react-router%2Brematch">
+    <img src="./assets/ssr.png?sanitize=true">
+  </a>
+</p>
+
 ## Usage
 
 You will need [`Node.js`](https://nodejs.org) installed on your system.
