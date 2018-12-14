@@ -4,10 +4,23 @@
   </a>
 </p>
 
-kkt-ssr
----
-
-[![](https://img.shields.io/github/release/jaywcjlove/kkt-ssr.svg)](https://github.com/jaywcjlove/kkt-ssr/releases)
+<p align="center">
+  <a href="https://github.com/jaywcjlove/kkt-ssr/issues">
+    <img src="https://img.shields.io/github/issues/jaywcjlove/kkt-ssr.svg">
+  </a>
+  <a href="https://github.com/jaywcjlove/kkt-ssr/network">
+    <img src="https://img.shields.io/github/forks/jaywcjlove/kkt-ssr.svg">
+  </a>
+  <a href="https://github.com/jaywcjlove/kkt-ssr/stargazers">
+    <img src="https://img.shields.io/github/stars/jaywcjlove/kkt-ssr.svg">
+  </a>
+  <a href="https://github.com/jaywcjlove/kkt-ssr/releases">
+    <img src="https://img.shields.io/github/release/jaywcjlove/kkt-ssr.svg">
+  </a>
+  <a href="https://www.npmjs.com/package/@kkt/ssr">
+    <img src="https://img.shields.io/npm/v/@kkt/ssr.svg">
+  </a>
+</p>
 
 Create [React](https://github.com/facebook/react) server-side rendering universal JavaScript applications with no configuration.
 
