@@ -71,9 +71,7 @@ export default function request(url, options = {}) {
   }
 
   return axios.request(newOptions)
-    .then((response) => {
-      return response.data;
-    })
+    .then(response => response.data)
     .catch((err) => {
       const response = err.response || {};
       if (response && response.status >= 200 && response.status < 300) {

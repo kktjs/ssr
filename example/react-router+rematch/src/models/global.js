@@ -1,4 +1,4 @@
-import { store } from '../store';
+import request from '../utils/request';
 
 export default {
   state: {
@@ -13,7 +13,7 @@ export default {
   },
   effects: () => ({
     async verify({ token }, { global }) {
-      const verify = await store.api('/api/user/verify', { body: { token } });
+      const verify = await request('/api/user/verify', { body: { token } });
       const state = { ...global, test: 'test:global:111----------->' };
       state.token = verify ? token : null;
       state.userinfo = verify;

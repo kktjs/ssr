@@ -10,7 +10,10 @@ const dynamicWrapper = (models, component) => loadable({
   models: () => models.map((m) => {
     return import(`../models/${m}.js`).then((md) => {
       const model = md.default || md;
-      store.model({ name: m, ...model });
+      const stored = store();
+      if (stored && stored.model) {
+        stored.model({ name: m, ...model });
+      }
     });
   }),
 });
