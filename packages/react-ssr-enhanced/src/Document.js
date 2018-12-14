@@ -39,11 +39,11 @@ export class Document extends React.Component {
           {helmet.title.toComponent()}
           {helmet.meta.toComponent()}
           {helmet.link.toComponent()}
-          {assets.client.css && <link href={assets.client.css} />}
-          {preloadAssets && preloadAssets.css && preloadAssets.css.length > 0 && preloadAssets.css.map((link, key) => {
+          {assets.client.css && <link rel="stylesheet" type="text/css" href={assets.client.css} />}
+          {preloadAssets && preloadAssets.css && preloadAssets.css.map((link, key) => {
             return <link key={key} rel="stylesheet" type="text/css" href={link} />;
           })}
-          {preloadAssets && preloadAssets.js && preloadAssets.js.length > 0 && preloadAssets.js.map((src, key) => {
+          {preloadAssets && preloadAssets.js && preloadAssets.js.map((src, key) => {
             return <script key={key} type="text/javascript" src={src} async />;
           })}
         </head>
