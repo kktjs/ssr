@@ -27,7 +27,7 @@ export default async (options) => {
     // By default, we keep ReactDOMServer synchronous renderToString function
     const defaultRenderer = element => ({ html: ReactDOMServer.renderToString(element) });
     const renderer = customRenderer || defaultRenderer;
-    const asyncOrSyncRender = await renderer(renderStatic({ location: req.url, context, data }));
+    const asyncOrSyncRender = await renderer(renderStatic({ location: req.url, context, data, ...rest }));
     const renderedContent = await asyncOrSyncRender;
     const helmet = await Helmet.renderStatic();
     return { helmet, ...renderedContent };
