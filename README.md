@@ -50,6 +50,16 @@ You can also initialize a project from one of the examples. Example from [jaywcj
 npx create-kkt-app my-app -e react-router+rematch
 ```
 
+or
+
+```bash
+npm install -g create-kkt-app
+# Create project, Using the template method
+create-kkt-app my-app -e react-router+rematch
+cd my-app # Enter the directory
+npm start # Start service
+```
+
 > ⚠️ A perfect example [`react-router+rematch`](example/react-router+rematch) is recommended for production environments, This example is similar to [`Next.js`](https://github.com/zeit/next.js).
 
 **development**
