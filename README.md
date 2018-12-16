@@ -32,6 +32,8 @@ Create [React](https://github.com/facebook/react) server-side rendering universa
 
 [Quick Start](#quick-start) · [Using Plugins](#using-plugins) · [Writing Plugins](#writing-plugins) · [CSS Modules](#css-modules) · [KKT Config](#kkt-config) · [Example](#example)
 
+[![Let's fund issues in this repository](https://issuehunt.io/static/embed/issuehunt-button-v1.svg)](https://issuehunt.io/repos/159655834)
+
 ## Usage
 
 You will need [`Node.js`](https://nodejs.org) installed on your system.
