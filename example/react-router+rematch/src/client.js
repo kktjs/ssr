@@ -11,6 +11,7 @@ import { createStore } from './store';
 const routes = getRouterData();
 
 (async () => {
+  // Initialize store
   const store = await createStore(window._KKT_STORE);
   ensureReady(routes).then(async (data) => {
     // Fix: Expected server HTML to contain a matching <a> in
