@@ -9,7 +9,7 @@ import { loadInitialProps } from './loadInitialProps';
 export default async (options) => {
   const { req, res, routes, assets, document: Document, customRenderer, renderStatic, ...rest } = options;
   const Doc = Document || DefaultDoc;
-  const context = {};
+  const context = rest.context || {};
 
   const { match, data } = await loadInitialProps(routes, url.parse(req.url).pathname, { req, res, ...rest });
 
@@ -23,11 +23,11 @@ export default async (options) => {
     res.redirect(301, req.originalUrl.replace(match.path, match.redirectTo));
     return;
   }
-  const renderPage = async () => {
+  const renderPage = async ({ staticContext }) => {
     // By default, we keep ReactDOMServer synchronous renderToString function
     const defaultRenderer = element => ({ html: ReactDOMServer.renderToString(element) });
     const renderer = customRenderer || defaultRenderer;
-    const asyncOrSyncRender = await renderer(renderStatic({ location: req.url, context, data, ...rest }));
+    const asyncOrSyncRender = await renderer(renderStatic({ location: req.url, data, context: staticContext || context, ...rest }));
     const renderedContent = await asyncOrSyncRender;
     const helmet = await Helmet.renderStatic();
     return { helmet, ...renderedContent };

@@ -20,7 +20,12 @@ export function DocumentRoot() {
 
 export class Document extends React.Component {
   static async getInitialProps({ assets, data, extractor, renderPage, store }) {
-    const page = await renderPage();
+    // https://reacttraining.com/react-router/web/example/static-router
+    // This example renders a route within a StaticRouter and populates its
+    // staticContext, which it then prints out. In the real world you would
+    // use the StaticRouter for server-side rendering:
+    // staticContext
+    const page = await renderPage(data);
     return { assets, data, extractor, store, ...page };
   }
 
