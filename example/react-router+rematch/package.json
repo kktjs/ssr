@@ -20,6 +20,7 @@
     "cookie-parser": "^1.4.3",
     "cookiejs": "^1.0.15",
     "express": "^4.16.4",
+    "history": "^4.7.2",
     "http-proxy-middleware": "^0.19.1",
     "react": "^16.6.3",
     "react-content-loader": "^3.4.1",
