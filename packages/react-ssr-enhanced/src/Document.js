@@ -25,7 +25,7 @@ export class Document extends React.Component {
     // staticContext, which it then prints out. In the real world you would
     // use the StaticRouter for server-side rendering:
     // staticContext
-    const page = await renderPage(data);
+    const page = await renderPage({ ...data });
     return { assets, data, extractor, store, ...page };
   }
 
