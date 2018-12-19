@@ -48,7 +48,7 @@ export default async (options) => {
     return;
   }
   docProps.preloadAssets = { css: [], js: [] };
-  if (reactRouterMatch.path && routes) {
+  if (reactRouterMatch && reactRouterMatch.path && routes) {
     const chunk = routes.find(item => item.path === reactRouterMatch.path);
     if (chunk && chunk.name) {
       const chunkAssets = Object.keys(assets).find(item => item === chunk.name);
