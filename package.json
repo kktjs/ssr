@@ -1,6 +1,6 @@
 {
   "name": "@kkt/ssr",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "A baseline for server side rendering for your React application.",
   "bin": {
     "react-ssr": "./bin/ssr.js"
@@ -61,7 +61,7 @@
     "url-loader": "^1.1.2",
     "webpack": "^4.26.0",
     "webpack-dev-server": "^3.1.10",
-    "webpack-hot-dev-clients": "^2.0.1",
+    "webpack-hot-dev-clients": "^2.0.2",
     "webpack-node-externals": "^1.7.2"
   }
 }

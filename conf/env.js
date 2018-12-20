@@ -68,6 +68,8 @@ function getClientEnvironment(target) {
         // Most importantly, it switches React into the correct mode.
         NODE_ENV: process.env.NODE_ENV || 'development',
         PORT: process.env.PORT || 3000,
+        // The client sockjs-node is used to listen for code changes.
+        WS_PORT: parseInt(process.env.PORT, 10) + 1 || 3000,
         HOST: process.env.HOST || 'localhost',
         KKT_ASSETS_MANIFEST: paths.appManifest,
         BUILD_TARGET: target === 'web' ? 'client' : 'server',

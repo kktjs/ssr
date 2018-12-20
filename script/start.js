@@ -26,7 +26,6 @@ function compile(config) {
 
 module.exports = async () => {
   let DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3723;
-
   const PORT = await detect(DEFAULT_PORT);
 
   if (DEFAULT_PORT !== PORT) {
