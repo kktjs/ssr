@@ -26,7 +26,6 @@ module.exports = (conf, options) => {
   const cssModuleOption = {
     modules: true,
     importLoaders: 1,
-    minimize: true,
     localIdentName: '[hash:8]',
   };
   if (IS_DEV) {
