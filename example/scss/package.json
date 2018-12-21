@@ -13,7 +13,7 @@
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@kkt/plugin-scss": "^1.0.1",
+    "@kkt/plugin-scss": "^1.0.3",
     "@kkt/ssr": "file:../../",
     "express": "^4.16.4",
     "react": "^16.6.3",
