@@ -6,7 +6,6 @@ import './App.styl';
 
 export default class App extends Component {
   render() {
-    console.log('styles.red:', styles.red);
     return (
       <div className="App">
         <header className="App-header">
