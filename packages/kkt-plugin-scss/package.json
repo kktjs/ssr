@@ -1,6 +1,6 @@
 {
   "name": "@kkt/plugin-scss",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Support sass.",
   "main": "index.js",
   "keywords": [
