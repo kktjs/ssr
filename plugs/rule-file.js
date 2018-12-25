@@ -7,6 +7,7 @@ module.exports = (conf) => {
         /\.html$/,
         /\.(js|mjs|jsx|ts|tsx|vue)$/,
         /\.(less)$/,
+        /\.(md|markdown)$/,
         /\.(re)$/,
         /\.(s?css|sass)$/,
         /\.json$/,
