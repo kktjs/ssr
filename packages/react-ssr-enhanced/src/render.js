@@ -53,7 +53,7 @@ export default async (options) => {
     if (chunk && chunk.name) {
       const chunkAssets = Object.keys(assets).find(item => item === chunk.name);
       Object.keys(assets).forEach((name) => {
-        if (name.indexOf(chunkAssets) > -1) {
+        if (name.split('~').includes(chunkAssets)) {
           if (assets[name] && assets[name].css) {
             docProps.preloadAssets.css.push(assets[name].css);
           }
