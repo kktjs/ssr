@@ -24,9 +24,12 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "^7.2.2",
     "@kkt/simple-progress-webpack-plugin": "^1.1.5",
     "assets-webpack-plugin": "^3.9.7",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
     "babel-preset-kkt": "^1.1.0",
     "clean-webpack-plugin": "^1.0.0",
@@ -45,6 +48,7 @@
     "file-loader": "^2.0.0",
     "fs-extra": "^7.0.1",
     "html-webpack-plugin": "^3.2.0",
+    "jest": "^23.6.0",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.4.5",
@@ -60,7 +64,7 @@
     "terser-webpack-plugin": "^1.1.0",
     "url-loader": "^1.1.2",
     "webpack": "^4.26.0",
-    "webpack-dev-server": "^3.1.10",
+    "webpack-dev-server": "^3.1.14",
     "webpack-hot-dev-clients": "^2.0.2",
     "webpack-node-externals": "^1.7.2"
   }

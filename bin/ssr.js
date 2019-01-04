@@ -40,6 +40,33 @@ program
     require('../script/start')(cmd); // eslint-disable-line
   });
 
+program
+  .command('test')
+  .description('Runs the app in development mode.')
+  .option('-e, --env', 'If you know that none of your tests depend on jsdom, you can safely set --env=node, and your tests will run faster')
+  .option('-c, --coverage', 'coverage reporter that works well with ES6 and requires no configuration.')
+  .on('--help', () => {
+    logs();
+    logs('  Examples:');
+    logs();
+    logs(`    $ ${'react-ssr test --env=jsdom'.green}`);
+    logs(`    $ ${'react-ssr test --env=jsdom --coverage'.green}`);
+    logs();
+  })
+  .action((env, coverage, cmd) => {
+    const cmdp = cmd || coverage;
+    const args = [];
+    if (cmdp.env) {
+      args.push(`--env=${env}`);
+    }
+    if (cmdp.coverage) {
+      args.push('--coverage');
+    } else if (!process.env.CI) {
+      args.push('--watch');
+    }
+    require('../script/test')(args, cmdp); // eslint-disable-line
+  });
+
 program.on('--help', () => {
   logs('\n  Examples:');
   logs();

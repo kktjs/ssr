@@ -54,10 +54,12 @@ module.exports = {
   appPackageJson: resolveApp('package.json'),
   appTsConfig: resolveApp('tsconfig.json'),
   appIndex: resolveApp('src/index.js'),
+  appBabelRc: resolveApp('.babelrc'),
   defaultHTMLPath: resolveApp('public/index.html'),
   defaultFaviconPath: resolveApp('public/favicon.ico'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+  testsSetup: resolveApp('src/setupTests.js'),
 };
 
 module.exports.moduleFileExtensions = [

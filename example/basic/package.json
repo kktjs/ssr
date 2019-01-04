@@ -6,6 +6,8 @@
   "scripts": {
     "start": "react-ssr start",
     "build": "react-ssr build",
+    "test": "react-ssr test --env=jsdom",
+    "test:coverage": "react-ssr test --env=jsdom --coverage",
     "server": "NODE_ENV=production node dist/server.js"
   },
   "keywords": [],
