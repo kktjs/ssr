@@ -90,6 +90,24 @@ Your app is ready to be deployed!
 npm run server
 ```
 
+## Enable Inspector
+
+```bash
+npm start -- --inspect
+# or
+yarn start -- --inspect
+```
+
+To debug the node server, you can use `react-ssr start --inspect`. This will start the node server and enable the inspector agent. For more information, see [this](https://nodejs.org/en/docs/inspector/).
+
+```bash
+npm start -- --inspect-brk
+# or
+yarn start -- --inspect-brk
+```
+
+To debug the node server, you can use `react-ssr start --inspect-brk`. This will start the node server, enable the inspector agent and Break before user code starts. For more information, see [this](https://nodejs.org/en/docs/inspector/).
+
 ### Using Plugins
 
 You can use KKT plugins by installing in your project and adding them to your `.kktrc.js`. See the README.md of the specific plugin, Just like the following:

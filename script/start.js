@@ -10,7 +10,14 @@ const detect = require('detect-port');
 const createConfig = require('../conf/webpack.config');
 const paths = require('../conf');
 
-// process.noDeprecation = true; // turns off that loadQuery clutter.
+process.noDeprecation = true; // turns off that loadQuery clutter.
+
+// Capture any --inspect or --inspect-brk flags (with optional values) so that we
+// can pass them when we invoke nodejs
+process.env.INSPECT_BRK =
+  process.argv.find(arg => arg.match(/--inspect-brk(=|$)/)) || '';
+process.env.INSPECT =
+  process.argv.find(arg => arg.match(/--inspect(=|$)/)) || '';
 
 // Webpack compile in a try-catch
 function compile(config) {
@@ -18,7 +25,7 @@ function compile(config) {
   try {
     compiler = webpack(config);
   } catch (e) {
-    console.log('Failed to compile.', [e]); // eslint-disable-line
+    console.log('Failed to compile: ', [e]); // eslint-disable-line
     process.exit(1);
   }
   return compiler;
@@ -43,28 +50,24 @@ module.exports = async () => {
   const clientCompiler = compile(clientConfig);
   const serverCompiler = compile(serverConfig);
 
-  serverCompiler.hooks.done.tap('failed', (error) => {
+  serverCompiler.hooks.failed.tap('failed', (error) => {
     if (error && error.compilation) {
       if (error.compilation.errors && error.compilation.errors.length > 0) {
-        console.log('error:', error.compilation.errors); // eslint-disable-line
+        console.log('serverCompilerFailed:', error.compilation.errors); // eslint-disable-line
       }
       if (error.compilation.warnings && error.compilation.warnings.length > 0) {
-        console.log('error:', error.compilation.warnings); // eslint-disable-line
+        console.log('serverCompilerWarnings:', error.compilation.warnings); // eslint-disable-line
       }
     }
   });
-  // failed
 
   // Start our server webpack instance in watch mode after assets compile
   clientCompiler.hooks.done.tap('done', () => {
-    serverCompiler.watch(
-      {
-        quiet: true,
-        stats: 'none',
-      },
+    serverCompiler.watch({ quiet: true, stats: 'none' },
       /* eslint-disable no-unused-vars */
       (stats) => {
         if (stats) {
+          // You ran Webpack twice. Each instance only supports a single concurrent compilation at a time.
           // console.log('stats==>', stats);
         }
       },
@@ -77,7 +80,7 @@ module.exports = async () => {
   // Start Webpack-dev-server
   clientDevServer.listen(DEFAULT_PORT + 1, (err) => {
     if (err) {
-      console.log('clientDevServer:', err); // eslint-disable-line
+      console.log('clientDevServerError:', err); // eslint-disable-line
     }
   });
 };
