@@ -24,7 +24,6 @@ module.exports = (conf, options) => {
     },
   };
   const cssModuleOption = {
-    modules: true,
     importLoaders: 1,
     localIdentName: '[hash:8]',
   };
@@ -52,12 +51,18 @@ module.exports = (conf, options) => {
           rulers.push({
             loader: require.resolve('css-loader'),
             options: {
-              importLoaders: 1,
+              ...cssModuleOption,
+              exportOnlyLocals: true,
             },
           });
         } else {
           // Generating inline styles makes it harder to locate problems.
-          rulers.push(MiniCssExtractPlugin.loader);
+          // rulers.push(MiniCssExtractPlugin.loader);
+          if (IS_DEV) {
+            rulers.push(require.resolve('style-loader'));
+          } else {
+            rulers.push(MiniCssExtractPlugin.loader);
+          }
           rulers.push({
             loader: require.resolve('css-loader'),
             options: {
@@ -80,17 +85,34 @@ module.exports = (conf, options) => {
         const rulers = [];
         if (IS_NODE) {
           rulers.push({
-            // on the server we do not need to embed the css and just want the identifier mappings
-            // https://github.com/webpack-contrib/css-loader#scope
-            loader: require.resolve('css-loader/locals'),
-            options: cssModuleOption,
+            loader: require.resolve('css-loader'),
+            options: {
+              ...cssModuleOption,
+              // css-loader@2 dropped css-loader/locals loader and replaced it with exportOnlyLocals option.
+              exportOnlyLocals: true,
+              modules: true,
+            },
           });
+          // rulers.push({
+          //   // on the server we do not need to embed the css and just want the identifier mappings
+          //   // https://github.com/webpack-contrib/css-loader#scope
+          //   loader: require.resolve('css-loader/locals'),
+          //   options: cssModuleOption,
+          // });
         } else {
           // Generating inline styles makes it harder to locate problems.
-          rulers.push(MiniCssExtractPlugin.loader);
+          // rulers.push(MiniCssExtractPlugin.loader);
+          if (IS_DEV) {
+            rulers.push(require.resolve('style-loader'));
+          } else {
+            rulers.push(MiniCssExtractPlugin.loader);
+          }
           rulers.push({
             loader: require.resolve('css-loader'),
-            options: cssModuleOption,
+            options: {
+              ...cssModuleOption,
+              modules: true,
+            },
           });
           rulers.push(postcssLoader);
         }
