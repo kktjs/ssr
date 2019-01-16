@@ -1,6 +1,6 @@
 {
   "name": "@kkt/plugin-scss",
-  "version": "1.0.3",
+  "version": "1.2.0",
   "description": "Support sass.",
   "main": "index.js",
   "keywords": [
@@ -19,6 +19,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "css-loader": "^2.1.0",
     "node-sass": "^4.10.0",
     "sass-loader": "^7.1.0"
   }
