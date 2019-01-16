@@ -1,6 +1,6 @@
 {
   "name": "@kkt/plugin-less",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Support less.",
   "main": "index.js",
   "keywords": [
