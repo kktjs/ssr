@@ -3,7 +3,7 @@ import express from 'express';
 import { renderToString } from 'react-dom/server';
 import App from './App';
 
-const assets = require(process.env.KKT_ASSETS_MANIFEST); // eslint-disable-line
+let assets = require(process.env.KKT_ASSETS_MANIFEST); // eslint-disable-line
 const server = express();
 server
   .disable('x-powered-by')
@@ -11,7 +11,6 @@ server
   .get('/*', (req, res) => {
     const context = {};
     const markup = renderToString(<App />);
-
     if (context.url) {
       res.redirect(context.url);
     } else {

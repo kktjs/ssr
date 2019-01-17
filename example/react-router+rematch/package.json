@@ -14,9 +14,7 @@
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@kkt/plugin-less": "^1.0.1",
     "@kkt/react-ssr-enhanced": "^1.0.13",
-    "@kkt/ssr": "file:../../",
     "@rematch/core": "^1.0.6",
     "axios": "^0.18.0",
     "cookie-parser": "^1.4.3",
@@ -33,6 +31,8 @@
     "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
+    "@kkt/plugin-less": "^1.0.1",
+    "@kkt/ssr": "file:../../",
     "mocker-api": "^1.6.6"
   }
 }

@@ -13,13 +13,13 @@
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@kkt/ssr": "file:../../",
     "express": "^4.16.4",
     "http-proxy-middleware": "^0.19.1",
     "react": "16.6.3",
     "react-dom": "16.6.3"
   },
   "devDependencies": {
+    "@kkt/ssr": "file:../../",
     "mocker-api": "^1.6.6"
   }
 }

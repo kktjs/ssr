@@ -6,12 +6,13 @@ const logs = console.log; // eslint-disable-line
 const server = http.createServer(app);
 let currentApp = app;
 const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || 'localhost';
 
 server.listen(PORT, (error) => {
   if (error) {
     logs(error);
   }
-  logs('🚀 started!', `PORT: ${PORT}`);
+  logs('🚀 started!', `PORT: http://${HOST}:${PORT}`);
 });
 
 if (module.hot) {
