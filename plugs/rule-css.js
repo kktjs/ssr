@@ -24,9 +24,7 @@ module.exports = (conf, options) => {
     },
   };
   const cssModuleOption = {
-    modules: true,
     importLoaders: 1,
-    minimize: true,
     localIdentName: '[hash:8]',
   };
   if (IS_DEV) {
@@ -44,6 +42,10 @@ module.exports = (conf, options) => {
     {
       test: /\.css$/,
       exclude: [options.appBuildDist, /\.module\.css$/],
+      // Don't consider CSS imports dead code even if the
+      // containing package claims to have no side effects.
+      // Remove this when webpack adds a warning or an error for this.
+      // See https://github.com/webpack/webpack/issues/6571
       sideEffects: true,
       use: (() => {
         const rulers = [];
@@ -57,20 +59,21 @@ module.exports = (conf, options) => {
             },
           });
         } else {
-          // if (IS_DEV) {
-          //   rulers.push(require.resolve('style-loader'));
-          // } else {
-          //   rulers.push(MiniCssExtractPlugin.loader);
-          // }
           // Generating inline styles makes it harder to locate problems.
-          rulers.push(MiniCssExtractPlugin.loader);
+          // rulers.push(MiniCssExtractPlugin.loader);
+          if (IS_DEV) {
+            rulers.push(require.resolve('style-loader'));
+          } else {
+            rulers.push(MiniCssExtractPlugin.loader);
+          }
           rulers.push({
             loader: require.resolve('css-loader'),
             options: {
+              ...cssModuleOption,
               importLoaders: 1,
             },
           });
-          // rulers.push(postcssLoader);
+          rulers.push(postcssLoader);
         }
         return rulers;
       })(),
@@ -80,27 +83,36 @@ module.exports = (conf, options) => {
     {
       test: /\.module\.css$/,
       exclude: [options.appBuildDist],
+      // Don't consider CSS imports dead code even if the
+      // containing package claims to have no side effects.
+      // Remove this when webpack adds a warning or an error for this.
+      // See https://github.com/webpack/webpack/issues/6571
       sideEffects: true,
       use: (() => {
         const rulers = [];
         if (IS_NODE) {
           rulers.push({
-            // on the server we do not need to embed the css and just want the identifier mappings
-            // https://github.com/webpack-contrib/css-loader#scope
-            loader: require.resolve('css-loader/locals'),
-            options: cssModuleOption,
+            loader: require.resolve('css-loader'),
+            options: {
+              ...cssModuleOption,
+              modules: true,
+              exportOnlyLocals: true,
+            },
           });
         } else {
-          // if (IS_DEV) {
-          //   rulers.push(require.resolve('style-loader'));
-          // } else {
-          //   rulers.push(MiniCssExtractPlugin.loader);
-          // }
           // Generating inline styles makes it harder to locate problems.
-          rulers.push(MiniCssExtractPlugin.loader);
+          // rulers.push(MiniCssExtractPlugin.loader);
+          if (IS_DEV) {
+            rulers.push(require.resolve('style-loader'));
+          } else {
+            rulers.push(MiniCssExtractPlugin.loader);
+          }
           rulers.push({
             loader: require.resolve('css-loader'),
-            options: cssModuleOption,
+            options: {
+              ...cssModuleOption,
+              modules: true,
+            },
           });
           rulers.push(postcssLoader);
         }

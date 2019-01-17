@@ -53,17 +53,27 @@ module.exports = async () => {
   serverCompiler.hooks.failed.tap('failed', (error) => {
     if (error && error.compilation) {
       if (error.compilation.errors && error.compilation.errors.length > 0) {
-        console.log('serverCompilerFailed:', error.compilation.errors); // eslint-disable-line
+        console.log('error:', error.compilation.errors); // eslint-disable-line
       }
       if (error.compilation.warnings && error.compilation.warnings.length > 0) {
-        console.log('serverCompilerWarnings:', error.compilation.warnings); // eslint-disable-line
+        console.log('error:', error.compilation.warnings); // eslint-disable-line
       }
     }
   });
 
+  // Instatiate a variable to track server watching
+  let watching;
+
   // Start our server webpack instance in watch mode after assets compile
   clientCompiler.hooks.done.tap('done', () => {
-    serverCompiler.watch({ quiet: true, stats: 'none' },
+    if (watching) {
+      return;
+    }
+    watching = serverCompiler.watch(
+      {
+        quiet: true,
+        stats: 'none',
+      },
       /* eslint-disable no-unused-vars */
       (stats) => {
         if (stats) {

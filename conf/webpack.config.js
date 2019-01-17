@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
 const SimpleProgressWebpackPlugin = require('@kkt/simple-progress-webpack-plugin');
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const paths = require('./');
@@ -137,8 +138,18 @@ module.exports = (
       conf.entry.unshift('webpack/hot/poll?300');
       // Add hot module replacement
       conf.plugins.push(new webpack.HotModuleReplacementPlugin());
+
+      const nodeArgs = ['-r', 'source-map-support/register'];
+      // Passthrough --inspect and --inspect-brk flags (with optional [host:port] value) to node
+      if (process.env.INSPECT_BRK) {
+        nodeArgs.push(process.env.INSPECT_BRK);
+      } else if (process.env.INSPECT) {
+        nodeArgs.push(process.env.INSPECT);
+      }
+      // Automatically start your server once Webpack's build completes.
       conf.plugins.push(new StartServerPlugin({
         name: 'server.js',
+        nodeArgs,
       }));
 
       // Ignore assets.json to avoid infinite recompile bug
@@ -173,7 +184,7 @@ module.exports = (
         chunkFilename: 'static/js/[name].chunk.js',
         devtoolModuleFilenameTemplate: info => path.resolve(info.resourcePath).replace(/\\/g, '/'),
       };
-      conf.plugins.push(new webpack.HotModuleReplacementPlugin({ multiStep: true }));
+      conf.plugins.push(new webpack.HotModuleReplacementPlugin());
       // Configure webpack-dev-server to serve our client-side bundle from
       // http://${dotenv.raw.HOST}:3001
       conf.devServer = devServer(dotenv);
@@ -195,6 +206,10 @@ module.exports = (
       conf = require('../plugs/optimization')(conf, { target, env }); // eslint-disable-line
     }
 
+    // Watcher doesn't work well if you mistype casing in a path so we use
+    // a plugin that prints an error when you attempt to do this.
+    // See https://github.com/facebook/create-react-app/issues/240
+    conf.plugins.push(new CaseSensitivePathsPlugin());
     conf.plugins.push(new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
@@ -206,6 +221,13 @@ module.exports = (
       allChunks: true,
     }));
   }
+
+  // Moment.js is an extremely popular library that bundles large locale files
+  // by default due to how Webpack interprets its code. This is a practical
+  // solution that requires the user to opt into importing specific locales.
+  // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
+  // You can remove this if you don't use Moment.js:
+  conf.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
 
   conf.plugins.push(new SimpleProgressWebpackPlugin({
     format: 'compact',
