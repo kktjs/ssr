@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Button from '@kkt-example/button';
 import logo from './logo.svg';
 import styles from './App.module.less';
 import './App.css';
@@ -21,6 +22,14 @@ class App extends Component {
           >
             Learn React
           </a>
+          <div className={styles.btns}>
+            <Button type="primary">Primary</Button>
+            <Button type="success">Success</Button>
+            <Button type="warning">Warning</Button>
+            <Button type="danger">Danger</Button>
+            <Button type="light">Light</Button>
+            <Button type="dark">Dark</Button>
+          </div>
         </header>
       </div>
     );
