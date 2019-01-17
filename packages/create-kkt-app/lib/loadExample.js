@@ -33,7 +33,6 @@ module.exports = function loadExample({ example, projectName, projectPath }) {
     if (pkg && pkg.data) {
       const appPkgPath = path.join(projectPath, 'package.json');
       const appPkg = require(`${appPkgPath}`); // eslint-disable-line
-      if (!appPkg.dependencies) appPkg.dependencies = {};
       if (appPkg) {
         if (appPkg.dependencies && appPkg.dependencies[dependName]) {
           appPkg.dependencies[dependName] = `^${pkg.data.version}`;

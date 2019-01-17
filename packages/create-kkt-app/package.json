@@ -1,6 +1,6 @@
 {
   "name": "create-kkt-app",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "CLI tool to bootstrap KKT applications with no configuration",
   "bin": {
     "create-kkt-app": "./bin/create-kkt-app"
@@ -9,7 +9,10 @@
   "engines": {
     "node": ">=8"
   },
-  "repository": "jaywcjlove/kkt-ssr",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaywcjlove/kkt-ssr/tree/master/packages/create-kkt-app"
+  },
   "keywords": [
     "react",
     "react-router",
