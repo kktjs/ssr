@@ -22,7 +22,7 @@
   </a>
 </p>
 
-Create [React](https://github.com/facebook/react) server-side rendering universal JavaScript applications with no configuration.
+Create [React](https://github.com/facebook/react) server-side rendering universal JavaScript applications with no configuration. If you don't need server-side rendering you can use [kkt](https://github.com/jaywcjlove/kkt) tools.
 
 <p align="center">
   <a href="https://github.com/jaywcjlove/kkt-ssr/tree/master/example/react-router%2Brematch">
@@ -210,7 +210,11 @@ module.exports = {
 
 ## Example
 
-> A complete [`react + react-router + rematch(redux)`](example/react-router+rematch) example is recommended for production projects, similar to [next.js](https://github.com/zeit/next.js).
+A complete [`react + react-router + rematch(redux)`](example/react-router+rematch) example is recommended for production projects, similar to [next.js](https://github.com/zeit/next.js). Initialize the project from one of the examples: 
+
+```bash
+npx create-kkt-app my-app -e react-router+rematch
+```
 
 - [**`basic`**](example/basic) - Server-side rendering of the [react](https://github.com/facebook/react) base application.
 - [**`dynamic-loadable`**](example/dynamic-loadable) - A [react-loadable](https://github.com/jamiebuilds/react-loadable) for server side rendering for your [react](https://github.com/facebook/react) application.
