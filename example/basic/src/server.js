@@ -1,7 +1,7 @@
 import React from 'react';
 import express from 'express';
 import { renderToString } from 'react-dom/server';
-import App from './App';
+import App from './app/App';
 
 let assets = require(process.env.KKT_ASSETS_MANIFEST); // eslint-disable-line
 const server = express();
