@@ -14,7 +14,7 @@
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@kkt/react-ssr-enhanced": "^1.0.13",
+    "@kkt/react-ssr-enhanced": "^1.0.14",
     "@rematch/core": "^1.0.6",
     "axios": "^0.18.0",
     "cookie-parser": "^1.4.3",

@@ -1,11 +1,11 @@
 {
   "name": "@kkt/react-ssr-enhanced",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "KKT react server side rendering enhancement tool.",
   "main": "index.js",
   "scripts": {
-    "build": "cross-env BABEL_ENV=production babel src -d lib --verbose",
-    "watch": "cross-env BABEL_ENV=production babel -w src -d lib --verbose",
+    "build": "cross-env BABEL_ENV=production babel src -d lib --delete-dir-on-start --verbose",
+    "watch": "cross-env BABEL_ENV=production babel -w src -d lib --delete-dir-on-start --verbose",
     "prepare": "npm run lint && npm run build",
     "lint": "NODE_ENV=production eslint src --ignore-path .eslintignore"
   },
@@ -21,29 +21,29 @@
   "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.2.0",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "react-helmet": "^5.2.0",
-    "react-router-dom": "^4.3.1",
-    "serialize-javascript": "^1.5.0"
+    "@babel/runtime": "7.2.0",
+    "react": "16.6.3",
+    "react-dom": "16.6.3",
+    "react-helmet": "5.2.0",
+    "react-router-dom": "4.4.0",
+    "serialize-javascript": "1.6.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.0",
-    "@babel/core": "^7.2.0",
-    "@babel/plugin-proposal-class-properties": "^7.2.1",
-    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/plugin-transform-async-to-generator": "^7.2.0",
-    "@babel/plugin-transform-runtime": "^7.2.0",
-    "@babel/preset-env": "^7.2.0",
-    "@babel/preset-react": "^7.0.0",
-    "babel-eslint": "^10.0.1",
-    "cross-env": "^5.2.0",
-    "eslint": "^5.10.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.11.1"
+    "@babel/cli": "7.2.0",
+    "@babel/core": "7.2.0",
+    "@babel/plugin-proposal-class-properties": "7.2.1",
+    "@babel/plugin-proposal-object-rest-spread": "7.2.0",
+    "@babel/plugin-syntax-dynamic-import": "7.2.0",
+    "@babel/plugin-transform-async-to-generator": "7.2.0",
+    "@babel/plugin-transform-runtime": "7.2.0",
+    "@babel/preset-env": "7.2.0",
+    "@babel/preset-react": "7.0.0",
+    "babel-eslint": "10.0.1",
+    "cross-env": "5.2.0",
+    "eslint": "5.10.0",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.2",
+    "eslint-plugin-react": "7.11.1"
   }
 }
