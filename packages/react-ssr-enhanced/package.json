@@ -19,7 +19,11 @@
     "ssr"
   ],
   "files": [
-    "lib"
+    "lib",
+    "Document.js",
+    "ensureReady.js",
+    "RoutersController.js",
+    "render.js"
   ],
   "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
   "license": "MIT",
