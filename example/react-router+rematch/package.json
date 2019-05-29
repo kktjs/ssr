@@ -14,25 +14,25 @@
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@kkt/react-ssr-enhanced": "^1.0.16",
-    "@rematch/core": "^1.0.6",
-    "axios": "^0.18.0",
-    "cookie-parser": "^1.4.3",
-    "cookiejs": "^1.0.15",
-    "express": "^4.16.4",
-    "history": "^4.7.2",
-    "http-proxy-middleware": "^0.19.1",
-    "react": "^16.6.3",
-    "react-content-loader": "^3.4.1",
-    "react-dom": "^16.6.3",
-    "react-dynamic-loadable": "^1.1.2",
-    "react-helmet": "^5.2.0",
-    "react-redux": "^5.1.1",
-    "react-router-dom": "^4.3.1"
+    "@kkt/react-ssr-enhanced": "1.0.17",
+    "@rematch/core": "1.0.6",
+    "axios": "0.18.0",
+    "cookie-parser": "1.4.3",
+    "cookiejs": "1.0.15",
+    "express": "4.16.4",
+    "history": "4.7.2",
+    "http-proxy-middleware": "0.19.1",
+    "react": "16.6.3",
+    "react-content-loader": "3.4.1",
+    "react-dom": "16.6.3",
+    "react-dynamic-loadable": "1.1.2",
+    "react-helmet": "5.2.0",
+    "react-redux": "5.1.1",
+    "react-router-dom": "4.3.1"
   },
   "devDependencies": {
-    "@kkt/plugin-less": "^1.0.1",
+    "@kkt/plugin-less": "1.2.0",
     "@kkt/ssr": "file:../../",
-    "mocker-api": "^1.6.6"
+    "mocker-api": "1.6.6"
   }
 }
