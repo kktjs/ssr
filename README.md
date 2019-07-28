@@ -26,7 +26,7 @@ Create [React](https://github.com/facebook/react) server-side rendering universa
 
 <p align="center">
   <a href="https://github.com/kktjs/kkt-ssr/tree/master/example/react-router%2Brematch">
-    <img src="./assets/ssr.png?sanitize=true">
+    <img src="https://github.com/kktjs/kkt-ssr/raw/847e32d0f04c30da9f7b3bd637be9fa6b1eee22b/assets/ssr.png?sanitize=true">
   </a>
 </p>
 
