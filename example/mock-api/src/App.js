@@ -19,7 +19,7 @@ export default class App extends React.Component {
       }
     });
     // Github API
-    fetch('/repos/jaywcjlove/kkt-ssr').then(response => response.json()).then((data) => {
+    fetch('/repos/kktjs/kkt-ssr').then(response => response.json()).then((data) => {
       this.setState({ repos: { ...data } });
     });
   }

@@ -10,11 +10,11 @@
     "ssr",
     "@kkt/ssr"
   ],
-  "repository": "https://github.com/jaywcjlove/kkt-ssr.git",
+  "repository": "https://github.com/kktjs/kkt-ssr.git",
   "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
   "bugs": {
     "mail": "wowohoo@qq.com",
-    "url": "https://github.com/jaywcjlove/kkt-ssr/issues"
+    "url": "https://github.com/kktjs/kkt-ssr/issues"
   },
   "license": "MIT",
   "dependencies": {

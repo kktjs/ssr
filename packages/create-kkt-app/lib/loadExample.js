@@ -9,7 +9,7 @@ const { installDeps } = require('./installDeps');
 module.exports = function loadExample({ example, projectName, projectPath }) {
   const cmds = [
     `mkdir -p ${projectName}`,
-    `curl https://codeload.github.com/jaywcjlove/kkt-ssr/tar.gz/master | tar -xz -C ${projectName} --strip=3 kkt-ssr-master/example/${example}`,
+    `curl https://codeload.github.com/kktjs/kkt-ssr/tar.gz/master | tar -xz -C ${projectName} --strip=3 kkt-ssr-master/example/${example}`,
   ];
 
   const stopExampleSpinner = output.wait(
@@ -28,7 +28,7 @@ module.exports = function loadExample({ example, projectName, projectPath }) {
     // settings dependencies on the '@kkt/ssr' version.
     const dependName = '@kkt/ssr';
     const stopKKTVersionSpinner = await output.wait(`settings dependencies on the ${output.cmd(dependName)} version.`);
-    const pkg = await axios.get('https://raw.githubusercontent.com/jaywcjlove/kkt-ssr/master/package.json');
+    const pkg = await axios.get('https://raw.githubusercontent.com/kktjs/kkt-ssr/master/package.json');
     stopKKTVersionSpinner();
     if (pkg && pkg.data) {
       const appPkgPath = path.join(projectPath, 'package.json');

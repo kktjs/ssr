@@ -32,7 +32,7 @@ A baseline for server side rendering for your React application.
 
 Options:
   -v, --version                 output the version number
-  -e, --example <example-path>  Example from https://github.com/jaywcjlove/kkt-ssr/tree/master/example example-path (default: "basic")
+  -e, --example <example-path>  Example from https://github.com/kktjs/kkt-ssr/tree/master/example example-path (default: "basic")
   -h, --help                    output usage information
 
 Examples:
