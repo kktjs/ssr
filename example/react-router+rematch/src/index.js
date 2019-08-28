@@ -10,7 +10,7 @@ server.listen(PORT, (error) => {
   if (error) {
     logs(error);
   }
-  logs('🚀 started!', `PORT: ${PORT}`);
+  logs('🚀 started!', `PORT: http://localhost:${PORT}`);
 });
 
 if (module.hot) {

@@ -4,8 +4,8 @@ import cookieParser from 'cookie-parser';
 import { StaticRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import proxy from 'http-proxy-middleware';
-import render from '@kkt/react-ssr-enhanced/render';
-import RoutersController from '@kkt/react-ssr-enhanced/RoutersController';
+import { render } from '@kkt/react-ssr-enhanced';
+import RoutersController from './RoutersController';
 import { getRouterData } from './routes';
 import { createStore } from './store';
 
@@ -19,7 +19,7 @@ function renderStatic({ location, context, data, store }) {
       <StaticRouter location={location} context={context}>
         <RoutersController store={store} routes={routes} data={data} />
       </StaticRouter>
-    </Provider>
+    </Provider >
   );
 }
 

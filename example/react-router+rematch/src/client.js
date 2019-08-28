@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import ensureReady from '@kkt/react-ssr-enhanced/ensureReady';
-import RoutersController from '@kkt/react-ssr-enhanced/RoutersController';
+import { ensureReady } from '@kkt/react-ssr-enhanced';
+import RoutersController from './RoutersController';
 import history from './utils/history';
 import { getRouterData } from './routes';
 import { createStore } from './store';
@@ -25,7 +25,7 @@ const routes = getRouterData();
     renderMethod(
       <Provider store={store}>
         <Router history={history}>
-          <RoutersController store={store} routes={routes} data={data} />
+          <RoutersController store={store} routes={routes} data={data} history={history}/>
         </Router>
       </Provider>,
       document.getElementById('root')
