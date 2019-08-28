@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, withRouter, matchPath } from 'react-router-dom';
+import { Switch, Route, matchPath } from 'react-router-dom';
 import { loadInitialProps } from './loadInitialProps';
 
 class Controller extends React.PureComponent {
@@ -62,4 +62,4 @@ class Controller extends React.PureComponent {
   }
 }
 
-export default withRouter(Controller);
+export default Controller;
