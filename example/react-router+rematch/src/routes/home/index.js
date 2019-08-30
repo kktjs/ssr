@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { BulletList } from 'react-content-loader';
 import cookie from 'cookiejs';
 import Container from '../../components/Container';
 import styles from './home.module.css';
@@ -22,6 +21,7 @@ class Home extends React.Component {
     return { whatever: 'Home stuff', isServer: true };
   }
   render() {
+    console.log('~11~:', this.props.whatever);
     return (
       <Container title="Home">
         <Helmet>
@@ -30,7 +30,7 @@ class Home extends React.Component {
         <div>
           {this.props.test} <br />
           {this.props.testHome} <br />
-          {this.props.whatever ? this.props.whatever : <BulletList style={{ width: 200 }} />}
+          {this.props.whatever ? this.props.whatever : 'loading'}
         </div>
         <ul className={styles.resources}>
           <li>

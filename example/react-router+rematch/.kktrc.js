@@ -6,6 +6,10 @@ module.exports = {
   ],
   // Modify the webpack config
   config: (conf, { target, dev, env }, webpack) => {
+    /**
+     * Uncaught Invariant Violation: 4.3.1 -> 5.0.1 w/ monorepo use of shared components
+     * https://github.com/ReactTraining/react-router/issues/6769#issuecomment-505435886
+     */
     if (target === 'web' && env === 'prod') {
       // conf = {
       //   ...conf,

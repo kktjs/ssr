@@ -14,21 +14,21 @@
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@kkt/react-ssr-enhanced": "2.0.0",
+    "@kkt/react-ssr-enhanced": "2.0.2",
     "@rematch/core": "1.0.6",
     "axios": "0.18.0",
     "cookie-parser": "1.4.3",
     "cookiejs": "1.0.15",
     "express": "4.16.4",
-    "history": "4.7.2",
+    "history": "4.9.0",
     "http-proxy-middleware": "0.19.1",
     "react": "16.9.0",
-    "react-content-loader": "3.4.1",
+    "react-content-loader": "4.2.2",
     "react-dom": "16.9.0",
-    "react-dynamic-loadable": "1.1.2",
-    "react-helmet": "5.2.0",
+    "react-dynamic-loadable": "2.0.1",
+    "react-helmet": "5.2.1",
     "react-redux": "5.1.1",
-    "react-router-dom": "5.0.1"
+    "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
     "@kkt/plugin-less": "1.2.0",
