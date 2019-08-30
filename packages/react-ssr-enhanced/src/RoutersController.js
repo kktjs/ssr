@@ -1,20 +1,15 @@
 import React from 'react';
 import { Switch, Route, withRouter, matchPath } from 'react-router-dom';
-import { loadInitialProps } from '@kkt/react-ssr-enhanced';
+import { loadInitialProps } from './loadInitialProps';
 
 class Controller extends React.PureComponent {
-  static defaultProps = {
-    routes: [],
-  }
   constructor(props) {
     super(props);
     this.state = {
       data: props.data,
     };
-    this.prefetcherCache = {};
   }
-  // eslint-disable-next-line
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     // eslint-disable-next-line
     const navigated = nextProps.location !== this.props.location;
     if (navigated) {
@@ -41,7 +36,7 @@ class Controller extends React.PureComponent {
   render() {
     const { data } = this.state;
     const { routes, location, store } = this.props;
-    const initialData = this.prefetcherCache[location.pathname] || data;
+    const initialData = data;
     return (
       <Switch>
         {routes.map((route, idx) => (

@@ -1,17 +1,19 @@
 import url from 'url';
 import React from 'react';
+import { Provider } from 'react-redux';
 import * as ReactDOMServer from 'react-dom/server';
 import Helmet from 'react-helmet';
-import { matchPath } from 'react-router-dom';
+import { matchPath, StaticRouter } from 'react-router-dom';
 import { Document as DefaultDoc } from './Document';
 import { loadInitialProps } from './loadInitialProps';
+import RoutersController from './RoutersController';
 
 export default async (options) => {
-  const { req, res, routes, assets, document: Document, customRenderer, renderStatic, ...rest } = options;
+  const { req, res, routes, assets, document: Document, customRenderer, renderStatic, store, ...rest } = options;
   const Doc = Document || DefaultDoc;
   const context = rest.context || {};
 
-  const { match, data } = await loadInitialProps(routes, url.parse(req.url).pathname, { req, res, ...rest });
+  const { match, data } = await loadInitialProps(routes, url.parse(req.url).pathname, { req, res, store, ...rest });
 
   if (!match) {
     res.status(404);
@@ -23,11 +25,17 @@ export default async (options) => {
     res.redirect(301, req.originalUrl.replace(match.path, match.redirectTo));
     return;
   }
-  const renderPage = async ({ staticContext }) => {
+  const renderPage = async () => {
     // By default, we keep ReactDOMServer synchronous renderToString function
     const defaultRenderer = element => ({ html: ReactDOMServer.renderToString(element) });
     const renderer = customRenderer || defaultRenderer;
-    const asyncOrSyncRender = await renderer(renderStatic({ location: req.url, data, context: staticContext || context, ...rest }));
+    const asyncOrSyncRender = renderer(
+      <Provider store={store}>
+        <StaticRouter location={req.url} context={context}>
+          <RoutersController store={store} routes={routes} data={data} />
+        </StaticRouter>
+      </Provider>
+    );
     const renderedContent = await asyncOrSyncRender;
     const helmet = await Helmet.renderStatic();
     return { helmet, ...renderedContent };
@@ -39,6 +47,7 @@ export default async (options) => {
     assets,
     renderPage,
     data,
+    store,
     helmet: Helmet.renderStatic(),
     match: reactRouterMatch,
     ...rest,
@@ -53,7 +62,7 @@ export default async (options) => {
     if (chunk && chunk.name) {
       const chunkAssets = Object.keys(assets).find(item => item === chunk.name);
       Object.keys(assets).forEach((name) => {
-        if (name.split('~').includes(chunkAssets)) {
+        if (name.indexOf(chunkAssets) > -1) {
           if (assets[name] && assets[name].css) {
             docProps.preloadAssets.css.push(assets[name].css);
           }
