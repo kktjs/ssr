@@ -1,9 +1,5 @@
 node_modules
-coverage
 npm-debug.log*
-example
-packages
-dist
 .DS_Store
 .cache
 .vscode

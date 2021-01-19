@@ -1,0 +1,42 @@
+{
+  "name": "@kkt/ssr",
+  "version": "2.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "description": "A baseline for server side rendering for your React application.",
+  "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
+  "repository": "https://github.com/kktjs/kkt-ssr.git",
+  "license": "MIT",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "kkt",
+    "kkt-ssr",
+    "react",
+    "react-router",
+    "redux",
+    "rematch",
+    "webpack",
+    "express",
+    "ssr",
+    "webpack",
+    "next.js"
+  ],
+  "peerDependencies": {
+    "kkt": ">=6.1.0"
+  },
+  "dependencies": {
+    "@kkt/start-server-webpack-plugin": "2.0.0",
+    "@types/assets-webpack-plugin": "6.1.0",
+    "@types/webpack-node-externals": "2.5.0",
+    "@types/webpack-manifest-plugin": "3.0.3",
+    "webpack-manifest-plugin": "3.0.0",
+    "webpack-node-externals": "2.5.2",
+    "assets-webpack-plugin": "7.0.0",
+    "source-map-support": "0.5.19",
+    "css-loader": "5.0.1",
+    "kkt": "6.2.0"
+  }
+}

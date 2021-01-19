@@ -3,7 +3,10 @@ npm-debug.log*
 package-lock.json
 coverage
 dist
+build
+
 .DS_Store
+.eslintcache
 .cache
 .vscode
 .env.local

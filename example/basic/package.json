@@ -1,25 +1,38 @@
 {
-  "name": "simple",
-  "version": "1.0.0",
+  "name": "@template/basic",
+  "version": "2.0.0",
   "description": "Server-side rendering of the React base application.",
   "private": true,
   "scripts": {
-    "start": "react-ssr start",
-    "build": "react-ssr build",
-    "test": "react-ssr test --env=jsdom",
-    "test:coverage": "react-ssr test --env=jsdom --coverage",
+    "start": "kkt start",
+    "build": "kkt build",
+    "test": "kkt test --env=jsdom",
+    "test:coverage": "kkt test --env=jsdom --coverage",
     "server": "NODE_ENV=production node dist/server.js"
   },
   "keywords": [],
   "repository": "https://github.com/kktjs/kkt-ssr.git",
-  "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.4",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "express": "^4.17.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
-    "@kkt/ssr": "file:../../"
+    "@kkt/ssr": "2.0.0",
+    "kkt": "6.2.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
