@@ -1,12 +1,12 @@
-import { Compiler } from 'webpack';
+import { Compiler, Stats } from 'webpack';
 
 type HookPluginOptions = {
-  onAfterEmit?: (count: number) => void;
+  onAfterEmit?: (count: number, callback: () => void) => void;
+  onDone?: (stats: Stats) => void;
+  onDonePromise?: (stats: Stats) => Promise<any>;
 };
 
-const defaultOptions: HookPluginOptions = {
-  onAfterEmit: () => {},
-};
+const defaultOptions: HookPluginOptions = {};
 
 let afterEmitCount = 0;
 
@@ -16,10 +16,19 @@ class WebpackHookPlugin {
     this.options = { ...defaultOptions, ...options };
   }
   apply(compiler: Compiler) {
-    compiler.hooks.afterEmit.tapAsync('WebpackHookPlugin', (compilation, callback) => {
+    const { onAfterEmit, onDonePromise } = this.options;
+    compiler.hooks.afterEmit.tapAsync('WebpackHookPlugin', (compilation, callback: () => void) => {
       afterEmitCount += 1;
-      this.options.onAfterEmit(afterEmitCount);
-      callback();
+      if (!onAfterEmit) {
+        return callback();
+      }
+      this.options.onAfterEmit(afterEmitCount, callback);
+    });
+    compiler.hooks.done.tapPromise('WebpackHookPlugin', (stats: Stats) => {
+      if (!onDonePromise) {
+        return new Promise((resolve) => resolve(stats));
+      }
+      return onDonePromise(stats);
     });
   }
 }

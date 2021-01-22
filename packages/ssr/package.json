@@ -24,6 +24,9 @@
     "webpack",
     "next.js"
   ],
+  "engines": {
+    "node": "^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0"
+  },
   "peerDependencies": {
     "kkt": ">=6.1.0"
   },
@@ -37,6 +40,6 @@
     "assets-webpack-plugin": "7.0.0",
     "source-map-support": "0.5.19",
     "css-loader": "5.0.1",
-    "kkt": "6.2.0"
+    "kkt": "6.3.0"
   }
 }

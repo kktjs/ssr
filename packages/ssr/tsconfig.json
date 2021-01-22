@@ -9,6 +9,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "lib",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "typeRoots": ["src/types/*", "node_modules/@kkt/*", "node_modules/@kkt/start-server-webpack-plugin/*"]
   }
 }

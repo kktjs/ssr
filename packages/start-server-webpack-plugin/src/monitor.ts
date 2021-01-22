@@ -1,18 +1,16 @@
-const log = (type: keyof Console, msg: string) => {
-  console.log(`\x1b[1;34m[SSWP]> \x1b[0m ${msg}`);
-  if (type === 'info') {
-    return console[type](`\x1b[1;34m[SSWP]> \x1b[0m ${msg}`);
-  }
-  if (type === 'warn') {
-    return console[type](`\x1b[1;33m[SSWP]> \x1b[0m ${msg}`);
-  }
-  return console[type](`[SSWP]> ${msg}`);
-};
-
 // Monitor server script startup and reload. Should be added at the end of entries
 const monitorFn = () => {
   // Handle hot updates, copied with slight adjustments from webpack/hot/signal.js
   if (module.hot) {
+    const log = (type: keyof Console, msg: string) => {
+      if (type === 'info') {
+        return console[type](`\x1b[1;34m[SSWP]> \x1b[0m ${msg}`);
+      }
+      if (type === 'warn') {
+        return console[type](`\x1b[1;33m[SSWP]> \x1b[0m ${msg}`);
+      }
+      return console[type](`[SSWP]> ${msg}`);
+    };
     // TODO don't show this when sending signal instead of message
     log('log', 'Handling Hot Module Reloading');
     const checkForUpdate = function checkForUpdate(fromUpdate?: boolean) {
@@ -37,6 +35,7 @@ const monitorFn = () => {
               require('webpack/hot/log-apply-result')(updatedModules, renewedModules);
 
               checkForUpdate(true);
+              return null;
             });
         })
         .catch(function (err) {
@@ -54,10 +53,9 @@ const monitorFn = () => {
           }
         });
     };
-
-    process.on('message', function (message) {
+    process.on('message', (message) => {
       if (message !== 'SSWP_HMR') return;
-
+      console.log('module.hot.status():>>>>', module.hot.status());
       if (module.hot.status() !== 'idle') {
         log('warn', 'Got signal but currently in ' + module.hot.status() + ' state.');
         log('warn', 'Need to be in idle state to start hot update.');

@@ -3,18 +3,25 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "pkg:watch:types": "lerna exec \"tsbb types --watch\" --scope @kkt/* --stream",
-    "pkg:watch:ts": "lerna exec tsbb watch --scope @kkt/* --stream",
-    "pkg:build:types": "lerna exec tsbb types --scope @kkt/* --stream",
-    "pkg:build:ts": "lerna exec \"tsbb build --source-maps none\" --scope @kkt/* --stream",
+    "pkg:watch:types": "lerna exec \"tsbb types --watch\" --scope @kkt/start-server-webpack-plugin --stream",
+    "pkg:watch:ts": "lerna exec tsbb watch --scope @kkt/start-server-webpack-plugin --stream",
+    "pkg:build:types": "lerna exec tsbb types --scope @kkt/start-server-webpack-plugin --stream",
+    "pkg:build:ts": "lerna exec \"tsbb build --source-maps none\" --scope @kkt/start-server-webpack-plugin --stream",
     "pkg:build": "npm run pkg:build:ts && npm run pkg:build:types",
-    "watch": "npm run pkg:watch:ts & npm run pkg:watch:types",
-    "build": "npm run pkg:build",
+    "ssr:watch:types": "lerna exec \"tsbb types --watch\" --scope @kkt/ssr --stream",
+    "ssr:watch:ts": "lerna exec tsbb watch --scope @kkt/ssr --stream",
+    "ssr:build:types": "lerna exec tsbb types --scope @kkt/ssr --stream",
+    "ssr:build:ts": "lerna exec \"tsbb build --source-maps none\" --scope @kkt/ssr --stream",
+    "ssr:build": "npm run ssr:build:ts && npm run ssr:build:types",
+    "watch:ssr": "npm run ssr:watch:ts & npm run ssr:watch:types",
+    "watch:pkg": "npm run pkg:watch:ts & npm run pkg:watch:types",
+    "build": "npm run pkg:build && npm run ssr:build",
     "hoist": "lerna bootstrap --hoist",
     "clean": "lerna clean --yes",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "version": "lerna version --no-changelog --no-git-tag-version --no-push --yes",
-    "publish": "lerna publish from-package"
+    "publish": "lerna publish from-package",
+    "tsbb": "tsbb"
   },
   "husky": {
     "hooks": {
@@ -28,11 +35,11 @@
   },
   "dependencies": {
     "husky": "4.3.7",
-    "kkt": "6.2.0",
+    "kkt": "6.3.0",
     "lerna": "3.22.1",
     "lint-staged": "10.5.3",
     "prettier": "2.2.1",
-    "tsbb": "1.7.9"
+    "tsbb": "2.0.2"
   },
   "workspaces": [
     "packages/ssr"

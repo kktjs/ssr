@@ -10,6 +10,10 @@ import removePlugins from './removePlugins';
 import manifestPlugin from './manifestPlugin';
 import modifyRuleStyle from './modifyRuleStyle';
 import WebpackHookPlugin from './WebpackHookPlugin';
+import { compile } from './utils';
+
+process.env.KKT_CLEAR_CONSOLE = 'true';
+process.env.KKT_OPEN_BROWSER = 'true';
 
 // Capture any --inspect or --inspect-brk flags (with optional values) so that we
 // can pass them when we invoke nodejs
@@ -23,12 +27,12 @@ export type SSROptions = LoaderConfOptions & {
 
 export type ResultConfig = Configuration;
 
-export default (conf: Configuration, env: string, options = {} as SSROptions): ResultConfig => {
+export default (conf: Configuration, env: 'production' | 'development', options = {} as SSROptions): ResultConfig => {
   if (!conf) {
-    throw Error('KKT:ConfigPaths: there is no config file found');
+    throw Error('\x1b[1;31m KKT:Config:Paths:\x1b[0m there is no config file found');
   }
 
-  const serverConfig = { ...conf };
+  const serverConfig = Object.assign({ ...conf }, {});
   let { paths, port, host } = options;
 
   port = port || parseInt(process.env.PORT) || 3000;
@@ -44,29 +48,26 @@ export default (conf: Configuration, env: string, options = {} as SSROptions): R
   const serverPublicPath = dotenv.raw.CLIENT_PUBLIC_PATH || (IS_DEV ? `http://${host}:${port + 1}/` : '/');
   console.log('\x1b[1;37mServer: \x1b[0m', `${serverPublicPath}`);
   console.log('\x1b[1;37mClient: \x1b[0m', `${clientPublicPath}`);
-  console.log('\x1b[1;37m PORT: \x1b[0m', process.env.PORT);
+  console.log('\x1b[1;37m PORT: \x1b[0m', process.env.PORT, port);
 
-  conf.entry = path.resolve(paths.appSrc, 'client.js');
-
-  conf.output.publicPath = serverPublicPath;
+  if (IS_DEV) {
+    conf.entry = [require.resolve('react-dev-utils/webpackHotDevClient'), path.resolve(paths.appSrc, 'client.js')];
+  } else {
+    conf.entry = path.resolve(paths.appSrc, 'client.js');
+  }
+  conf.output.publicPath = clientPublicPath;
 
   // Specify webpack Node.js output path and filename
   serverConfig.output = {
     path: paths.appBuild,
-    publicPath: serverPublicPath,
+    publicPath: clientPublicPath,
     filename: '[name].js',
     libraryTarget: 'commonjs2',
   };
-
   serverConfig.entry = { server: [paths.appSrc] };
-  delete serverConfig.bail;
-  // delete serverConfig.resolve.plugins;
-  serverConfig.resolve = {
-    ...serverConfig.resolve,
-    mainFields: ['main', 'module'],
-  };
 
   // We want to uphold node's __filename, and __dirname.
+  conf.target = 'web';
   serverConfig.target = 'node';
   serverConfig.node = {
     __console: false,
@@ -90,6 +91,7 @@ export default (conf: Configuration, env: string, options = {} as SSROptions): R
   serverConfig.module.rules = modifyRuleStyle(serverConfig.module.rules);
   const regexp = /(HtmlWebpackPlugin|ManifestPlugin|ReactRefreshWebpackPlugin|InterpolateHtmlPlugin|ModuleNotFoundPlugin|ReactRefreshPlugin|LimitChunkCountPlugin|WatchMissingNodeModulesPlugin)/;
   serverConfig.plugins = removePlugins(serverConfig.plugins, regexp);
+  conf.plugins = removePlugins(conf.plugins, /(InterpolateHtmlPlugin)/);
   // in dev mode emitting one huge server file on every save is very slow
   serverConfig.plugins.push(
     new webpack.optimize.LimitChunkCountPlugin({
@@ -103,7 +105,6 @@ export default (conf: Configuration, env: string, options = {} as SSROptions): R
       KKT_ASSETS_MANIFEST: `"${appAssetsManifest}"`,
     }),
   );
-
   serverConfig.optimization = {
     splitChunks: {
       // Chunk splitting optimiztion
@@ -113,9 +114,6 @@ export default (conf: Configuration, env: string, options = {} as SSROptions): R
       name: false,
     },
   };
-
-  console.log('serverConfig.output>>>>', serverConfig.output);
-  console.log('conf.output>>>>', conf.output);
 
   conf.plugins.push(manifestPlugin({ fileName: path.join(paths.appBuild, 'chunks.json'), config: conf }));
   conf.plugins.push(
@@ -139,8 +137,8 @@ export default (conf: Configuration, env: string, options = {} as SSROptions): R
   }
   conf.plugins.push(
     new WebpackHookPlugin({
-      onAfterEmit(count) {
-        if (count === 1) {
+      onDonePromise(stats) {
+        return new Promise((resolve, reject) => {
           const nodeArgs = ['-r', 'source-map-support/register'];
           // Passthrough --inspect and --inspect-brk flags (with optional [host:port] value) to node
           if (process.env.INSPECT_BRK) {
@@ -155,7 +153,8 @@ export default (conf: Configuration, env: string, options = {} as SSROptions): R
               nodeArgs,
             }),
           );
-
+          // console.log('\x1b[1;32m:dev:server:conf:1:\x1b[0m', serverConfig)
+          // console.log('\x1b[1;32m:dev:client:conf:2:\x1b[0m', conf)
           const serverCompiler = compile(serverConfig);
           serverCompiler.watch(
             {
@@ -167,27 +166,16 @@ export default (conf: Configuration, env: string, options = {} as SSROptions): R
               ignored: [paths.appNodeModules, paths.appBuild, 'node_modules'],
             },
             (stats) => {
+              resolve(stats);
               if (stats) {
                 // You ran Webpack twice. Each instance only supports a single concurrent compilation at a time.
                 console.log('stats==>', stats);
               }
             },
           );
-        }
+        });
       },
     }),
   );
   return conf;
 };
-
-// Webpack compile in a try-catch
-function compile(config: Configuration): webpack.Compiler {
-  let compiler = undefined;
-  try {
-    compiler = webpack(config);
-  } catch (e) {
-    console.log('\x1b[31m Failed to compile.\x1b[0m', [e], '-- verbose --');
-    process.exit(1);
-  }
-  return compiler;
-}

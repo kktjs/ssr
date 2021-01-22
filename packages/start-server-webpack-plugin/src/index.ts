@@ -33,7 +33,22 @@ export default class StartServerPlugin {
   scriptFile: string;
   constructor(options: StartServerPluginOptions) {
     this.options = { ...defaultOptions, ...options };
+    if (!Array.isArray(this.options.scriptArgs)) {
+      throw new Error('options.scriptArgs has to be an array of strings');
+    }
+    if (this.options.signal === 1) {
+      this.options.signal = 'SIGUSR2';
+    }
+    this.apply = this.apply.bind(this);
+    this.afterEmit = this.afterEmit.bind(this);
+    this.getScripts = this.getScripts.bind(this);
+    this._handleChildError = this._handleChildError.bind(this);
+    this._handleChildExit = this._handleChildExit.bind(this);
+    this._handleChildMessage = this._handleChildMessage.bind(this);
     this.worker = null;
+    if (this.options.restartable && !options.once) {
+      this._enableRestarting();
+    }
   }
   apply(compiler: Compiler) {
     const plugin = { name: 'StartServerPlugin' };
@@ -44,10 +59,10 @@ export default class StartServerPlugin {
   }
 
   _info(msg: string, ...args: any) {
-    if (this.options.verbose) console.log(`sswp> ${msg}`, ...args);
+    if (this.options.verbose) console.log(`\x1b[1;34m[SSWP]> \x1b[0m${msg}`, ...args);
   }
   _error(msg: string, ...args: any) {
-    console.error(`sswp> !!! ${msg}`, ...args);
+    console.error(`\x1b[1;31m[SSWP]> \x1b[0m!!! ${msg}`, ...args);
   }
   _worker_error(msg: string) {
     process.stderr.write(msg);
@@ -68,6 +83,20 @@ export default class StartServerPlugin {
     } else if (message === 'SSWP_HMR_FAIL') {
       this.workerLoaded = false;
     }
+  }
+  _enableRestarting() {
+    this._info('Type `rs<Enter>` to restart the worker');
+    process.stdin.setEncoding('utf8');
+    process.stdin.on('data', (data) => {
+      if (data.toString().trim() === 'rs') {
+        if (this.worker) {
+          this._info('Killing worker...');
+          process.kill(this.worker.pid);
+        } else {
+          this._runWorker();
+        }
+      }
+    });
   }
 
   _getExecArgv() {
@@ -142,31 +171,30 @@ export default class StartServerPlugin {
     this._runWorker();
   }
   getScripts(compilation: compilation.Compilation) {
-    console.log('>>>_getScript>2>');
     const { entryName } = this.options;
-    const entrypoints = compilation.entrypoints;
-    console.log('>>>_getScript>3>');
-    const entry = entrypoints.get ? entrypoints.get(entryName) : (entrypoints as any)[entryName];
-    if (!entry) {
-      this._info('compilation: %O', compilation);
-      throw new Error(
-        `Requested entry "${entryName}" does not exist, try one of: ${(entrypoints.keys
-          ? Object.keys(entrypoints.entries())
-          : Object.keys(entrypoints)
-        ).join(' ')}`,
-      );
-    }
+    return compilation.assets['server.js'].existsAt;
+    // const entrypoints = compilation.entrypoints;
+    // const entry = entrypoints.get ? entrypoints.get(entryName) : (entrypoints as any)[entryName];
+    // if (!entry) {
+    //   this._info('compilation: %O', compilation);
+    //   throw new Error(
+    //     `Requested entry "${entryName}" does not exist, try one of: ${(entrypoints.keys
+    //       ? Object.keys(entrypoints.entries())
+    //       : Object.keys(entrypoints)
+    //     ).join(' ')}`,
+    //   );
+    // }
 
-    const runtimeChunk = (webpack as any).EntryPlugin && (entry.runtimeChunk || entry._entrypointChunk);
-    const runtimeChunkFiles = runtimeChunk && runtimeChunk.files && runtimeChunk.files.values();
-    const entryScript =
-      (runtimeChunkFiles && runtimeChunkFiles.next().value) || ((entry.chunks[0] || {}).files || [])[0];
-    if (!entryScript) {
-      this._error('Entry chunk not outputted: %O', entry);
-      return;
-    }
-    const { path } = compilation.outputOptions;
-    return sysPath.resolve(path, entryScript);
+    // const runtimeChunk = (webpack as any).EntryPlugin && (entry.runtimeChunk || entry._entrypointChunk);
+    // const runtimeChunkFiles = runtimeChunk && runtimeChunk.files && runtimeChunk.files.values();
+
+    // const entryScript = (runtimeChunkFiles && runtimeChunkFiles.next().value) || ((entry.chunks[0] || {}).files || [])[0];
+    // if (!entryScript) {
+    //   this._error('Entry chunk not outputted: %O', entry);
+    //   return;
+    // }
+    // const { path } = compilation.outputOptions;
+    // return sysPath.resolve(path, entryScript);
   }
   afterEmit(compilation: compilation.Compilation, callback: any) {
     this.scriptFile = this.getScripts(compilation);
@@ -180,7 +208,8 @@ export default class StartServerPlugin {
     this._runWorker(callback);
   }
   amendEntry(entry: Configuration['entry']): Configuration['entry'] {
-    if (typeof entry === 'function') return (...args: any) => Promise.resolve(entry()).then(this.amendEntry.bind(this));
+    if (typeof entry === 'function')
+      return (...args: any) => Promise.resolve((entry as any)(...args)).then(this.amendEntry.bind(this));
     const monitor = this._getMonitor();
     if (typeof entry === 'string') return [entry, monitor];
     if (Array.isArray(entry)) return [...entry, monitor];
