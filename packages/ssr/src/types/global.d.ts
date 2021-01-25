@@ -60,12 +60,10 @@ declare module 'react-dev-utils/WebpackDevServerUtils' {
     useTypeScript: boolean;
     tscCompileOnError: boolean;
   }
+  export function choosePort(host: string, defaultPort: number): Promise<number>;
   /**
    * Creates a Webpack compiler instance for WebpackDevServer with built-in
    * helpful messages.
    */
-  // export function createCompiler(opts: CreateCompilerOptions): webpack.Compiler;
-  // if the signatures are merged, TS will not enforce that both useTypeScript and devSocket are provided
-  // tslint:disable-next-line:unified-signatures
   export function createCompiler(opts: CreateCompilerOptionsTypescript): webpack.Compiler;
 }

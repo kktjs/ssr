@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@kkt/ssr": "2.0.0",
-    "kkt": "6.5.1"
+    "kkt": "6.6.2"
   },
   "browserslist": {
     "production": [

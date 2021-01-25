@@ -3,12 +3,13 @@ import { Compiler, Stats } from 'webpack';
 type HookPluginOptions = {
   onAfterEmit?: (count: number, callback: () => void) => void;
   onDone?: (stats: Stats) => void;
-  onDonePromise?: (stats: Stats) => Promise<any>;
+  onDonePromise?: (stats: Stats, count: number) => Promise<any>;
 };
 
 const defaultOptions: HookPluginOptions = {};
 
 let afterEmitCount = 0;
+let donePromiseCount = 0;
 
 class WebpackHookPlugin {
   options: HookPluginOptions;
@@ -25,10 +26,11 @@ class WebpackHookPlugin {
       this.options.onAfterEmit(afterEmitCount, callback);
     });
     compiler.hooks.done.tapPromise('WebpackHookPlugin', (stats: Stats) => {
+      donePromiseCount += 1;
       if (!onDonePromise) {
         return new Promise((resolve) => resolve(stats));
       }
-      return onDonePromise(stats);
+      return onDonePromise(stats, donePromiseCount);
     });
   }
 }

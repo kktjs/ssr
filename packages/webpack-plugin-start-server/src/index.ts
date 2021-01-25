@@ -172,7 +172,7 @@ export default class StartServerPlugin {
   }
   getScripts(compilation: compilation.Compilation) {
     const { entryName } = this.options;
-    return compilation.assets['server.js'].existsAt;
+    return compilation.assets[`${entryName}.js`].existsAt;
     // const entrypoints = compilation.entrypoints;
     // const entry = entrypoints.get ? entrypoints.get(entryName) : (entrypoints as any)[entryName];
     // if (!entry) {

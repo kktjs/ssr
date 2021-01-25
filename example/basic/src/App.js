@@ -15,7 +15,7 @@ const App = () => {
           setCount(num);
         }}
       >
-        Count 23
+        Count +
       </button>
     </div>
   );

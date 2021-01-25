@@ -19,44 +19,64 @@ process.env.KKT_OPEN_BROWSER = 'true';
 // can pass them when we invoke nodejs
 process.env.INSPECT_BRK = process.argv.find((arg) => arg.match(/--inspect-brk(=|$)/)) || '';
 process.env.INSPECT = process.argv.find((arg) => arg.match(/--inspect(=|$)/)) || '';
+process.env.WDS_SOCKET_PORT = '3000';
+
+// Tools like Cloud9 rely on this.
+// https://github.com/facebook/create-react-app/blob/0f6fc2bc71d78f0dcae67f3f08ce98a42fc0a57c/packages/react-scripts/scripts/start.js#L63-L65
+const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
+const HOST = process.env.HOST || '0.0.0.0';
 
 export type SSROptions = LoaderConfOptions & {
   host?: string;
   port?: number;
 };
 
-export type ResultConfig = Configuration;
-
-export default (conf: Configuration, env: 'production' | 'development', options = {} as SSROptions): ResultConfig => {
+export default async (
+  conf: Configuration,
+  env: 'production' | 'development',
+  options = {} as SSROptions,
+): Promise<Configuration> => {
   if (!conf) {
     throw Error('\x1b[1;31m KKT:Config:Paths:\x1b[0m there is no config file found');
   }
-
   const serverConfig = Object.assign({ ...conf }, {});
   let { paths, port, host } = options;
 
-  port = port || parseInt(process.env.PORT) || 3000;
-  host = host || process.env.HOST || 'localhost';
+  port = port || DEFAULT_PORT;
+  host = host || HOST;
 
+  const { choosePort } = require('react-dev-utils/WebpackDevServerUtils');
+  const clientPort = await choosePort(HOST, port);
+  const serverPort = await choosePort(HOST, clientPort + 1);
+
+  const webpackDevClientEntry = require.resolve('react-dev-utils/webpackHotDevClient');
   const getClientEnvironment = require(`${reactScripts}/config/env.js`);
   const dotenv = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
   const IS_PROD = env === 'production';
   const IS_DEV = env === 'development';
 
   // VMs, Docker containers might not be available at localhost:3001. CLIENT_PUBLIC_PATH can override.
-  const clientPublicPath = dotenv.raw.CLIENT_PUBLIC_PATH || (IS_DEV ? `http://${host}:${port}/` : '/');
-  const serverPublicPath = dotenv.raw.CLIENT_PUBLIC_PATH || (IS_DEV ? `http://${host}:${port + 1}/` : '/');
-  console.log('\x1b[1;37mServer: \x1b[0m', `${serverPublicPath}`);
-  console.log('\x1b[1;37mClient: \x1b[0m', `${clientPublicPath}`);
-  console.log('\x1b[1;37m PORT: \x1b[0m', process.env.PORT, port);
+  const clientPublicPath = dotenv.raw.CLIENT_PUBLIC_PATH || (IS_DEV ? `http://${host}:${clientPort}/` : '/');
+  const serverPublicPath = IS_DEV ? `http://${host}:${serverPort}/` : '/';
+  console.log('\x1b[1;37mClient: \x1b[0m', `${clientPublicPath}`, `\x1b[1;37m Client PORT: \x1b[0m ${clientPort}`);
+  console.log('\x1b[1;37mServer: \x1b[0m', `${serverPublicPath}`, `\x1b[1;37m Server PORT: \x1b[0m ${serverPort}`);
 
-  if (IS_DEV) {
-    conf.entry = [require.resolve('react-dev-utils/webpackHotDevClient'), path.resolve(paths.appSrc, 'client.js')];
-  } else {
-    conf.entry = path.resolve(paths.appSrc, 'client.js');
-  }
+  conf.entry = IS_DEV
+    ? [webpackDevClientEntry, path.resolve(paths.appSrc, 'client.js')]
+    : [path.resolve(paths.appSrc, 'client.js')];
+  conf.target = 'web';
   conf.output.publicPath = clientPublicPath;
+  conf.plugins = removePlugins(conf.plugins, /(InterpolateHtmlPlugin)/);
+  conf.plugins.push(manifestPlugin({ fileName: path.join(paths.appBuild, 'chunks.json'), config: conf }));
+  conf.plugins.push(
+    new AssetsPlugin({
+      path: paths.appBuild,
+      filename: 'assets.json',
+    }),
+  );
 
+  serverConfig.target = 'node';
+  serverConfig.entry = { server: [paths.appSrc] };
   // Specify webpack Node.js output path and filename
   serverConfig.output = {
     path: paths.appBuild,
@@ -64,11 +84,6 @@ export default (conf: Configuration, env: 'production' | 'development', options 
     filename: '[name].js',
     libraryTarget: 'commonjs2',
   };
-  serverConfig.entry = { server: [paths.appSrc] };
-
-  // We want to uphold node's __filename, and __dirname.
-  conf.target = 'web';
-  serverConfig.target = 'node';
   serverConfig.node = {
     __console: false,
     __dirname: false,
@@ -86,12 +101,10 @@ export default (conf: Configuration, env: 'production' | 'development', options 
       ].filter((x) => x),
     }),
   ];
-
   serverConfig.module.rules = removeRuleReactRefresh(serverConfig.module.rules);
   serverConfig.module.rules = modifyRuleStyle(serverConfig.module.rules);
   const regexp = /(HtmlWebpackPlugin|ManifestPlugin|ReactRefreshWebpackPlugin|InterpolateHtmlPlugin|ModuleNotFoundPlugin|ReactRefreshPlugin|LimitChunkCountPlugin|WatchMissingNodeModulesPlugin)/;
   serverConfig.plugins = removePlugins(serverConfig.plugins, regexp);
-  conf.plugins = removePlugins(conf.plugins, /(InterpolateHtmlPlugin)/);
   // in dev mode emitting one huge server file on every save is very slow
   serverConfig.plugins.push(
     new webpack.optimize.LimitChunkCountPlugin({
@@ -99,10 +112,14 @@ export default (conf: Configuration, env: 'production' | 'development', options 
     }),
   );
   const appAssetsManifest = path.resolve(paths.appBuild, 'assets.json');
+  const appChunks = path.resolve(paths.appBuild, 'chunks.json');
   serverConfig.plugins.push(
     new webpack.DefinePlugin({
       KKT_PUBLIC_DIR: `"${paths.appPublic}"`,
       KKT_ASSETS_MANIFEST: `"${appAssetsManifest}"`,
+      KKT_CHUNKS: `"${appChunks}"`,
+      KKT_SSR_CLIENT_PORT: `${clientPort}`,
+      KKT_SSR_SERVER_PORT: `${serverPort}`,
     }),
   );
   serverConfig.optimization = {
@@ -114,14 +131,6 @@ export default (conf: Configuration, env: 'production' | 'development', options 
       name: false,
     },
   };
-
-  conf.plugins.push(manifestPlugin({ fileName: path.join(paths.appBuild, 'chunks.json'), config: conf }));
-  conf.plugins.push(
-    new AssetsPlugin({
-      path: paths.appBuild,
-      filename: 'assets.json',
-    }),
-  );
 
   if (IS_DEV) {
     // Use watch mode
@@ -137,8 +146,9 @@ export default (conf: Configuration, env: 'production' | 'development', options 
   }
   conf.plugins.push(
     new WebpackHookPlugin({
-      onDonePromise(stats) {
+      onDonePromise(stats, count) {
         return new Promise((resolve, reject) => {
+          if (count > 1) return resolve(stats);
           const nodeArgs = ['-r', 'source-map-support/register'];
           // Passthrough --inspect and --inspect-brk flags (with optional [host:port] value) to node
           if (process.env.INSPECT_BRK) {
@@ -169,7 +179,7 @@ export default (conf: Configuration, env: 'production' | 'development', options 
               resolve(stats);
               if (stats) {
                 // You ran Webpack twice. Each instance only supports a single concurrent compilation at a time.
-                console.log('stats==>', stats);
+                console.log('stats=>', stats);
               }
             },
           );
