@@ -31,7 +31,7 @@
     "kkt": ">=6.1.0"
   },
   "dependencies": {
-    "@kkt/start-server-webpack-plugin": "2.0.0",
+    "@kkt/webpack-plugin-start-server": "2.0.0",
     "@types/assets-webpack-plugin": "6.1.0",
     "@types/webpack-node-externals": "2.5.0",
     "@types/webpack-manifest-plugin": "3.0.3",

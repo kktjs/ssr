@@ -1,7 +1,7 @@
 import path from 'path';
 import webpack, { Configuration } from 'webpack';
 import nodeExternals from 'webpack-node-externals';
-import StartServerPlugin from '@kkt/start-server-webpack-plugin';
+import StartServerPlugin from '@kkt/webpack-plugin-start-server';
 import AssetsPlugin from 'assets-webpack-plugin';
 import { LoaderConfOptions } from 'kkt';
 import { reactScripts } from 'kkt/lib/utils/path';
