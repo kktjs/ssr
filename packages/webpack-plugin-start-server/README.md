@@ -18,7 +18,7 @@ npm install @kkt/start-server-webpack-plugin
 
 ### Usage
 
-In `webpack.config.server.babel.js`:
+In `webpack.config.js`:
 
 ```js
 import StartServerPlugin from "start-server-webpack-plugin";

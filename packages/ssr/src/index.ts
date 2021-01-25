@@ -2,6 +2,7 @@ import path from 'path';
 import webpack, { Configuration } from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import StartServerPlugin from '@kkt/webpack-plugin-start-server';
+import WebpackHookPlugin from '@kkt/webpack-plugin-hooks';
 import AssetsPlugin from 'assets-webpack-plugin';
 import { LoaderConfOptions } from 'kkt';
 import { reactScripts } from 'kkt/lib/utils/path';
@@ -9,7 +10,6 @@ import removeRuleReactRefresh from './removeRuleReactRefresh';
 import removePlugins from './removePlugins';
 import manifestPlugin from './manifestPlugin';
 import modifyRuleStyle from './modifyRuleStyle';
-import WebpackHookPlugin from './WebpackHookPlugin';
 import { compile } from './utils';
 
 process.env.KKT_CLEAR_CONSOLE = 'true';
