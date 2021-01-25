@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "husky": "4.3.7",
-    "kkt": "6.3.0",
+    "kkt": "6.5.1",
     "lerna": "3.22.1",
     "lint-staged": "10.5.3",
     "prettier": "2.2.1",

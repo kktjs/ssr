@@ -41,6 +41,6 @@
     "assets-webpack-plugin": "7.0.0",
     "source-map-support": "0.5.19",
     "css-loader": "5.0.1",
-    "kkt": "6.3.0"
+    "kkt": "6.5.1"
   }
 }
