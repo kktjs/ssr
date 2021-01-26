@@ -19,13 +19,6 @@ server
   .disable('x-powered-by')
   // .use(express.static(KKT_PUBLIC_DIR))
   .get('/*', (req, res) => {
-    // 'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With,' + (req.header('access-control-request-headers') || ''),
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header(
-      'Access-Control-Allow-Headers',
-      `Content-Type, X-Requested-With, ${req.header('access-control-request-headers') || ''}`,
-    );
-    res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
     const context = {};
     const markup = renderToString(<App />);
     if (context.url) {
@@ -37,7 +30,7 @@ server
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to KKTs SSR</title>
+  <title>Welcome to KKTs2 SSR</title>
 </head>
   <body>
     <div id="root">${markup}</div>

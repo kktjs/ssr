@@ -15,7 +15,7 @@ const App = () => {
           setCount(num);
         }}
       >
-        Count +
+        Count +1
       </button>
     </div>
   );

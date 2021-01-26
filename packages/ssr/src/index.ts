@@ -1,10 +1,10 @@
 import path from 'path';
-import webpack, { Configuration } from 'webpack';
+import webpack from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import StartServerPlugin from '@kkt/webpack-plugin-start-server';
 import WebpackHookPlugin from '@kkt/webpack-plugin-hooks';
 import AssetsPlugin from 'assets-webpack-plugin';
-import { LoaderConfOptions } from 'kkt';
+import { LoaderConfOptions, WebpackConfiguration } from 'kkt';
 import { reactScripts } from 'kkt/lib/utils/path';
 import removeRuleReactRefresh from './removeRuleReactRefresh';
 import removePlugins from './removePlugins';
@@ -24,7 +24,7 @@ process.env.WDS_SOCKET_PORT = '3000';
 // Tools like Cloud9 rely on this.
 // https://github.com/facebook/create-react-app/blob/0f6fc2bc71d78f0dcae67f3f08ce98a42fc0a57c/packages/react-scripts/scripts/start.js#L63-L65
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
-const HOST = process.env.HOST || '0.0.0.0';
+const HOST = process.env.HOST || 'localhost' || '0.0.0.0';
 
 export type SSROptions = LoaderConfOptions & {
   host?: string;
@@ -32,10 +32,10 @@ export type SSROptions = LoaderConfOptions & {
 };
 
 export default async (
-  conf: Configuration,
+  conf: WebpackConfiguration,
   env: 'production' | 'development',
   options = {} as SSROptions,
-): Promise<Configuration> => {
+): Promise<WebpackConfiguration> => {
   if (!conf) {
     throw Error('\x1b[1;31m KKT:Config:Paths:\x1b[0m there is no config file found');
   }
@@ -52,7 +52,6 @@ export default async (
   const webpackDevClientEntry = require.resolve('react-dev-utils/webpackHotDevClient');
   const getClientEnvironment = require(`${reactScripts}/config/env.js`);
   const dotenv = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
-  const IS_PROD = env === 'production';
   const IS_DEV = env === 'development';
 
   // VMs, Docker containers might not be available at localhost:3001. CLIENT_PUBLIC_PATH can override.
@@ -64,16 +63,14 @@ export default async (
   conf.entry = IS_DEV
     ? [webpackDevClientEntry, path.resolve(paths.appSrc, 'client.js')]
     : [path.resolve(paths.appSrc, 'client.js')];
+
   conf.target = 'web';
   conf.output.publicPath = clientPublicPath;
   conf.plugins = removePlugins(conf.plugins, /(InterpolateHtmlPlugin)/);
-  conf.plugins.push(manifestPlugin({ fileName: path.join(paths.appBuild, 'chunks.json'), config: conf }));
   conf.plugins.push(
-    new AssetsPlugin({
-      path: paths.appBuild,
-      filename: 'assets.json',
-    }),
+    manifestPlugin({ fileName: path.join(paths.appBuild, 'chunks.json'), publicUrlOrPath: paths.publicUrlOrPath }),
   );
+  conf.plugins.push(new AssetsPlugin({ path: paths.appBuild, filename: 'assets.json' }));
 
   serverConfig.target = 'node';
   serverConfig.entry = { server: [paths.appSrc] };

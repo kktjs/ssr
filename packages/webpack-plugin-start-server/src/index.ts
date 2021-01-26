@@ -11,8 +11,9 @@ export type StartServerPluginOptions = {
   once?: boolean;
   nodeArgs?: string[];
   scriptArgs?: string[];
-  signal?: string | number;
+  signal?: string | number | boolean;
   restartable?: boolean;
+  inject?: boolean;
 };
 
 const defaultOptions: StartServerPluginOptions = {
@@ -21,7 +22,7 @@ const defaultOptions: StartServerPluginOptions = {
   once: false, // Run once and exit when worker exits
   nodeArgs: [], // Node arguments for worker
   scriptArgs: [], // Script arguments for worker
-  signal: 0, // Send a signal instead of a message
+  signal: false, // Send a signal instead of a message
   // Only listen on keyboard in development, so the server doesn't hang forever
   restartable: process.env.NODE_ENV === 'development',
 };
@@ -36,8 +37,9 @@ export default class StartServerPlugin {
     if (!Array.isArray(this.options.scriptArgs)) {
       throw new Error('options.scriptArgs has to be an array of strings');
     }
-    if (this.options.signal === 1) {
+    if (this.options.signal === true) {
       this.options.signal = 'SIGUSR2';
+      this.options.inject = false;
     }
     this.apply = this.apply.bind(this);
     this.afterEmit = this.afterEmit.bind(this);
@@ -109,12 +111,10 @@ export default class StartServerPlugin {
     return `!!${loaderPath}!${loaderPath}`;
   }
   _hmrWorker(compilation: compilation.Compilation, callback: any) {
-    const {
-      worker,
-      options: { signal },
-    } = this;
+    const { signal } = this.options;
+    const { worker } = this;
     if (signal) {
-      process.kill(worker.pid, signal);
+      process.kill(worker.pid, signal as any);
     } else if (worker.send) {
       worker.send('SSWP_HMR');
     } else {
@@ -207,6 +207,7 @@ export default class StartServerPlugin {
 
     this._runWorker(callback);
   }
+  /** Amend Entry */
   amendEntry(entry: Configuration['entry']): Configuration['entry'] {
     if (typeof entry === 'function')
       return (...args: any) => Promise.resolve((entry as any)(...args)).then(this.amendEntry.bind(this));
