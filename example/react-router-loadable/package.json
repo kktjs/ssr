@@ -1,5 +1,5 @@
 {
-  "name": "simple",
+  "name": "react-router-loadable",
   "version": "1.0.0",
   "description": "A react-router loadable-components for server side rendering for your React application.",
   "private": true,

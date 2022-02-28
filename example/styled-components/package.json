@@ -1,5 +1,5 @@
 {
-  "name": "simple",
+  "name": "styled-components",
   "version": "1.0.0",
   "description": "Server-side rendering of the React styled-components base application.",
   "private": true,

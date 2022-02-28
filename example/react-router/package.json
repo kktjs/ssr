@@ -1,5 +1,5 @@
 {
-  "name": "simple",
+  "name": "react-router",
   "version": "1.0.0",
   "description": "A react-router for server side rendering for your React application.",
   "private": true,

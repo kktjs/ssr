@@ -1,0 +1,79 @@
+{
+  "name": "@kkt/ssr",
+  "version": "1.3.1",
+  "description": "A baseline for server side rendering for your React application.",
+  "bin": {
+    "react-ssr": "./bin/ssr.js"
+  },
+  "scripts": {},
+  "keywords": [
+    "react",
+    "react-router",
+    "redux",
+    "rematch",
+    "webpack",
+    "express",
+    "ssr",
+    "next.js"
+  ],
+  "repository": "https://github.com/kktjs/kkt-ssr.git",
+  "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
+  "bugs": {
+    "mail": "wowohoo@qq.com",
+    "url": "https://github.com/kktjs/kkt-ssr/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "7.17.5",
+    "@kkt/simple-progress-webpack-plugin": "1.1.5",
+    "assets-webpack-plugin": "7.1.1",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "10.0.1",
+    "babel-jest": "24.5.0",
+    "babel-loader": "8.0.4",
+    "babel-preset-kkt": "1.1.1",
+    "case-sensitive-paths-webpack-plugin": "2.1.2",
+    "clean-webpack-plugin": "4.0.0",
+    "colors-cli": "1.0.20",
+    "commander": "2.19.0",
+    "css-loader": "2.1.1",
+    "detect-port": "1.3.0",
+    "dotenv": "7.0.0",
+    "eslint": "5.9.0",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-loader": "2.1.1",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.2",
+    "eslint-plugin-react": "7.11.1",
+    "express": "4.16.4",
+    "file-loader": "3.0.1",
+    "fs-extra": "7.0.1",
+    "html-webpack-plugin": "3.2.0",
+    "identity-obj-proxy": "3.0.0",
+    "jest": "24.5.0",
+    "less": "4.1.2",
+    "less-loader": "10.2.0",
+    "mini-css-extract-plugin": "2.5.3",
+    "optimize-css-assets-webpack-plugin": "6.0.1",
+    "postcss-flexbugs-fixes": "5.0.2",
+    "postcss-loader": "6.2.1",
+    "postcss-preset-env": "7.4.1",
+    "postcss-safe-parser": "6.0.0",
+    "source-map-support": "0.5.21",
+    "start-server-webpack-plugin": "2.2.5",
+    "style-loader": "3.3.1",
+    "terser-webpack-plugin": "5.3.1",
+    "url-loader": "4.1.1",
+    "webpack": "5.69.1",
+    "webpack-dev-server": "4.7.4",
+    "webpack-hot-dev-clients": "2.0.2",
+    "webpack-node-externals": "3.0.0"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "examples/*"
+    ],
+    "nohoist": []
+  }
+}

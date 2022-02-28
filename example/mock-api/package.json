@@ -1,5 +1,5 @@
 {
-  "name": "simple",
+  "name": "mock-api",
   "version": "1.0.0",
   "description": "Server-side rendering mock api of the React base application.",
   "private": true,

@@ -1,0 +1,20 @@
+{
+  "packages": [
+    "packages/*"
+  ],
+  "version": "5.2.24",
+  "command": {
+    "create": {
+      "license": "MIT"
+    },
+    "bootstrap": {
+      "yarnClientArgs": [
+        "--no-yarn-lock",
+        "--no-package-lock"
+      ],
+      "forceLocal": true
+    }
+  },
+  "npmClient": "yarn",
+  "useWorkspaces": true
+}

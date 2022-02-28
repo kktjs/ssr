@@ -1,10 +1,12 @@
 {
-  "name": "@kkt/plugin-less",
+  "name": "@kkt/plugin-ssr",
   "version": "1.2.0",
-  "description": "Support less.",
-  "main": "index.js",
+  "description": "",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
-    "less",
+    "stylus",
     "react",
     "kkt",
     "ssr",
@@ -17,9 +19,12 @@
     "url": "https://github.com/kktjs/kkt-ssr/issues"
   },
   "license": "MIT",
+  "devDependencies": {
+    "webpack": "5.69.1",
+    "@types/webpack-node-externals": "^2.5.3"
+  },
   "dependencies": {
-    "css-loader": "6.6.0",
-    "sass-loader": "12.6.0",
-    "less": "4.1.2"
+    "webpack-node-externals": "3.0.0",
+    "webpack-merge": "5.8.0"
   }
 }

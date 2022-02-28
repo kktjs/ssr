@@ -18,8 +18,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "css-loader": "^2.1.0",
-    "stylus": "0.54.5",
-    "stylus-loader": "3.0.2"
+    "css-loader": "6.6.0",
+    "stylus": "0.56.0",
+    "stylus-loader": "6.2.0"
   }
 }
