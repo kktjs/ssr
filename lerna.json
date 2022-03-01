@@ -1,6 +1,7 @@
 {
   "packages": [
-    "packages/*"
+    "packages/*",
+    "example/*"
   ],
   "version": "5.2.24",
   "command": {

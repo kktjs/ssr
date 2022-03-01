@@ -13,14 +13,14 @@
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.2.0",
+    "@babel/runtime": "^7.17.2",
     "@kkt-example/button": "file:./packages/button",
     "express": "^4.16.4",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
   },
   "devDependencies": {
     "@kkt/plugin-less": "^1.2.0",
-    "@kkt/ssr": "file:../../"
+    "@kkt/ssr": "1.3.1"
   }
 }

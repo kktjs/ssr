@@ -6,6 +6,7 @@
   "scripts": {
     "start": "react-ssr start",
     "build": "react-ssr build",
+    "build:ui": "kkt build",
     "test": "react-ssr test --env=jsdom",
     "test:coverage": "react-ssr test --env=jsdom --coverage",
     "server": "NODE_ENV=production node dist/server.js"
@@ -15,11 +16,25 @@
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.4",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "@babel/runtime": "7.16.5",
+    "express": "^4.17.3",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
   },
   "devDependencies": {
-    "@kkt/ssr": "file:../../"
+    "kkt": "7.1.5",
+    "@kkt/plugin-ssr": "1.3.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

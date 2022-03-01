@@ -5,6 +5,7 @@ dist
 .DS_Store
 .cache
 .vscode
+yarn.lock
 
 *.bak
 *.tem
@@ -12,3 +13,10 @@ dist
 #.swp
 *.*~
 ~*.*
+
+lib
+esm
+
+build
+
+dist
