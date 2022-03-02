@@ -2,14 +2,14 @@ import KKTPluginSSR from "@kkt/plugin-ssr"
 import path from "path"
 
 export default (config) => {
+  config.entry = {
+    main: path.join(process.cwd(), "src/index.js")
+  }
   config.output = {
     ...(config.output || {}),
-    path: path.resolve(process.cwd(), 'build'),
-    filename: "main.js",
-    publicPath: "/public/"
+    path: path.join(process.cwd(), 'build'),
+    filename: "[name].js",
   }
-  config.plugins.push(new KKTPluginSSR({
-    entry: path.join(process.cwd(), "src/serverIndex.js")
-  }))
+  config.plugins.push(new KKTPluginSSR())
   return config
 }

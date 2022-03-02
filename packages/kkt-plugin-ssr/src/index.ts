@@ -8,12 +8,18 @@ export interface SSRWebpackPluginProps {
   entry?: string;
   externals?: webpack.WebpackOptionsNormalized["externals"]
   target?: string;
+  externalsPresets?: webpack.WebpackOptionsNormalized["externalsPresets"],
+  resolve?: webpack.WebpackOptionsNormalized["resolve"],
 }
 
 class SSRWebpackPlugin {
   options: SSRWebpackPluginProps = {
-    "entry": path.join(process.cwd(), 'src/server.js'),
+    "entry": path.resolve(process.cwd(), "src/server"),
     "target": "node",
+    externalsPresets: { node: true },  // 为了忽略 path、fs 等内置模块
+    "resolve": {
+      "extensions": [".cjs", ".jsx", ".js", ".mjs", "ts", "tsx"],
+    },
     "output": {
       "path": path.join(process.cwd(), 'build'),
       "filename": 'server.js',
@@ -36,7 +42,7 @@ class SSRWebpackPlugin {
 
       const childCompiler = compilation.createChildCompiler('SSRWebpackPlugin', output);
 
-      new webpack.library.EnableLibraryPlugin('commonjs2').apply(childCompiler);
+      // new webpack.library.EnableLibraryPlugin('commonjs2').apply(childCompiler);
 
       new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }).apply(childCompiler);
 
@@ -44,6 +50,8 @@ class SSRWebpackPlugin {
       new webpack.EntryPlugin(compilation.compiler.context, entry).apply(childCompiler);
 
       new webpack.node.NodeTargetPlugin().apply(childCompiler);
+      // new webpack.LoaderTargetPlugin("node").apply(childCompiler)
+      // new webpack.Module().apply(childCompiler)
 
       let externals = [nodeExternals()]
       if (this.options.externals) {
@@ -53,9 +61,9 @@ class SSRWebpackPlugin {
           externals = externals.concat([this.options.externals])
         }
       }
-      new webpack.ExternalsPlugin('node', externals).apply(childCompiler)
+      new webpack.ExternalsPlugin('SSRWebpackPlugin', externals).apply(childCompiler)
 
-      childCompiler.runAsChild((err) => {
+      childCompiler.runAsChild((err, entries, chidlCompilation) => {
         if (err) {
           console.log(err);
           process.exit(1)
