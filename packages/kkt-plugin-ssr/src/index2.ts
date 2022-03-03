@@ -14,15 +14,14 @@ export interface SSRWebpackPluginProps extends webpack.Configuration {
 
 class SSRWebpackPlugin {
   options: SSRWebpackPluginProps = {
-
     mode: "production",
     target: "node",
     entry: path.resolve(__dirname, "./src/serverIndex.js"),
     output: {
       path: path.resolve(__dirname, "./dist"),
       filename: "ssr.js",
-      "library": {
-        "type": "commonjs2",
+      library: {
+        type: "commonjs2",
       },
     },
     externals: [nodeExternals()],
@@ -54,17 +53,14 @@ class SSRWebpackPlugin {
 
   apply(compiler: webpack.Compiler) {
     compiler.hooks.thisCompilation.tap('SSRWebpackPlugin', (compilation) => {
-
       const childCompiler = compiler.webpack(this.options)
 
-      childCompiler.hooks.thisCompilation.tap("sss", (compilation) => {
-        compilation.hooks.processAssets.tap("sss", (CompilationAssets) => {
-          console.log("CompilationAssets", CompilationAssets)
+      childCompiler.hooks.thisCompilation.tap("SSRWebpackPlugin", (compilation) => {
+        compilation.hooks.processAssets.tap("SSRWebpackPlugin", (CompilationAssets) => {
           Object.entries(CompilationAssets || {}).forEach(([name, so]) => {
             compilation.emitAsset(name, so)
           })
         })
-
       })
 
       childCompiler.run((err) => {
