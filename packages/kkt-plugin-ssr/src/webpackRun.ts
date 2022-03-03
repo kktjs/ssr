@@ -3,23 +3,14 @@ import path from 'path';
 import nodeExternals from 'webpack-node-externals';
 import webapckMerge from 'webpack-merge';
 
-export interface SSRWebpackPluginProps extends webpack.Configuration {
-  output?: webpack.WebpackOptionsNormalized["output"],
-  entry?: string;
-  externals?: webpack.WebpackOptionsNormalized["externals"]
-  target?: string;
-  externalsPresets?: webpack.WebpackOptionsNormalized["externalsPresets"],
-  resolve?: webpack.WebpackOptionsNormalized["resolve"],
-}
-
 class SSRWebpackPlugin {
-  options: SSRWebpackPluginProps = {
+  options: webpack.Configuration = {
     mode: "production",
     target: "node",
     entry: path.resolve(__dirname, "./src/serverIndex.js"),
     output: {
       path: path.resolve(__dirname, "./dist"),
-      filename: "ssr.js",
+      filename: "server.js",
       library: {
         type: "commonjs2",
       },
@@ -45,7 +36,7 @@ class SSRWebpackPlugin {
     }
   }
 
-  constructor(options: SSRWebpackPluginProps) {
+  constructor(options: webpack.Configuration) {
     if (options) {
       this.options = webapckMerge(this.options, options);
     }
@@ -54,7 +45,6 @@ class SSRWebpackPlugin {
   apply(compiler: webpack.Compiler) {
     compiler.hooks.thisCompilation.tap('SSRWebpackPlugin', (compilation) => {
       const childCompiler = compiler.webpack(this.options)
-
       childCompiler.hooks.thisCompilation.tap("SSRWebpackPlugin", (compilation) => {
         compilation.hooks.processAssets.tap("SSRWebpackPlugin", (CompilationAssets) => {
           Object.entries(CompilationAssets || {}).forEach(([name, so]) => {

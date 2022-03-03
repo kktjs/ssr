@@ -3,6 +3,8 @@ import path from 'path';
 import nodeExternals from 'webpack-node-externals';
 import { getModuleRules, getPlugins } from "./utils"
 
+export { default as SSRWebpackRunPlugin } from "./webpackRun"
+
 export interface SSRWebpackPluginProps {
   output?: webpack.WebpackOptionsNormalized["output"],
   entry?: string;
@@ -12,7 +14,7 @@ export interface SSRWebpackPluginProps {
 
 class SSRWebpackPlugin {
   options: SSRWebpackPluginProps = {
-    "entry": path.resolve(process.cwd(), "src/server"),
+    "entry": path.join(process.cwd(), "src/serverIndex"),
     "target": "node",
     "output": {
       "path": path.join(process.cwd(), 'build'),
@@ -67,6 +69,7 @@ class SSRWebpackPlugin {
         }
       }
       new webpack.ExternalsPlugin('SSRWebpackPlugin', externals).apply(childCompiler)
+
       // 运行子程序
       childCompiler.runAsChild((err, entries, chidlCompilation) => {
         if (err) {
