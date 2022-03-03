@@ -1,3 +1,5 @@
+process.env.GENERATE_SOURCEMAP = "false"
+
 import webpack from 'webpack';
 import path from 'path';
 import nodeExternals from 'webpack-node-externals';
@@ -43,6 +45,8 @@ class SSRWebpackPlugin {
       const output = this.options.output
       const childCompiler = compilation.createChildCompiler('SSRWebpackPlugin', output);
       childCompiler.options.target = this.options.target
+      childCompiler.options.devtool = false
+
       // module 中 处理 css 打包问题
       childCompiler.options.module = {
         ...compilation.options.module,
@@ -69,7 +73,6 @@ class SSRWebpackPlugin {
         }
       }
       new webpack.ExternalsPlugin('SSRWebpackPlugin', externals).apply(childCompiler)
-
       // 运行子程序
       childCompiler.runAsChild((err, entries, chidlCompilation) => {
         if (err) {
