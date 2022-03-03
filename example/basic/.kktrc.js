@@ -10,18 +10,7 @@ export default (config) => {
     path: path.join(process.cwd(), 'build'),
     filename: "[name].js",
   }
-  // config.plugins.push(new SSRWebpackPlugin())
-  const plugins = [new SSRWebpackPlugin({
-    "entry": path.join(process.cwd(), "src/serverIndex"),
-    "target": "node",
-    "output": {
-      "path": path.join(process.cwd(), 'build'),
-      "filename": 'server.js',
-      "library": {
-        "type": "commonjs2",
-      },
-    },
-  })]
+  const plugins = [new SSRWebpackPlugin()]
   config.plugins.forEach((plugin) => {
     if (!(plugin && plugin.constructor && ["HtmlWebpackPlugin"].includes(plugin.constructor.name))) {
       plugins.push(plugin)

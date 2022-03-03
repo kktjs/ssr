@@ -30,10 +30,6 @@ class SSRWebpackPlugin {
         }
       ]
     },
-    resolve: {
-      modules: ['node_modules'],
-      extensions: ['.ts', '.tsx', '.js', '.json']
-    }
   }
 
   constructor(options: webpack.Configuration) {
@@ -52,7 +48,6 @@ class SSRWebpackPlugin {
           })
         })
       })
-
       childCompiler.run((err) => {
         if (err) {
           console.log(err)

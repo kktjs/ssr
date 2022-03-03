@@ -59,7 +59,7 @@ class SSRWebpackPlugin {
       // fs path ... 处理
       new webpack.node.NodeTargetPlugin().apply(childCompiler);
 
-      // 外部，去除某些打包到 bundle 中
+      // 外部，去除不需要 打包到 bundle 中的 
       let externals = [nodeExternals()]
       if (this.options.externals) {
         if (Array.isArray(this.options.externals)) {
