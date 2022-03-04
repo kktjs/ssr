@@ -1,0 +1,31 @@
+{
+  "name": "@kkt/ssr",
+  "version": "1.3.1",
+  "description": "",
+  "author": "Kenny Wong <wowohoo@qq.com>",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsbb build",
+    "watch": "tsbb watch"
+  },
+  "files": [
+    "lib",
+    "esm",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "@types/webpack-node-externals": "^2.5.3"
+  },
+  "dependencies": {
+    "webpack-node-externals": "3.0.0",
+    "webpack-merge": "5.8.0",
+    "@kkt/simple-progress-webpack-plugin": "1.1.5"
+  }
+}

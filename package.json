@@ -4,9 +4,15 @@
   "version": "1.3.1",
   "description": "A baseline for server side rendering for your React application.",
   "scripts": {
-    "-----ssr plugin-----": "----------",
-    "build:plugin:ssr": "lerna exec --scope @kkt/plugin-ssr -- tsbb build",
-    "watch:plugin:ssr": "lerna exec --scope @kkt/plugin-ssr -- tsbb watch",
+    "-----build:ssr-----": "----------",
+    "build:ssr": "lerna exec --scope @kkt/ssr -- npm run build",
+    "watch:ssr": "lerna exec --scope @kkt/ssr -- npm run watch",
+    "-------------": "-------------------",
+    "hoist": "lerna bootstrap --hoist",
+    "bootstrap": "lerna bootstrap",
+    "build:basic": "lerna exec --scope basic -- npm run build",
+    "--------------": "-------------------",
+    "version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
     "clean": "lerna clean && npm run remove && rm -rf ./package-lock.json && rm -rf node_modules && npm run remove:c ",
     "remove": " lerna exec --scope @kkt/* --scope @example/*  -- rm -rf package-lock.json",
     "remove:c": "rm -rf package-lock.json &&  npm run remove:yarn && npm run remove:lib && npm run remove:esm",
@@ -16,16 +22,6 @@
     "tsbb": "tsbb",
     "lerna": "lerna"
   },
-  "keywords": [
-    "react",
-    "react-router",
-    "redux",
-    "rematch",
-    "webpack",
-    "express",
-    "ssr",
-    "next.js"
-  ],
   "repository": "https://github.com/kktjs/kkt-ssr.git",
   "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
   "bugs": {
@@ -43,7 +39,7 @@
       "prettier --write"
     ]
   },
-  "dependencies": {
+  "devDependencies": {
     "@babel/preset-typescript": "7.15.0",
     "@babel/core": "7.16.7",
     "husky": "7.0.4",
@@ -51,16 +47,10 @@
     "lint-staged": "12.1.5",
     "prettier": "2.5.1",
     "tsbb": "3.7.0",
-    "kkt": "~7.1.5",
-    "@babel/plugin-transform-classes": "7.16.7",
-    "@babel/plugin-transform-modules-commonjs": "7.16.8",
-    "@babel/plugin-proposal-private-property-in-object": "7.16.7"
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*",
-      "example/*"
-    ],
-    "nohoist": []
+    "@types/webpack-node-externals": "2.5.3",
+    "@babel/plugin-proposal-private-property-in-object": "7.16.7",
+    "kkt": "7.1.5",
+    "webpack-node-externals": "3.0.0",
+    "webpack-merge": "5.8.0"
   }
 }

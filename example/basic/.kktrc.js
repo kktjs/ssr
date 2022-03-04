@@ -1,4 +1,4 @@
-import SSRWebpackPlugin from "@kkt/plugin-ssr"
+import { SSRWebpackPlugin, SSRWebpackRunPlugin } from "@kkt/ssr"
 import path from "path"
 
 export default (config) => {
@@ -10,7 +10,7 @@ export default (config) => {
     path: path.join(process.cwd(), 'build'),
     filename: "[name].js",
   }
-  const plugins = [new SSRWebpackPlugin()]
+  const plugins = [new SSRWebpackRunPlugin()]
   config.plugins.forEach((plugin) => {
     if (!(plugin && plugin.constructor && ["HtmlWebpackPlugin"].includes(plugin.constructor.name))) {
       plugins.push(plugin)
