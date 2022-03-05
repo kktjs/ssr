@@ -3,5 +3,14 @@
     "example/*",
     "core/"
   ],
-  "version": "1.3.1"
+  "version": "1.3.1",
+  "bootstrap": {
+    "npmClientArgs": [
+      "--no-package-lock"
+    ],
+    "yarnClientArgs": [
+      "--no-yarn-lock"
+    ],
+    "forceLocal": true
+  }
 }

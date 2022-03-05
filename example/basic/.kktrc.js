@@ -1,4 +1,4 @@
-import { SSRWebpackPlugin, SSRWebpackRunPlugin } from "@kkt/ssr"
+import { SSRWebpackPlugin, SSRWebpackRunPlugin } from "@kkt/ssr/lib/plugins"
 import path from "path"
 
 export default (config) => {

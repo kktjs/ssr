@@ -1,14 +1,11 @@
 process.env.GENERATE_SOURCEMAP = "false"
 process.env.FAST_REFRESH = 'false';
-// 直接做一个 webpack run 通过 emitAsset 提交到主程序
+// 直接做一个 webpack run ， 占时可以打包代码了，自己做一个代码打包后提示就哦了
 import webpack from 'webpack';
 import path from 'path';
 import nodeExternals from 'webpack-node-externals';
 import webapckMerge from 'webpack-merge';
-import { getModuleRules, getPlugins } from "./utils"
-const SimpleProgressWebpackPlugin = require("@kkt/simple-progress-webpack-plugin");
-
-
+import { getPlugins } from "./utils"
 class SSRWebpackRunPlugin {
   options: webpack.Configuration = {}
 
@@ -21,9 +18,8 @@ class SSRWebpackRunPlugin {
   apply(compiler: webpack.Compiler) {
     compiler.hooks.thisCompilation.tap('SSRWebpackRunPlugin', (compilation) => {
       const NODE_ENV = process.env.NODE_ENV as webpack.Configuration['mode'];
-      console.log(compilation.options)
-      const childCompiler = compiler.webpack({
-        mode: NODE_ENV,
+      const childCompiler = webpack({
+        mode: "production",
         target: "node",
         devtool: false,
         entry: path.resolve(process.cwd(), "./src/server.js"),
@@ -36,55 +32,41 @@ class SSRWebpackRunPlugin {
           },
         },
         context: process.cwd(),
-        optimization: compilation.options.optimization,
-        node: {
-          global: true,
-          __dirname: false,
-          __filename: false,
-        },
-        externals: [nodeExternals({
-          allowlist: [
-            /\.(eot|woff|woff2|ttf|otf)$/,
-            /\.(svg|png|jpg|jpeg|gif|ico)$/,
-            /\.(mp4|mp3|ogg|swf|webp)$/,
-            /\.(css|scss|sass|sss|less)$/
-          ]
-        })],
-        ...this.options,
+        externals: [nodeExternals()],
         module: {
-          ...compilation.options.module,
-          ...(this.options.module || {}),
-          rules: getModuleRules(compilation.options.module.rules).concat(this.options.module?.rules || [])
+          strictExportPresence: true,
+          rules: compilation.options.module.rules
         },
-        resolve: {
-          modules: ['node_modules'],
-          extensions: ['.ts', '.tsx', '.js', "jsx", '.json'],
-          ...compilation.options.resolve,
-          ...(this.options.resolve || {})
-        },
-        plugins: getPlugins(compilation.options.plugins).concat(this.options.plugins || []).concat([new SimpleProgressWebpackPlugin({
-          format: 'compact',
-          name: 'Server',
-        })]),
-        watch: NODE_ENV === "development",
+        optimization: {},
+        // resolve 不能走父级的 有问题
+        // resolve: compilation.options.resolve,
+        // resolveLoader: compilation.options.resolve,
+        plugins: getPlugins(compilation.options.plugins)
       })
 
-      childCompiler.hooks.thisCompilation.tap("SSRWebpackRunPlugins", (childCompilation) => {
-        childCompilation.hooks.processAssets.tap("SSRWebpackRunPlugins", (compilationAssets) => {
-          Object.entries(compilationAssets || {}).forEach(([name, so]) => {
-            compilation.emitAsset(name, so)
-          })
-        })
-      })
-      // fs path ... 处理
-      new webpack.node.NodeTargetPlugin().apply(childCompiler);
+      // childCompiler.hooks.thisCompilation.tap("SSRWebpackRunPlugin", (childCompilation) => {
+      //   childCompilation.hooks.processAssets.tap("SSRWebpackRunPlugin", (compilationAssets) => {
+      //     Object.entries(compilationAssets || {}).forEach(([name, so]) => {
+      //       // 直接输出的文件是正常的
+      //       childCompiler.outputFileSystem.writeFile(name, so.buffer(), (err) => {
+      //         if (err) console.log(err);
+      //       })
+      //       // compilation.emitAsset(name, so)
+      //     })
+      //   })
+      // })
 
-      childCompiler.run((err) => {
-        if (err) {
-          console.log(err)
-          process.exit(1)
+      compilation.hooks.processAssets.tapAsync("SSRWebpackRunPlugin",
+        (_assets, callback) => {
+          childCompiler.run((error) => {
+            if (error) {
+              callback(error);
+              return;
+            }
+            callback(null);
+          });
         }
-      })
+      );
     });
   }
 }

@@ -11,6 +11,7 @@
     "hoist": "lerna bootstrap --hoist",
     "bootstrap": "lerna bootstrap",
     "build:basic": "lerna exec --scope basic -- npm run build",
+    "build:basic:ssr": "lerna exec --scope basic -- npm run ssr",
     "--------------": "-------------------",
     "version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
     "clean": "lerna clean && npm run remove && rm -rf ./package-lock.json && rm -rf node_modules && npm run remove:c ",
@@ -51,6 +52,7 @@
     "@babel/plugin-proposal-private-property-in-object": "7.16.7",
     "kkt": "7.1.5",
     "webpack-node-externals": "3.0.0",
-    "webpack-merge": "5.8.0"
+    "webpack-merge": "5.8.0",
+    "webpack": "5.68.0"
   }
 }

@@ -18,11 +18,11 @@ server.listen(PORT, (error) => {
 
 if (module.hot) {
   logs('✅  Server-side HMR Enabled!');
-  module.hot.accept('./serverIndex', () => {
-    logs('🔁  HMR Reloading `./serverIndex`...');
-    server.removeListener('request', currentApp);
-    const newApp = require('./serverIndex').default; // eslint-disable-line
-    server.on('request', newApp);
-    currentApp = newApp;
-  });
+  // module.hot.accept('./serverIndex', () => {
+  //   logs('🔁  HMR Reloading `./serverIndex`...');
+  //   server.removeListener('request', currentApp);
+  //   const newApp = require('./serverIndex').default; // eslint-disable-line
+  //   server.on('request', newApp);
+  //   currentApp = newApp;
+  // });
 }
