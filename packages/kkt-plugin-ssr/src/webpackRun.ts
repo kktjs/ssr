@@ -64,8 +64,6 @@ class SSRWebpackRunPlugin {
         performance: false,
       });
 
-      console.log(compilation.options.resolve)
-
       // 把文件提交到父级 
       childCompiler.hooks.thisCompilation.tap("SSRWebpackRunPlugin", (childCompilation) => {
         childCompilation.hooks.processAssets.tap("SSRWebpackRunPlugin", (compilationAssets) => {
