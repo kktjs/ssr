@@ -19,7 +19,7 @@ import ExternalsNode from 'webpack-node-externals';
 
 function help() {
   const { version } = require('../package.json');
-  console.log('\n  Usage: \x1b[34;1mreact-ssr\x1b[0m [build|watch] [input-file] [--help|h]');
+  console.log('\n  Usage: \x1b[34;1mkkt-ssr-ncc\x1b[0m [build|watch] [input-file] [--help|h]');
   console.log('\n  Displays help information.');
   console.log('\n  Options:\n');
   console.log('   --version, -v        ', 'Show version number');
@@ -41,16 +41,16 @@ function help() {
   console.log('   -e, --external [mod] ', "Skip bundling 'mod'. Can be used many times.");
   console.log('   --filename           ', 'output file name.');
   console.log('\n  Example:\n');
-  console.log('   $ \x1b[35mreact-ssr\x1b[0m build');
-  console.log('   $ \x1b[35mreact-ssr\x1b[0m build --out ./dist');
-  console.log('   $ \x1b[35mreact-ssr\x1b[0m build --minify');
-  console.log('   $ \x1b[35mreact-ssr\x1b[0m watch --minify');
-  console.log('   $ \x1b[35mreact-ssr\x1b[0m build src/app.ts');
-  console.log(`   $ \x1b[35mreact-ssr\x1b[0m build --target web --library MyLibrary`);
-  console.log(`   $ \x1b[35mreact-ssr\x1b[0m build --source-map`);
-  console.log(`   $ \x1b[35mreact-ssr\x1b[0m build --nodeExternals`);
-  console.log(`   $ \x1b[35mreact-ssr\x1b[0m build --libraryTarget commonjs2`);
-  console.log(`\n  \x1b[34;1m@kkt/ssr\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
+  console.log('   $ \x1b[35mkkt-ssr-ncc\x1b[0m build');
+  console.log('   $ \x1b[35mkkt-ssr-ncc\x1b[0m build --out ./dist');
+  console.log('   $ \x1b[35mkkt-ssr-ncc\x1b[0m build --minify');
+  console.log('   $ \x1b[35mkkt-ssr-ncc\x1b[0m watch --minify');
+  console.log('   $ \x1b[35mkkt-ssr-ncc\x1b[0m build src/app.ts');
+  console.log(`   $ \x1b[35mkkt-ssr-ncc\x1b[0m build --target web --library MyLibrary`);
+  console.log(`   $ \x1b[35mkkt-ssr-ncc\x1b[0m build --source-map`);
+  console.log(`   $ \x1b[35mkkt-ssr-ncc\x1b[0m build --nodeExternals`);
+  console.log(`   $ \x1b[35mkkt-ssr-ncc\x1b[0m build --libraryTarget commonjs2`);
+  console.log(`\n  \x1b[34;1m@kkt/ssr-ncc\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
 }
 
 interface SSRNCCArgs extends BuildArgs {
@@ -60,7 +60,7 @@ interface SSRNCCArgs extends BuildArgs {
   minify?: boolean;
   external?: string[];
   sourceMap?: boolean;
-  nodeExternals?: boolean;
+  nodeExternals?: boolean | string;
   libraryTarget?: string;
 }
 
@@ -188,7 +188,7 @@ process.on('exit', (code) => {
     const isWeb = /^(web|browserslist)$/.test(argvs.target);
 
     argvs.libraryTarget = argvs.libraryTarget || argvs.lt || isWeb ? 'umd' : 'commonjs2';
-    argvs.nodeExternals = argvs.nodeExternals || argvs.ne || false;
+    argvs.nodeExternals = argvs.nodeExternals || argvs.ne || true;
 
     const inputFileTS = path.resolve(process.cwd(), argvs._[1] || isWeb ? 'src/index.tsx' : 'src/server.ts');
     const inputFileJS = path.resolve(process.cwd(), argvs._[1] || isWeb ? 'src/index.js' : 'src/server.js');
@@ -198,7 +198,7 @@ process.on('exit', (code) => {
     }
 
     if (!fs.existsSync(inputFile)) {
-      throw Error(`KKT:SSR: Example "build <input-file> [opts]".`);
+      throw Error(`KKT:SSR-NCC: Example "build <input-file> [opts]".`);
     }
 
     const fileName = argvs.filename || path.basename(inputFile).replace(/.(js|jsx?|cjs|mjs|tsx?)$/, '');
@@ -259,7 +259,7 @@ process.on('exit', (code) => {
       } else {
         conf.devtool = false;
       }
-      if (!argvs.nodeExternals && !isWeb) {
+      if (argvs.nodeExternals.toString() === 'true' && !isWeb) {
         conf.externals = [ExternalsNode()];
       }
 
@@ -303,6 +303,6 @@ process.on('exit', (code) => {
       });
     }
   } catch (error) {
-    console.log('\x1b[31m KKT:SSR:ERROR:\x1b[0m', error);
+    console.log('\x1b[31m KKT:SSR-NCC:ERROR:\x1b[0m', error);
   }
 })();
