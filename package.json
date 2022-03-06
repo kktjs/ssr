@@ -10,8 +10,8 @@
     "-------------": "-------------------",
     "hoist": "lerna bootstrap --hoist",
     "bootstrap": "lerna bootstrap",
-    "build:basic": "lerna exec --scope basic -- npm run build",
-    "build:basic:ssr": "lerna exec --scope basic -- npm run ssr",
+    "build:basic": "lerna exec --scope @examples/basic -- npm run build",
+    "build:basic:ex": "lerna exec --scope @examples/basic -- npm run build:ex",
     "--------------": "-------------------",
     "version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
     "clean": "lerna clean && npm run remove && rm -rf ./package-lock.json && rm -rf node_modules && npm run remove:c ",
@@ -41,18 +41,10 @@
     ]
   },
   "devDependencies": {
-    "@babel/preset-typescript": "7.15.0",
-    "@babel/core": "7.16.7",
-    "husky": "7.0.4",
     "lerna": "4.0.0",
-    "lint-staged": "12.1.5",
-    "prettier": "2.5.1",
     "tsbb": "3.7.0",
-    "@types/webpack-node-externals": "2.5.3",
-    "@babel/plugin-proposal-private-property-in-object": "7.16.7",
-    "kkt": "7.1.5",
-    "webpack-node-externals": "3.0.0",
-    "webpack-merge": "5.8.0",
-    "webpack": "5.68.0"
+    "husky": "7.0.4",
+    "lint-staged": "12.3.4",
+    "prettier": "2.5.1"
   }
 }

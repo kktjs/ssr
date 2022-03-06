@@ -10,10 +10,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "lib",
-    "baseUrl": "."
+    "baseUrl": "./"
   },
-  "include": [
-    "src/**/*",
-    "src/*"
-  ]
+  "include": ["src"]
 }
