@@ -7,11 +7,10 @@ import path from 'path';
 import fs from 'fs-extra';
 import { BuildArgs } from 'kkt';
 import { overridePaths } from 'kkt/lib/overrides/paths';
-import { sync as gzipSize } from 'gzip-size';
-import filesize from 'filesize';
-import './overrides';
+// import { sync as gzipSize } from 'gzip-size';
+// import filesize from 'filesize';
+// import './overrides';
 import { filterPluginsServer, filterPluginsClient } from './utils';
-
 import ExternalsNode from 'webpack-node-externals';
 
 // const file = fs.createWriteStream('./outPut.txt');
@@ -64,98 +63,6 @@ interface SSRNCCArgs extends BuildArgs {
   libraryTarget?: string;
 }
 
-const data = {
-  nolog: false,
-  minify: false,
-  filename: '',
-  // .js file
-  file: '',
-  filePath: '',
-  fileMin: '',
-  fileMinPath: '',
-  // .js.map file
-  mapFile: '',
-  mapMinFile: '',
-  mapMinFilePath: '',
-  mapFilePath: '',
-  // .css file
-  cssFile: '',
-  cssFilePath: '',
-  cssMinFile: '',
-  cssMinFilePath: '',
-};
-
-process.on('beforeExit', () => {
-  if (data.nolog) {
-    return;
-  }
-  if (fs.existsSync(data.fileMinPath)) {
-    data.fileMin = fs.readFileSync(data.fileMinPath).toString();
-  }
-  if (fs.existsSync(data.filePath)) {
-    data.file = fs.readFileSync(data.filePath).toString();
-  }
-  if (fs.existsSync(data.mapMinFilePath)) {
-    data.mapMinFile = fs.readFileSync(data.mapMinFilePath).toString();
-  }
-  if (fs.existsSync(data.mapFilePath)) {
-    data.mapFile = fs.readFileSync(data.mapFilePath).toString();
-  }
-  if (fs.existsSync(data.cssFilePath)) {
-    data.cssFile = fs.readFileSync(data.cssFilePath).toString();
-  }
-  if (fs.existsSync(data.cssMinFilePath)) {
-    data.cssMinFile = fs.readFileSync(data.cssMinFilePath).toString();
-  }
-});
-
-process.on('exit', (code) => {
-  if (code === 1 || data.nolog) {
-    return;
-  }
-  const outputDir = path.relative(process.cwd(), path.dirname(data.filePath));
-  if (!!data.file) {
-    fs.writeFileSync(data.filePath, data.file);
-    !data.minify &&
-      console.log(
-        `   ${filesize(gzipSize(data.file))}  \x1b[30;1m${outputDir}/\x1b[0m\x1b[32m${data.filename}\x1b[0m.`,
-      );
-  }
-  if (!!data.fileMin) {
-    fs.writeFileSync(data.fileMinPath, data.fileMin);
-    data.minify &&
-      console.log(
-        `   ${filesize(gzipSize(data.fileMin))}  \x1b[30;1m${outputDir}/\x1b[0m\x1b[32m${data.filename}\x1b[0m.`,
-      );
-  }
-  if (!!data.mapMinFile) {
-    fs.writeFileSync(data.mapMinFilePath, data.mapMinFile);
-  }
-  if (!!data.mapFile) {
-    fs.writeFileSync(data.mapFilePath, data.mapFile);
-  }
-
-  if (!!data.cssFile) {
-    fs.writeFileSync(data.cssFilePath, data.cssFile);
-    !data.minify &&
-      console.log(
-        `   ${filesize(gzipSize(data.cssFile))}  \x1b[30;1m${outputDir}/\x1b[0m\x1b[32m${path.basename(
-          data.cssFilePath,
-        )}\x1b[0m.`,
-      );
-  }
-  if (!!data.cssMinFile) {
-    fs.writeFileSync(data.cssMinFilePath, data.cssMinFile);
-    data.minify &&
-      console.log(
-        `   ${filesize(gzipSize(data.cssMinFile))}  \x1b[30;1m${outputDir}/\x1b[0m\x1b[32m${path.basename(
-          data.cssMinFilePath,
-        )}\x1b[0m.`,
-      );
-  }
-  console.log(`\n`);
-});
-
 (async () => {
   /**
    *   --- 目标
@@ -172,11 +79,9 @@ process.on('exit', (code) => {
     const args = process.argv.slice(2);
     const argvs: SSRNCCArgs = minimist(args);
     if (argvs.h || argvs.help) {
-      data.nolog = true;
       return help();
     }
     if (argvs.v || argvs.version) {
-      data.nolog = true;
       const { version } = require('../package.json');
       console.log(`\n \x1b[34;1m@kkt/ssr-ncc\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
       return;
@@ -204,40 +109,16 @@ process.on('exit', (code) => {
     const fileName = argvs.filename || path.basename(inputFile).replace(/.(js|jsx?|cjs|mjs|tsx?)$/, '');
     const outDir = argvs.out;
 
-    data.filename = `${fileName}${argvs.minify ? '.min.js' : '.js'}`;
-
-    data.filePath = path.resolve(argvs.out, `${fileName}.js`);
-    data.fileMinPath = path.resolve(argvs.out, `${fileName}.min.js`);
-    data.mapMinFilePath = path.resolve(argvs.out, `${fileName}.js.map`);
-    data.mapFilePath = path.resolve(argvs.out, `${fileName}.min.js.map`);
-    data.cssFilePath = path.resolve(argvs.out, `${fileName}.css`);
-    data.cssMinFilePath = path.resolve(argvs.out, `${fileName}.min.css`);
-
-    if (fs.existsSync(data.fileMinPath)) {
-      data.fileMin = fs.readFileSync(data.fileMinPath).toString();
-    }
-    if (fs.existsSync(data.filePath)) {
-      data.file = fs.readFileSync(data.filePath).toString();
-    }
-    if (fs.existsSync(data.mapFilePath)) {
-      data.mapFile = fs.readFileSync(data.mapFilePath).toString();
-    }
-    if (fs.existsSync(data.mapMinFilePath)) {
-      data.mapMinFile = fs.readFileSync(data.mapMinFilePath).toString();
-    }
-    if (fs.existsSync(data.cssFilePath)) {
-      data.cssFile = fs.readFileSync(data.cssFilePath).toString();
-    }
-    if (fs.existsSync(data.cssMinFilePath)) {
-      data.cssMinFile = fs.readFileSync(data.cssMinFilePath).toString();
-    }
+    const filename = `${fileName}${argvs.minify ? '.min.js' : '.js'}`;
 
     const publicFolder = path.join(process.cwd(), 'node_modules', '.cache', 'kkt', '.~public');
+
     fs.ensureDirSync(publicFolder);
 
     const oPaths = { appBuild: outDir, appIndexJs: inputFile, appPublic: publicFolder };
     const target = isWeb ? argvs.target : argvs.target ? ['node14', argvs.target] : 'node14';
     fs.ensureDirSync(outDir);
+
     overridePaths(undefined, { ...oPaths });
     // 调用日志打印
     // logger.log(require.cache);
@@ -252,7 +133,6 @@ process.on('exit', (code) => {
         // 去除 index.html 模板
         conf = filterPluginsClient(conf, argvs.minify);
       }
-      // conf = removeLoaders(conf)
       conf.entry = inputFile;
       if (argvs.sourceMap) {
         conf.devtool = typeof argvs.sourceMap === 'boolean' ? 'source-map' : argvs.sourceMap;
@@ -274,14 +154,12 @@ process.on('exit', (code) => {
       if (argvs.external) conf.externals = argvs.external;
       conf.output.libraryTarget = argvs.libraryTarget;
       conf.output.path = outDir;
-      conf.output.filename = data.filename;
+      conf.output.filename = filename;
       if (argvs.library) {
         conf.output.library = argvs.library;
       }
       return conf;
     };
-
-    data.minify = argvs.minify;
     if (scriptName === 'build') {
       await (
         await import('kkt/lib/scripts/build')
