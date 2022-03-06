@@ -1,7 +1,4 @@
 import webpack from 'webpack';
-import { WebpackConfiguration, MiniCssExtractPlugin } from 'kkt';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import TerserPlugin from 'terser-webpack-plugin';
 
 const SimpleProgressWebpackPlugin = require('@kkt/simple-progress-webpack-plugin');
 
@@ -74,13 +71,13 @@ export const getModuleRules = (oleRules: webpack.ModuleOptions['rules']) => {
           if (item.loader && /mini-css-extract-plugin\/dist\/loader.js$/.test(item.loader)) {
             return false;
           }
-          if (
-            item.exclude &&
-            /@babel(?:\/|\\{1,2})runtime/.toString() === item.exclude.toString() &&
-            item.test.toString() === /\.(js|mjs)$/.toString()
-          ) {
-            return false;
-          }
+          // if (
+          //   item.exclude &&
+          //   /@babel(?:\/|\\{1,2})runtime/.toString() === item.exclude.toString() &&
+          //   item.test.toString() === /\.(js|mjs)$/.toString()
+          // ) {
+          //   return false;
+          // }
         }
         return newItem;
       })
@@ -102,7 +99,7 @@ export const getModuleRules = (oleRules: webpack.ModuleOptions['rules']) => {
         }
       });
       newRules.push({ ...newItems, oneOf: rulesOneOf });
-    } else if (item !== '...' && item && item.exclude?.toString() === /@babel(?:\/|\\{1,2})runtime/.toString()) {
+      // } else if (item !== '...' && item && item.exclude?.toString() === /@babel(?:\/|\\{1,2})runtime/.toString()) {
     } else {
       newRules.push(newItems);
     }
