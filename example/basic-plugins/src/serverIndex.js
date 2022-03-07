@@ -7,10 +7,7 @@ import Path from 'path';
 import FS from 'fs';
 const appDirectory = FS.realpathSync(process.cwd());
 const resolveApp = (relativePath) => Path.resolve(appDirectory, relativePath);
-
-// let assets = require(process.env.KKT_ASSETS_MANIFEST); // eslint-disable-line
 const server = express();
-// server.use(express.static(resolveApp("dist")))
 
 server
   .disable('x-powered-by')
