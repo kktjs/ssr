@@ -1,0 +1,31 @@
+{
+  "name": "@kkt/plugin-ssr",
+  "version": "1.3.1",
+  "description": "",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "keywords": [
+    "stylus",
+    "react",
+    "kkt",
+    "ssr",
+    "@kkt/ssr"
+  ],
+  "repository": "https://github.com/kktjs/kkt-ssr.git",
+  "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
+  "bugs": {
+    "mail": "wowohoo@qq.com",
+    "url": "https://github.com/kktjs/kkt-ssr/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "kkt": "7.1.5",
+    "@types/webpack-node-externals": "2.5.3"
+  },
+  "dependencies": {
+    "@kkt/simple-progress-webpack-plugin": "1.1.5",
+    "webpack-merge": "5.8.0",
+    "webpack-node-externals": "3.0.0"
+  }
+}

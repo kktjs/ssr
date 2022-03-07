@@ -19,8 +19,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "css-loader": "^2.1.0",
-    "node-sass": "^4.10.0",
-    "sass-loader": "^7.1.0"
+    "css-loader": "6.6.0",
+    "node-sass": "7.0.1",
+    "sass-loader": "12.6.0"
   }
 }

@@ -1,0 +1,34 @@
+{
+  "name": "@kkt/ssr",
+  "version": "1.3.1",
+  "description": "",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "bin": {
+    "kkt-ssr": "lib/index.js"
+  },
+  "scripts": {
+    "build": "tsbb build",
+    "watch": "tsbb watch"
+  },
+  "files": [
+    "lib",
+    "esm",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "@types/webpack-node-externals": "2.5.3"
+  },
+  "dependencies": {
+    "@kkt/simple-progress-webpack-plugin": "1.1.5",
+    "webpack-node-externals": "3.0.0",
+    "css-minimizer-webpack-plugin": "3.4.1",
+    "kkt": "7.1.5"
+  }
+}
