@@ -1,0 +1,40 @@
+{
+  "name": "create-kkt-ssr",
+  "version": "3.0.0",
+  "description": "CLI tool to bootstrap KKT applications with no configuration",
+  "main": "lib/index.js",
+  "bin": {
+    "create-kkt-ssr": "lib/index.js"
+  },
+  "scripts": {
+    "build": "tsbb build --disable-babel --file-names src/cli.ts",
+    "watch": "tsbb watch --disable-babel --file-names src/cli.ts",
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,md,json}'",
+    "coverage": "tsbb test --coverage --detectOpenHandles",
+    "test": "tsbb test --detectOpenHandles"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kktjs/kkt-ssr/tree/master/packages/create-kkt-ssr"
+  },
+  "keywords": [
+    "react",
+    "react-router",
+    "redux",
+    "rematch",
+    "webpack",
+    "express",
+    "ssr",
+    "next.js"
+  ],
+  "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "~2.5.1",
+    "pretty-quick": "~3.1.3",
+    "tsbb": "~3.7.0"
+  },
+  "dependencies": {
+    "create-kkt": "3.0.0"
+  }
+}
