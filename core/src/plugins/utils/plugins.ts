@@ -48,6 +48,10 @@ export const getCSSPlugins = (
 
 // 去除 html temp 模板插件
 export const getRemoveHtmlTemp = (plugins: WebpackConfiguration['plugins']) => {
+  // 开发模式 如果去除 会造成 页面没内容
+  if (process.env.NODE_ENV === "development") {
+    return plugins
+  }
   let newPlugins: webpack.Configuration['plugins'] = [];
   (plugins || []).forEach((plugin) => {
     if (
