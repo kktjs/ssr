@@ -1,13 +1,12 @@
 {
-  "name": "@examples/basic",
+  "name": "@examples/basic-plugins",
   "version": "1.0.0",
   "description": "",
   "private": true,
   "scripts": {
-    "server": "node dist/server.js",
-    "build": "kkt-ssr build",
-    "build:ex": "kkt-ssr build --nodeExternals",
-    "build:web": "kkt-ssr build --target web"
+    "server": "node dist/serverIndex.js",
+    "build": "kkt build",
+    "start": "kkt start"
   },
   "keywords": [],
   "dependencies": {

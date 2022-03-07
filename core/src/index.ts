@@ -19,7 +19,7 @@ import { getCSSPlugins } from "./plugins/utils/plugins"
 
 function help() {
   const { version } = require('../package.json');
-  console.log('\n  Usage: \x1b[34;1mkkt-ssr-ncc\x1b[0m [build|watch] [input-file] [--help|h]');
+  console.log('\n  Usage: \x1b[34;1mkkt-ssr\x1b[0m [build|watch] [input-file] [--help|h]');
   console.log('\n  Displays help information.');
   console.log('\n  Options:\n');
   console.log('   --version, -v        ', 'Show version number');
@@ -41,16 +41,16 @@ function help() {
   console.log('   -e, --external [mod] ', "Skip bundling 'mod'. Can be used many times.");
   console.log('   --filename           ', 'output file name.');
   console.log('\n  Example:\n');
-  console.log('   $ \x1b[35mkkt-ssr-ncc\x1b[0m build');
-  console.log('   $ \x1b[35mkkt-ssr-ncc\x1b[0m build --out ./dist');
-  console.log('   $ \x1b[35mkkt-ssr-ncc\x1b[0m build --minify');
-  console.log('   $ \x1b[35mkkt-ssr-ncc\x1b[0m watch --minify');
-  console.log('   $ \x1b[35mkkt-ssr-ncc\x1b[0m build src/app.ts');
-  console.log(`   $ \x1b[35mkkt-ssr-ncc\x1b[0m build --target web --library MyLibrary`);
-  console.log(`   $ \x1b[35mkkt-ssr-ncc\x1b[0m build --source-map`);
-  console.log(`   $ \x1b[35mkkt-ssr-ncc\x1b[0m build --nodeExternals`);
-  console.log(`   $ \x1b[35mkkt-ssr-ncc\x1b[0m build --libraryTarget commonjs2`);
-  console.log(`\n  \x1b[34;1m@kkt/ssr-ncc\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m build');
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m build --out ./dist');
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m build --minify');
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch --minify');
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m build src/app.ts');
+  console.log(`   $ \x1b[35mkkt-ssr\x1b[0m build --target web --library MyLibrary`);
+  console.log(`   $ \x1b[35mkkt-ssr\x1b[0m build --source-map`);
+  console.log(`   $ \x1b[35mkkt-ssr\x1b[0m build --nodeExternals`);
+  console.log(`   $ \x1b[35mkkt-ssr\x1b[0m build --libraryTarget commonjs2`);
+  console.log(`\n  \x1b[34;1m@kkt/ssr\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
 }
 
 interface SSRNCCArgs extends BuildArgs {
@@ -104,7 +104,7 @@ interface SSRNCCArgs extends BuildArgs {
     }
 
     if (!fs.existsSync(inputFile)) {
-      throw Error(`KKT:SSR-NCC: Example "build <input-file> [opts]".`);
+      throw Error(`KKT:SSR: Example "build <input-file> [opts]".`);
     }
 
     const fileName = argvs.filename || path.basename(inputFile).replace(/.(js|jsx?|cjs|mjs|tsx?)$/, '');
@@ -190,6 +190,6 @@ interface SSRNCCArgs extends BuildArgs {
       });
     }
   } catch (error) {
-    console.log('\x1b[31m KKT:SSR-NCC:ERROR:\x1b[0m', error);
+    console.log('\x1b[31m KKT:SSR:ERROR:\x1b[0m', error);
   }
 })();
