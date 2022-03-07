@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "server": "node dist/server.js",
+    "nodemon": "nodemon dist/server.js",
     "build": "npm run build:server && npm run build:web",
     "build:server": "kkt-ssr build",
     "build:web": "kkt-ssr build --target web",
