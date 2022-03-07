@@ -6,8 +6,8 @@ import path from 'path';
 import nodeExternals from 'webpack-node-externals';
 import clearConsole from 'react-dev-utils/clearConsole';
 
-import { getModuleCSSRules } from "./utils/module"
-import { getWebpackRunPlugins, getCSSPlugins } from "./utils/plugins"
+import { getModuleCSSRules } from './utils/module';
+import { getWebpackRunPlugins, getCSSPlugins } from './utils/plugins';
 
 const today = () => new Date().toISOString().split('.')[0].replace('T', ' ');
 
@@ -23,9 +23,10 @@ class SSRWebpackRunPlugin {
   apply(compiler: webpack.Compiler) {
     compiler.hooks.thisCompilation.tap('SSRWebpackRunPlugin', (compilation) => {
       const NODE_ENV = process.env.NODE_ENV as webpack.Configuration['mode'];
-      const isEnvDevelopment = NODE_ENV === "development"
+      const isEnvDevelopment = NODE_ENV === 'development';
       const output = {
-        path: path.resolve(process.cwd(), './dist'),
+        // path: path.resolve(process.cwd(), './dist'),
+        path: compilation.options.output.path,
         filename: 'server.js',
         libraryTarget: 'commonjs2',
         library: {
@@ -104,20 +105,24 @@ class SSRWebpackRunPlugin {
         });
       });
 
-      compilation.hooks.processAssets.tapAsync({
-        name: "SSRWebpackRunPlugin",
-      }, (_assets, callback) => {
-        if (!isEnvDevelopment) {
-          childCompiler.run((error) => {
-            if (error) {
-              callback(error);
-              return;
-            }
+      compilation.hooks.processAssets.tapAsync(
+        {
+          name: 'SSRWebpackRunPlugin',
+        },
+        (_assets, callback) => {
+          if (!isEnvDevelopment) {
+            childCompiler.run((error) => {
+              if (error) {
+                callback(error);
+                return;
+              }
+              callback(null);
+            });
+          } else {
             callback(null);
-          });
-        }
-        callback(null)
-      });
+          }
+        },
+      );
     });
   }
 }

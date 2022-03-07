@@ -1,8 +1,8 @@
 import webpack from 'webpack';
 import path from 'path';
 import nodeExternals from 'webpack-node-externals';
-import { getModuleRules, } from './utils';
-import { getWebpackRunPlugins } from "./utils/plugins"
+import { getModuleRules } from './utils';
+import { getWebpackRunPlugins } from './utils/plugins';
 export interface SSRWebpackPluginProps {
   output?: webpack.WebpackOptionsNormalized['output'];
   entry?: string;

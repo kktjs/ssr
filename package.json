@@ -1,50 +1,51 @@
 {
-  "name": "@kkt/root",
-  "private": true,
-  "version": "1.3.1",
-  "description": "A baseline for server side rendering for your React application.",
-  "scripts": {
-    "-----build:ssr-----": "----------",
-    "build:ssr": "lerna exec --scope @kkt/ssr -- npm run build",
-    "watch:ssr": "lerna exec --scope @kkt/ssr -- npm run watch",
-    "-------------": "-------------------",
-    "hoist": "lerna bootstrap --hoist",
-    "bootstrap": "lerna bootstrap",
-    "build:basic": "lerna exec --scope @examples/basic -- npm run build",
-    "build:basic:ex": "lerna exec --scope @examples/basic -- npm run build:ex",
-    "--------------": "-------------------",
-    "version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
-    "clean": "lerna clean && npm run remove && rm -rf ./package-lock.json && rm -rf node_modules && npm run remove:c ",
-    "remove": " lerna exec --scope @kkt/* --scope @example/*  -- rm -rf package-lock.json",
-    "remove:c": "rm -rf package-lock.json &&  npm run remove:yarn && npm run remove:lib && npm run remove:esm",
-    "remove:yarn": "lerna exec --scope @kkt/* --scope @example/*  -- rm -rf yarn.lock",
-    "remove:lib": "lerna exec --scope @kkt/*  -- rm -rf ./lib",
-    "remove:esm": "lerna exec --scope @kkt/*  -- rm -rf ./esm",
-    "tsbb": "tsbb",
-    "lerna": "lerna"
-  },
-  "repository": "https://github.com/kktjs/kkt-ssr.git",
-  "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
-  "bugs": {
-    "mail": "wowohoo@qq.com",
-    "url": "https://github.com/kktjs/kkt-ssr/issues"
-  },
-  "license": "MIT",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,less,md,json}": [
-      "prettier --write"
-    ]
-  },
-  "devDependencies": {
-    "lerna": "4.0.0",
-    "tsbb": "3.7.0",
-    "husky": "7.0.4",
-    "lint-staged": "12.3.4",
-    "prettier": "2.5.1"
-  }
+	"name": "@kkt/root",
+	"private": true,
+	"version": "1.3.1",
+	"description": "A baseline for server side rendering for your React application.",
+	"scripts": {
+		"-----build:ssr-----": "----------",
+		"build:ssr": "lerna exec --scope @kkt/ssr -- npm run build",
+		"watch:ssr": "lerna exec --scope @kkt/ssr -- npm run watch",
+		"-------------": "-------------------",
+		"hoist": "lerna bootstrap --hoist",
+		"bootstrap": "lerna bootstrap",
+		"build:basic": "lerna exec --scope @examples/basic -- npm run build",
+		"build:basic:ex": "lerna exec --scope @examples/basic -- npm run build:ex",
+		"build:basic:plugin": "lerna exec --scope @examples/basic-plugins -- npm run build",
+		"--------------": "-------------------",
+		"version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
+		"clean": "lerna clean && npm run remove && rm -rf ./package-lock.json && rm -rf node_modules && npm run remove:c ",
+		"remove": " lerna exec --scope @kkt/* --scope @example/*  -- rm -rf package-lock.json",
+		"remove:c": "rm -rf package-lock.json &&  npm run remove:yarn && npm run remove:lib && npm run remove:esm",
+		"remove:yarn": "lerna exec --scope @kkt/* --scope @example/*  -- rm -rf yarn.lock",
+		"remove:lib": "lerna exec --scope @kkt/*  -- rm -rf ./lib",
+		"remove:esm": "lerna exec --scope @kkt/*  -- rm -rf ./esm",
+		"tsbb": "tsbb",
+		"lerna": "lerna"
+	},
+	"repository": "https://github.com/kktjs/kkt-ssr.git",
+	"author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
+	"bugs": {
+		"mail": "wowohoo@qq.com",
+		"url": "https://github.com/kktjs/kkt-ssr/issues"
+	},
+	"license": "MIT",
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*.{js,jsx,ts,tsx,less,md,json}": [
+			"prettier --write"
+		]
+	},
+	"devDependencies": {
+		"lerna": "4.0.0",
+		"tsbb": "3.7.0",
+		"husky": "7.0.4",
+		"lint-staged": "12.3.4",
+		"prettier": "2.5.1"
+	}
 }

@@ -14,7 +14,7 @@ const server = express();
 
 server
   .disable('x-powered-by')
-  .use(express.static(resolveApp('dist')))
+  .use(express.static(resolveApp('build')))
   .get('/*', (req, res) => {
     const context = {};
     const markup = renderToString(<App />);
