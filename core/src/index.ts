@@ -12,7 +12,8 @@ import { overridePaths } from 'kkt/lib/overrides/paths';
 // import './overrides';
 import { filterPluginsServer, filterPluginsClient } from './utils';
 import ExternalsNode from 'webpack-node-externals';
-
+import { getModuleCSSRules } from "./plugins/utils/module"
+import { getCSSPlugins } from "./plugins/utils/plugins"
 // const file = fs.createWriteStream('./outPut.txt');
 // let logger = new console.Console(file, file);
 
@@ -119,6 +120,9 @@ interface SSRNCCArgs extends BuildArgs {
     const target = isWeb ? argvs.target : argvs.target ? ['node14', argvs.target] : 'node14';
     fs.ensureDirSync(outDir);
 
+
+    const isEnvDevelopment = scriptName === "watch"
+
     overridePaths(undefined, { ...oPaths });
     // 调用日志打印
     // logger.log(require.cache);
@@ -141,6 +145,11 @@ interface SSRNCCArgs extends BuildArgs {
       }
       if (argvs.nodeExternals.toString() === 'true' && !isWeb) {
         conf.externals = [ExternalsNode()];
+      }
+      // 为了能够在开发模式下生成 css 文件
+      if (!isWeb && isEnvDevelopment) {
+        conf.module.rules = getModuleCSSRules(conf.module.rules, isEnvDevelopment)
+        conf.plugins = getCSSPlugins(conf.plugins, isEnvDevelopment, fileName)
       }
 
       conf.module!.exprContextCritical = false;
