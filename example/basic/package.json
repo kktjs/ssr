@@ -5,9 +5,12 @@
   "private": true,
   "scripts": {
     "server": "node dist/server.js",
-    "build": "kkt-ssr build",
-    "build:ex": "kkt-ssr build --nodeExternals",
-    "build:web": "kkt-ssr build --target web"
+    "build": "npm run build:server && npm run build:web",
+    "build:server": "kkt-ssr build",
+    "build:web": "kkt-ssr build --target web",
+    "start": "npm run start:server & npm run start:web",
+    "start:server": "kkt-ssr watch",
+    "start:web": "kkt-ssr watch --target web"
   },
   "keywords": [],
   "dependencies": {

@@ -64,6 +64,25 @@ interface SSRNCCArgs extends BuildArgs {
   libraryTarget?: string;
 }
 
+const data = {
+  nolog: false,
+  out: "",
+  publicFolder: "",
+  isWeb: false
+}
+
+process.on("exit", (code) => {
+  if (data.nolog || code === 1) {
+    return;
+  }
+  if (!data.isWeb) {
+    fs.copySync(data.out, data.publicFolder)
+  }
+  if (data.isWeb) {
+    fs.copySync(data.publicFolder, data.out)
+  }
+});
+
 (async () => {
   /**
    *   --- 目标
@@ -80,18 +99,20 @@ interface SSRNCCArgs extends BuildArgs {
     const args = process.argv.slice(2);
     const argvs: SSRNCCArgs = minimist(args);
     if (argvs.h || argvs.help) {
+      data.nolog = true
       return help();
     }
     if (argvs.v || argvs.version) {
+      data.nolog = true
       const { version } = require('../package.json');
       console.log(`\n \x1b[34;1m@kkt/ssr-ncc\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
       return;
     }
 
-    argvs.out = argvs.o = path.resolve(argvs.out || argvs.o || 'dist');
+    argvs.out = data.out = argvs.o = path.resolve(argvs.out || argvs.o || 'dist');
     argvs.minify = argvs.m = argvs.minify || argvs.m || false;
     const scriptName = argvs._[0];
-    const isWeb = /^(web|browserslist)$/.test(argvs.target);
+    const isWeb = data.isWeb = /^(web|browserslist)$/.test(argvs.target);
 
     argvs.libraryTarget = argvs.libraryTarget || argvs.lt || isWeb ? 'umd' : 'commonjs2';
     argvs.nodeExternals = argvs.nodeExternals || argvs.ne || true;
@@ -112,9 +133,15 @@ interface SSRNCCArgs extends BuildArgs {
 
     const filename = `${fileName}${argvs.minify ? '.min.js' : '.js'}`;
 
-    const publicFolder = path.join(process.cwd(), 'node_modules', '.cache', 'kkt', '.~public');
+    const publicFolder = path.join(process.cwd(), 'node_modules', '.cache', 'kkt-ssr', '.~public');
+    data.publicFolder = publicFolder
 
     fs.ensureDirSync(publicFolder);
+    // 服务端的时候清空 数据
+    if (!isWeb) {
+      // 清理 缓存数据
+      fs.emptyDirSync(publicFolder)
+    }
 
     const oPaths = { appBuild: outDir, appIndexJs: inputFile, appPublic: publicFolder };
     const target = isWeb ? argvs.target : argvs.target ? ['node14', argvs.target] : 'node14';
@@ -147,7 +174,7 @@ interface SSRNCCArgs extends BuildArgs {
         conf.externals = [ExternalsNode()];
       }
       // 为了能够在开发模式下生成 css 文件
-      if (!isWeb && isEnvDevelopment) {
+      if (isEnvDevelopment) {
         conf.module.rules = getModuleCSSRules(conf.module.rules, isEnvDevelopment)
         conf.plugins = getCSSPlugins(conf.plugins, isEnvDevelopment, fileName)
       }
