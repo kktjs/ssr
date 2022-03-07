@@ -4,7 +4,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "server": "node dist/serverIndex.js",
+    "server": "node dist/server.js",
     "build": "kkt build",
     "start": "kkt start"
   },
