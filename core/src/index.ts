@@ -7,15 +7,10 @@ import path from 'path';
 import fs from 'fs-extra';
 import { BuildArgs } from 'kkt';
 import { overridePaths } from 'kkt/lib/overrides/paths';
-// import { sync as gzipSize } from 'gzip-size';
-// import filesize from 'filesize';
-// import './overrides';
 import { filterPluginsServer, filterPluginsClient } from './utils';
 import ExternalsNode from 'webpack-node-externals';
 import { getModuleCSSRules } from "./plugins/utils/module"
 import { getCSSPlugins } from "./plugins/utils/plugins"
-// const file = fs.createWriteStream('./outPut.txt');
-// let logger = new console.Console(file, file);
 
 function help() {
   const { version } = require('../package.json');
@@ -151,8 +146,6 @@ process.on("exit", (code) => {
     const isEnvDevelopment = scriptName === "watch"
 
     overridePaths(undefined, { ...oPaths });
-    // 调用日志打印
-    // logger.log(require.cache);
     argvs.overridesWebpack = (conf, env, options) => {
       // 为了 覆盖 默认输出的地址
       overridePaths(undefined, { ...oPaths });
@@ -175,7 +168,7 @@ process.on("exit", (code) => {
       }
       // 为了能够在开发模式下生成 css 文件
       if (isEnvDevelopment) {
-        conf.module.rules = getModuleCSSRules(conf.module.rules, isEnvDevelopment)
+        conf.module.rules = getModuleCSSRules(conf.module.rules, isEnvDevelopment, isEnvDevelopment ? false : !!conf.devtool)
         conf.plugins = getCSSPlugins(conf.plugins, isEnvDevelopment, fileName)
       }
 
