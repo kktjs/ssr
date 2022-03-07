@@ -64,11 +64,13 @@ const data = {
   nolog: false,
   out: "",
   publicFolder: "",
-  isWeb: false
+  isWeb: false,
+  isEnvDevelopment: false,
 }
 
 process.on("exit", (code) => {
-  if (data.nolog || code === 1) {
+  // 开发模式下不需要进行复制
+  if (data.nolog || code === 1 || data.isEnvDevelopment) {
     return;
   }
   if (!data.isWeb) {
@@ -143,7 +145,8 @@ process.on("exit", (code) => {
     const target = isWeb ? argvs.target : argvs.target ? ['node14', argvs.target] : 'node14';
     fs.ensureDirSync(outDir);
 
-    const isEnvDevelopment = scriptName === "watch"
+    const isEnvDevelopment = data.isEnvDevelopment = scriptName === "watch"
+
 
     overridePaths(undefined, { ...oPaths });
     argvs.overridesWebpack = (conf, env, options) => {
