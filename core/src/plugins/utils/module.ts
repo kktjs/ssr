@@ -12,7 +12,10 @@ const getToString = (rule: RegExp) => {
 };
 
 // sourceMap 设置 为 false
-const setSourceMaps = (item: any) => {
+const setSourceMaps = (item: any, sourceMap: boolean) => {
+  if (sourceMap) {
+    return;
+  }
   if (item && item.options) {
     if (item.options.sourceMaps) {
       item.options.sourceMaps = false;
@@ -30,21 +33,21 @@ const setSourceMaps = (item: any) => {
  * 1. 开发模式下，去除  style-loader  改成  MiniCssExtractPlugin.lader，让他生成 css 文件
  * */
 
-export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[], isEnvDevelopment: boolean) => {
+export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[], isEnvDevelopment: boolean, sourceMap: boolean = false) => {
   const newRules: any = [];
   rules.forEach((rule) => {
     if (typeof rule === 'string') {
       newRules.push(rule);
       return;
     }
-    setSourceMaps(rule);
+    setSourceMaps(rule, sourceMap);
     if (/style-loader/.test(rule.loader) && isEnvDevelopment) {
       newRules.push({
         loader: MiniCssExtractPlugin.loader,
       });
     } else if (rule.oneOf) {
       const newOneOf = rule.oneOf.map((item) => {
-        setSourceMaps(item);
+        setSourceMaps(item, sourceMap);
         if (
           item.test &&
           [
@@ -57,7 +60,7 @@ export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[], isEnvD
           let newUse;
           if (Array.isArray(item.use)) {
             newUse = item.use.map((ite) => {
-              setSourceMaps(ite);
+              setSourceMaps(ite, sourceMap);
               if (typeof ite === 'string' && /style-loader/.test(ite) && isEnvDevelopment) {
                 return {
                   loader: MiniCssExtractPlugin.loader,

@@ -4,6 +4,7 @@
 	"version": "1.3.1",
 	"description": "A baseline for server side rendering for your React application.",
 	"scripts": {
+		"build": "npm run build:ssr",
 		"-----build:ssr-----": "----------",
 		"build:ssr": "lerna exec --scope @kkt/ssr -- npm run build",
 		"watch:ssr": "lerna exec --scope @kkt/ssr -- npm run watch",
