@@ -2,6 +2,7 @@
 
 process.env.FAST_REFRESH = 'false';
 
+import webpack from "webpack"
 import minimist from 'minimist';
 import path from 'path';
 import fs from 'fs-extra';
@@ -142,7 +143,6 @@ process.on("exit", (code) => {
     const target = isWeb ? argvs.target : argvs.target ? ['node14', argvs.target] : 'node14';
     fs.ensureDirSync(outDir);
 
-
     const isEnvDevelopment = scriptName === "watch"
 
     overridePaths(undefined, { ...oPaths });
@@ -171,6 +171,10 @@ process.on("exit", (code) => {
         conf.module.rules = getModuleCSSRules(conf.module.rules, isEnvDevelopment, isEnvDevelopment ? false : !!conf.devtool)
         conf.plugins = getCSSPlugins(conf.plugins, isEnvDevelopment, fileName)
       }
+
+      conf.plugins.push(new webpack.DefinePlugin({
+        OUTPUT_PUBLIC_PATH: JSON.stringify(argvs.out)
+      }))
 
       conf.module!.exprContextCritical = false;
 
