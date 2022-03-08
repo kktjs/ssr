@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://github.com/kktjs/ssr">
-    <img src="./assets/kkt.ssr.svg?sanitize=true">
+  <a href="https://kktjs.github.io/ssr">
+    <img src="https://user-images.githubusercontent.com/1680273/157196191-9e56f20a-8991-487a-a78d-35352a2c1222.png">
   </a>
 </p>
 
