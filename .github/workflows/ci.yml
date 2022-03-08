@@ -26,11 +26,13 @@ jobs:
       uses: jaywcjlove/markdown-to-html-cli@main
       with:
         output: build/index.html
+        github-corners: https://github.com/kktjs/ssr.git
 
     - name: Converts create-kkt-ssr Markdown to HTML
       uses: jaywcjlove/markdown-to-html-cli@main
       with:
         output: build/create-kkt-ssr.html
+        github-corners: https://github.com/kktjs/ssr/tree/master/packages/create-kkt-ssr
 
     - name: Generate Contributors Images
       uses: jaywcjlove/github-action-contributors@main
