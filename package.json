@@ -22,6 +22,7 @@
 		"remove:yarn": "lerna exec --scope @kkt/* --scope @example/*  -- rm -rf yarn.lock",
 		"remove:lib": "lerna exec --scope @kkt/*  -- rm -rf ./lib",
 		"remove:esm": "lerna exec --scope @kkt/*  -- rm -rf ./esm",
+		"test": "tsbb test",
 		"tsbb": "tsbb",
 		"lerna": "lerna"
 	},
@@ -42,11 +43,19 @@
 			"prettier --write"
 		]
 	},
+	"jest": {
+		"testMatch": [
+			"<rootDir>/test/*.test.{js,ts}"
+		]
+	},
 	"devDependencies": {
-		"lerna": "4.0.0",
-		"tsbb": "3.7.0",
 		"husky": "7.0.4",
+		"lerna": "4.0.0",
 		"lint-staged": "12.3.4",
-		"prettier": "2.5.1"
+		"prettier": "2.5.1",
+		"tsbb": "3.7.0"
+	},
+	"dependencies": {
+		"hoist": "^0.0.6"
 	}
 }

@@ -1,7 +1,8 @@
 {
   "packages": [
     "example/*",
-    "core/"
+    "core/",
+    "packages/create-kkt-ssr"
   ],
   "version": "3.0.0"
 }

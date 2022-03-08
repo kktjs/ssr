@@ -1,0 +1,44 @@
+{
+  "name": "@examples/basic-routes-rematch",
+  "version": "3.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "server": "node dist/server.js",
+    "nodemon": "nodemon dist/server.js",
+    "build": "npm run build:server && npm run build:web",
+    "build:server": "kkt-ssr build",
+    "build:web": "kkt-ssr build --target web",
+    "start": "npm run start:server & npm run start:web",
+    "start:server": "kkt-ssr watch",
+    "start:web": "kkt-ssr watch --target web"
+  },
+  "keywords": [],
+  "dependencies": {
+    "express": "4.16.4",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-router": "^6.2.1",
+    "react-router-dom": "^6.2.1",
+    "@rematch/core": "2.2.0",
+    "@rematch/loading": "2.1.2",
+    "react-redux": "7.2.6",
+    "serialize-javascript": "6.0.0"
+  },
+  "devDependencies": {
+    "@kkt/ssr": "3.0.0",
+    "kkt": "7.1.5"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
