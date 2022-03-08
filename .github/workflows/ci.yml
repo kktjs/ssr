@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-18.04
+    outputs:
+      version: ${{ steps.create_tag.outputs.versionNumber || steps.create_tag.outputs.version || steps.create_tag.outputs.preversion }}
     steps:
     - uses: actions/checkout@master
 
