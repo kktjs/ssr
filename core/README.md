@@ -1,114 +1,235 @@
-# @kkt/ssr
+<p align="center">
+  <a href="https://github.com/kktjs/kkt-ssr">
+    <img src="./assets/kkt.ssr.svg?sanitize=true">
+  </a>
+</p>
 
-用于编译服务端渲染文件简单的`CI`，把js文件打包到一个文件中，基于`kkt`和`create-react-app`创建的工具
+<p align="center">
+  <a href="https://github.com/kktjs/kkt-ssr/issues">
+    <img src="https://img.shields.io/github/issues/kktjs/kkt-ssr.svg">
+  </a>
+  <a href="https://github.com/kktjs/kkt-ssr/network">
+    <img src="https://img.shields.io/github/forks/kktjs/kkt-ssr.svg">
+  </a>
+  <a href="https://github.com/kktjs/kkt-ssr/stargazers">
+    <img src="https://img.shields.io/github/stars/kktjs/kkt-ssr.svg">
+  </a>
+  <a href="https://github.com/kktjs/kkt-ssr/releases">
+    <img src="https://img.shields.io/github/release/kktjs/kkt-ssr.svg">
+  </a>
+  <a href="https://www.npmjs.com/package/@kkt/ssr">
+    <img src="https://img.shields.io/npm/v/@kkt/ssr.svg">
+  </a>
+</p>
 
-## 安装
+Create [React](https://github.com/facebook/react) server-side rendering universal JavaScript applications with no configuration. If you don't need server-side rendering you can use [kkt](https://github.com/jaywcjlove/kkt) tools.
+
+<p align="center">
+  <a href="https://github.com/kktjs/kkt-ssr/tree/master/example/react-router%2Brematch">
+    <img src="https://github.com/kktjs/kkt-ssr/raw/847e32d0f04c30da9f7b3bd637be9fa6b1eee22b/assets/ssr.png?sanitize=true">
+  </a>
+</p>
+
+[Quick Start](#quick-start) · [Using Plugins](#using-plugins) · [Writing Plugins](#writing-plugins) · [CSS Modules](#css-modules) · [KKT Config](#kkt-config) · [Example](#example)
+
+[![Let's fund issues in this repository](https://issuehunt.io/static/embed/issuehunt-button-v1.svg)](https://issuehunt.io/repos/159655834)
+
+## Usage
+
+You will need [`Node.js`](https://nodejs.org) installed on your system.
+
+## Quick Start
 
 ```bash
-npm i  @kkt/ssr # yarn add @kkt/ssr
+npx create-kkt-app my-app
+cd my-app
+npm start
 ```
 
-## 使用
+You can also initialize a project from one of the examples. Example from [kktjs/kkt-ssr](./example) example-path. 
 
 ```bash
-$ kkt-ssr <cmd> [input-file] [opts]
-# input-file default value: src/server.ts or src/server.js
+# Using the template method
+# `npx create-kkt-app my-app [-e example name]`
+npx create-kkt-app my-app -e react-router+rematch
 ```
 
-## 示例:
+or
 
 ```bash
-$ kkt-ssr build 
+npm install -g create-kkt-app
+# Create project, Using the template method
+create-kkt-app my-app -e react-router+rematch
+cd my-app # Enter the directory
+npm start # Start service
 ```
-把`src/server.js`文件输出到 `dist/server.js`中
 
-## 命令
+> ⚠️ A perfect example [`react-router+rematch`](example/react-router+rematch) is recommended for production environments, This example is similar to [`Next.js`](https://github.com/zeit/next.js).
+
+**development**
+
+Runs the project in development mode.  
 
 ```bash
-
-  Usage: kkt-ssr [build|watch] [input-file] [--help|h]
-
-  Displays help information.
-
-  Options:
-
-   --version, -v         Show version number
-   --help, -h            Displays help information.
-   -o, --out [dir]       Output directory for build (defaults to dist).
-   -m, --minify          Minify output.
-   -t, --target          Instructs webpack to target a specific environment (defaults to node14).
-   -l, --library         Output a library exposing the exports of your entry point. The parameter "--target=web" works.
-   -ne, --nodeExternals          use webpack-node-external .
-   -lt, --libraryTarget          Output library type .
-   -s, --source-map      Generate source map.
-   -e, --external [mod]  Skip bundling 'mod'. Can be used many times.
-   --filename            output file name.
-
-  Example:
-
-   $ kkt-ssr build
-   $ kkt-ssr build --out ./dist
-   $ kkt-ssr build --minify
-   $ kkt-ssr watch --minify
-   $ kkt-ssr build src/app.ts
-   $ kkt-ssr build --target web --library MyLibrary
-   $ kkt-ssr build --source-map
-   $ kkt-ssr build --nodeExternals
-   $ kkt-ssr build --libraryTarget commonjs2
-
+npm run start
 ```
 
-## 配置文件
+**production**
 
-Supports `.kktrc.js` and `.kktrc.ts`. Configuration [Example](https://github.com/uiwjs/react-codemirror/blob/880754a18ace17f40571330985d85e7eca770351/.kktrc.ts#L11-L74):
+Builds the app for production to the build folder.
 
-```typescript
+```bash
+npm run build
+```
 
-import webpack, { Configuration } from 'webpack';
-import { LoaderConfOptions } from 'kkt';
-import lessModules from '@kkt/less-modules';
+The build is minified and the filenames include the hashes.
+Your app is ready to be deployed!
 
-export default (conf: Configuration, env: 'development' | 'production', options: LoaderConfOptions) => {
-  conf = lessModules(conf, env, options);
-  if (options.bundle) {
-    conf.output!.library = '@uiw/codemirror';
-    conf.output!.filename = `codemirror${options.minify ? '.min.js' : '.js'}`;
-    conf.externals = {
-      '@codemirror/basic-setup': {
-        root: ['CM', '@codemirror/basic-setup'],
-        commonjs: '@codemirror/basic-setup',
-        commonjs2: '@codemirror/basic-setup',
-      },
-      oneDark: {
-        root: ['CM', '@codemirror/theme-one-dark', 'oneDark'],
-      },
-      StateEffect: {
-        root: ['CM', '@codemirror/state', 'StateEffect'],
-      },
-      EditorState: {
-        root: ['CM', '@codemirror/basic-setup', 'EditorState'],
-      },
-      react: {
-        root: 'React',
-        commonjs2: 'react',
-        commonjs: 'react',
-        amd: 'react',
-      },
-      'react-dom': {
-        root: 'ReactDOM',
-        commonjs2: 'react-dom',
-        commonjs: 'react-dom',
-        amd: 'react-dom',
-      },
-    };
-  } else {
-    // ......
-  }
-  return conf;
+```bash
+# Runs the compiled app in production.
+npm run server
+```
+
+## Enable Inspector
+
+```bash
+npm start -- --inspect
+# or
+yarn start -- --inspect
+```
+
+To debug the node server, you can use `react-ssr start --inspect`. This will start the node server and enable the inspector agent. For more information, see [this](https://nodejs.org/en/docs/inspector/).
+
+```bash
+npm start -- --inspect-brk
+# or
+yarn start -- --inspect-brk
+```
+
+To debug the node server, you can use `react-ssr start --inspect-brk`. This will start the node server, enable the inspector agent and Break before user code starts. For more information, see [this](https://nodejs.org/en/docs/inspector/).
+
+### Using Plugins
+
+You can use KKT plugins by installing in your project and adding them to your `.kktrc.js`. See the README.md of the specific plugin, Just like the following:
+
+```bash
+npm install kkt-plugin-xxxx
+```
+
+```js
+module.exports = {
+  plugins: [
+    require.resolve('kkt-plugin-xxxx'),
+  ],
 };
-
 ```
 
-### License
+[See All Plugins](https://www.npmjs.com/search?q=kkt-plugin)
+
+### Writing Plugins
+
+Plugins are simply functions that modify and return KKT's webpack config.
+
+```js
+module.exports = (conf, { target, dev, env, ...other }, webpack) => {
+  // client only
+  if (target === 'web') {}
+  // server only
+  if (target === 'node') {}
+
+  if (dev) {
+    // dev only
+  } else {
+    // prod only
+  }
+  // conf: Webpack config
+  return conf;
+}
+```
+
+### CSS Modules
+
+KKT supports [CSS Modules](https://github.com/css-modules/css-modules) using Webpack's [css-loader](https://github.com/webpack-contrib/css-loader). Simply import your CSS file with the extension `.module.css` and will process the file using `css-loader`.
+
+```jsx
+import React from 'react';
+import styles from './style.module.css';
+
+const Component = () => <div className={styles.className} />;
+
+export default Component;
+```
+
+**Use Less**
+
+Install the less plugin.
+
+```bash
+npm install @kkt/plugin-less --save-dev
+```
+
+Modify the `.kktrc.js` config and add plugins.
+
+```js
+module.exports = {
+  plugins: [
+    require.resolve('@kkt/plugin-less'),
+  ],
+};
+```
+
+Use [`@kkt/plugin-less`](./packages/kkt-plugin-less) support Less.
+
+```jsx
+import React from 'react';
+import styles from './style.module.less';
+
+const Component = () => <div className={styles.className} />;
+
+export default Component;
+```
+
+## KKT Config
+
+The root directory creates the `.kktrc.js` file.
+
+```js
+module.exports = {
+  // Using plugins
+  plugins: [],
+  // Modify the babel config
+  babel: (conf, option) => {
+    return conf;
+  },
+  // Modify the webpack config
+  config: (conf, { target, dev, env, ...otherOptions }, webpack) => {
+    return conf;
+  }
+};
+```
+
+## Example
+
+A complete [`react + react-router + rematch(redux)`](example/react-router+rematch) example is recommended for production projects, similar to [next.js](https://github.com/zeit/next.js). Initialize the project from one of the examples: 
+
+```bash
+npx create-kkt-app my-app -e react-router+rematch
+```
+
+- [**`basic`**](example/basic) - Server-side rendering of the [react](https://github.com/facebook/react) base application.
+- [**`dynamic-loadable`**](example/dynamic-loadable) - A [react-loadable](https://github.com/jamiebuilds/react-loadable) for server side rendering for your [react](https://github.com/facebook/react) application.
+- [**`less`**](example/less) - React uses the server side rendering of the [Less](https://github.com/less/less.js) based application.
+- [**`mock-api`**](example/mock-api) - Server-side rendering [mock api](https://github.com/jaywcjlove/webpack-api-mocker) of the React base application.
+- [**`reach-router + loadable-components`**](example/reach-router-loadable) - A [reach-router](https://github.com/reach/router) loadable for server side rendering for your react application.
+- [**`react-router`**](example/react-router) - React uses server-side rendering of the [react-router](https://github.com/ReactTraining/react-router).
+- [**`react-router + loadable-components`**](example/react-router-loadable) - A react-router [loadable-components](https://github.com/smooth-code/loadable-components) for server side rendering.
+- [**`react-router + rematch + loadable-component`**](example/react-router-rematch-loadable-component) - A react-router [loadable-components](https://github.com/smooth-code/loadable-components) for server side rendering.
+- [**`react-router+rematch`**](example/react-router+rematch) - This is a sophisticated example, similar to [next.js](https://github.com/zeit/next.js).
+- [**`scss`**](example/scss) - React uses the server side rendering of the [sass](https://github.com/sass/node-sass) based application.
+- [**`styled-components`**](example/styled-components) - Server-side rendering of the react [styled-components](https://github.com/styled-components/styled-components) base application.
+- [**`stylus`**](example/stylus) - React uses the server side rendering of the [stylus](https://github.com/stylus/stylus/) based application.
+- [**`unstated`**](example/unstated) - React uses the server side rendering of the [unstated](https://github.com/jamiebuilds/unstated) based application.
+
+## License
 
 Licensed under the MIT License
