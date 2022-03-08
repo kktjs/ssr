@@ -47,7 +47,7 @@ jobs:
     - run: cp -rp ./example/basic/basic.zip ./zip/
     - run: cp -rp ./example/basic-plugins/basic-plugins.zip ./zip/
     - run: cp -rp ./example/basic-routes/basic-routes.zip ./zip/
-    - run: cp -rp ./example/basic-routes-rematch-new/basic-routes-rematch-old.zip ./zip/
+    - run: cp -rp ./example/basic-routes-rematch-new/basic-routes-rematch-new.zip ./zip/
     - run: cp -rp ./example/react-router-rematch-old/react-router-rematch-old.zip ./zip/
 
     - name: Add Download Page
