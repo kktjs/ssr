@@ -1,0 +1,55 @@
+{
+  "name": "@examples/basic-routes-rematch-old",
+  "version": "3.0.1",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "nodemon": "NODE_ENV=production nodemon dist/server.js",
+    "build": "npm run build:node && npm run build:web",
+    "build:ex": "kkt-ssr build --ne false",
+    "build:web": "kkt-ssr build --target web",
+    "build:node": "kkt-ssr build",
+    "start": "npm run start:server & npm run start:web",
+    "start:server": "kkt-ssr watch",
+    "start:web": "kkt-ssr watch --target web",
+    "test": "kkt-ssr test --env=jsdom",
+    "server": "NODE_ENV=production nodemon dist/server.js"
+  },
+  "keywords": [],
+  "author": "Kenny Wong <wowohoo@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kkt/react-ssr-enhanced": "3.0.1",
+    "@rematch/core": "1.0.6",
+    "axios": "0.18.0",
+    "cookie-parser": "1.4.3",
+    "cookiejs": "1.0.15",
+    "express": "4.16.4",
+    "history": "4.9.0",
+    "http-proxy-middleware": "0.19.1",
+    "react": "17.0.2",
+    "react-content-loader": "4.2.2",
+    "react-dom": "17.0.2",
+    "react-dynamic-loadable": "2.0.1",
+    "react-helmet": "5.2.1",
+    "react-redux": "7.2.6",
+    "react-router-dom": "4.3.1"
+  },
+  "devDependencies": {
+    "@kkt/ssr": "3.0.1",
+    "kkt": "7.1.5",
+    "mocker-api": "1.6.6"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

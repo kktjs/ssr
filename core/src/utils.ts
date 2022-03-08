@@ -7,22 +7,16 @@ export const filterPluginsServer = (
   conf: WebpackConfiguration,
   cssFilename: string,
   mini: boolean = false,
-  isomorphic: boolean = false,
 ) => {
   // plugin 处理 ts ，ForkTsCheckerWebpackPlugin  MiniCssExtractPlugin
   conf.plugins = conf.plugins
     .map((plugin) => {
       if (/(MiniCssExtractPlugin)/.test(plugin.constructor.name)) {
-        if (!isomorphic) {
-          return new MiniCssExtractPlugin({
-            // Options similar to the same options in webpackOptions.output
-            // both options are optional
-            filename: `${cssFilename}.css`,
-          });
-        } else {
-          // [isomorphic-style-loader](https://www.npmjs.com/package/isomorphic-style-loader) 进行转换
-          return null;
-        }
+        return new MiniCssExtractPlugin({
+          // Options similar to the same options in webpackOptions.output
+          // both options are optional
+          filename: `${cssFilename}.css`,
+        });
       }
       if (/(ForkTsCheckerWebpackPlugin|DefinePlugin|IgnorePlugin|ESLintPlugin)/.test(plugin.constructor.name)) {
         return plugin;

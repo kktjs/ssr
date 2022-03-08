@@ -1,5 +1,9 @@
 import webpack from 'webpack';
 import { WebpackConfiguration, MiniCssExtractPlugin } from 'kkt';
+import { WebpackManifestPlugin } from "webpack-manifest-plugin"
+import path from 'path';
+import paths from "./paths"
+
 const SimpleProgressWebpackPlugin = require('@kkt/simple-progress-webpack-plugin');
 
 export const getWebpackRunPlugins = (plugins: WebpackConfiguration['plugins']) => {
@@ -68,3 +72,43 @@ export const getRemoveHtmlTemp = (plugins: WebpackConfiguration['plugins']) => {
   });
   return newPlugins;
 }
+
+
+// 重新 设置 asset-manifest.json 内容，适配老版的服务渲染问题 
+export const restWebpackManifestPlugin = (conf: WebpackConfiguration) => {
+  conf.plugins.push(new WebpackManifestPlugin({
+    fileName: 'asset-manifest.json',
+    publicPath: paths.publicUrlOrPath,
+    generate: (seed, files, entrypoints) => {
+      const routhPaths: Record<string, { css?: string, js?: string }> = {}
+      const manifestFiles = files.reduce((manifest, file) => {
+        manifest[file.name] = file.path;
+        if (!file.name.endsWith('.map')) {
+          const routePath = `${file.name}`.replace(/.(css|js)$/, "")
+          if (!routhPaths[routePath]) {
+            routhPaths[routePath] = {}
+          }
+          const extname = path.extname(file.name).replace(".", "") as "css" | "js";	 //获取文件的后缀名
+          routhPaths[routePath][extname] = file.path;
+        }
+        return manifest;
+      }, seed);
+      const client: Record<string, string> = { css: null, js: null }
+      const entrypointFiles = entrypoints.main.filter(
+        fileName => !fileName.endsWith('.map')
+      );
+      entrypointFiles.forEach((filename) => {
+        const extname = path.extname(filename).replace(".", "") as "css" | "js";	 //获取文件的后缀名
+        client[extname] = filename
+      })
+      return {
+        ...routhPaths,
+        files: manifestFiles,
+        entrypoints: entrypointFiles,
+        client,
+      };
+    },
+  }))
+  return conf
+}
+

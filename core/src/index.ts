@@ -64,11 +64,13 @@ const data = {
   nolog: false,
   out: "",
   publicFolder: "",
-  isWeb: false
+  isWeb: false,
+  isEnvDevelopment: false,
 }
 
 process.on("exit", (code) => {
-  if (data.nolog || code === 1) {
+  // 开发模式下不需要进行复制
+  if (data.nolog || code === 1 || data.isEnvDevelopment) {
     return;
   }
   if (!data.isWeb) {
@@ -143,7 +145,8 @@ process.on("exit", (code) => {
     const target = isWeb ? argvs.target : argvs.target ? ['node14', argvs.target] : 'node14';
     fs.ensureDirSync(outDir);
 
-    const isEnvDevelopment = scriptName === "watch"
+    const isEnvDevelopment = data.isEnvDevelopment = scriptName === "watch"
+
 
     overridePaths(undefined, { ...oPaths });
     argvs.overridesWebpack = (conf, env, options) => {
@@ -153,10 +156,13 @@ process.on("exit", (code) => {
         // server  端 css 代码可以可以 isomorphic-style-loader 进行打包 或者 直接分离出
         // 处理 module rules 和 plugin 里面的 原始 css loader，是使用  isomorphic-style-loader 还是直接分离做判断
         conf = filterPluginsServer(conf, fileName, argvs.minify);
+        // 代码分割问题
+        conf.plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }))
       } else {
         // 去除 index.html 模板
         conf = filterPluginsClient(conf, argvs.minify);
       }
+
       conf.entry = inputFile;
       if (argvs.sourceMap) {
         conf.devtool = typeof argvs.sourceMap === 'boolean' ? 'source-map' : argvs.sourceMap;

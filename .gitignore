@@ -6,7 +6,7 @@ dist
 .cache
 .vscode
 yarn.lock
-
+package-lock.json
 *.bak
 *.tem
 *.temp

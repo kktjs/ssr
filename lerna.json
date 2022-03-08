@@ -1,7 +1,9 @@
 {
   "packages": [
     "example/*",
-    "core/"
+    "core/",
+    "packages/create-kkt-ssr",
+    "packages/react-ssr-enhanced"
   ],
-  "version": "3.0.0"
+  "version": "3.0.1"
 }
