@@ -1,5 +1,10 @@
 name: ZIP
 
+on:
+  push:
+    branches:
+      - master
+
 jobs:
   build-zip:
     runs-on: ubuntu-18.04
