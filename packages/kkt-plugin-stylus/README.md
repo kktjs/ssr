@@ -1,7 +1,7 @@
 @kkt/plugin-stylus
 ---
 
-This package contains a plugin for using [stylus](https://github.com/stylus/stylus/) with [@kkt/ssr](https://github.com/kktjs/kkt-ssr).
+This package contains a plugin for using [stylus](https://github.com/stylus/stylus/) with [@kkt/ssr](https://github.com/kktjs/ssr).
 
 
 ## Usage in @kkt/ssr Projects

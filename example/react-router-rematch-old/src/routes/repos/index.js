@@ -25,10 +25,10 @@ export default class Repos extends React.Component {
               <Link to="/about/">About</Link>
             </li>
             <li>
-              <a href="https://github.com/kktjs/kkt-ssr">Docs</a>
+              <a href="https://github.com/kktjs/ssr">Docs</a>
             </li>
             <li>
-              <a href="https://github.com/kktjs/kkt-ssr/issues">Issues</a>
+              <a href="https://github.com/kktjs/ssr/issues">Issues</a>
             </li>
           </ul>
         </div>

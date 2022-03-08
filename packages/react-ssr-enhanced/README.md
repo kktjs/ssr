@@ -1,7 +1,7 @@
 @kkt/react-ssr-enhanced
 ---
 
-This is an enhancement to [@kkt/ssr](https://github.com/kktjs/kkt-ssr), used with [react-router 4](https://github.com/ReactTraining/react-router). 
+This is an enhancement to [@kkt/ssr](https://github.com/kktjs/ssr), used with [react-router 4](https://github.com/ReactTraining/react-router). 
 `React Router 4` supports all routes to `@kkt/react-ssr-enhanced`. You can use any and all parts of `React Router 4`.
 
 [`React`](https://github.com/facebook/react) + [`React Router`](https://github.com/ReactTraining/react-router) + [`Rematch`](https://github.com/rematch/rematch) + [`Express`](https://expressjs.com/)
@@ -9,7 +9,7 @@ This is an enhancement to [@kkt/ssr](https://github.com/kktjs/kkt-ssr), used wit
 
 ## Quick Start
 
-> ⚠️ A perfect example [`react-router+rematch`](https://github.com/kktjs/kkt-ssr/tree/master/example/react-router+rematch) is recommended for production environments.
+> ⚠️ A perfect example [`react-router+rematch`](https://github.com/kktjs/ssr/tree/master/example/react-router+rematch) is recommended for production environments.
 
 ```bash
 npx create-kkt-app my-app -e react-router+rematch

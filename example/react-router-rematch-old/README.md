@@ -1,7 +1,7 @@
 react-router+rematch
 ---
 
-A simple for server side rendering for your React application. This is a basic, bare-bones example of how to use [`@kkt/react-ssr-enhanced`](https://github.com/kktjs/kkt-ssr/tree/master/packages) and [`@kkt/ssr`](https://github.com/kktjs/kkt-ssr).
+A simple for server side rendering for your React application. This is a basic, bare-bones example of how to use [`@kkt/react-ssr-enhanced`](https://github.com/kktjs/ssr/tree/master/packages) and [`@kkt/ssr`](https://github.com/kktjs/ssr).
 
 [Rematch](https://github.com/rematch/rematch) is [Redux](https://github.com/reduxjs/redux) best practices without the boilerplate. No more action types, action creators, switch statements or thunks.
 
