@@ -32,7 +32,7 @@ A baseline for server side rendering for your React application.
 
 Options:
   -v, --version                 output the version number
-  -e, --example <example-path>  Example from https://github.com/kktjs/kkt-ssr/tree/master/example example-path (default: "basic")
+  -e, --example <example-path>  Example from https://github.com/kktjs/ssr/tree/master/example example-path (default: "basic")
   -h, --help                    output usage information
 
 Examples:
@@ -41,3 +41,17 @@ Examples:
   $ create-kkt-app my-app
   $ create-kkt-app -e react-router my-app
 ```
+
+## Contributors
+
+As always, thanks to our amazing contributors!
+
+<a href="https://github.com/kktjs/ssr/graphs/contributors">
+  <img src="https://kktjs.github.io/ssr/CONTRIBUTORS.svg" />
+</a>
+
+Made with [github-action-contributors](https://github.com/jaywcjlove/github-action-contributors).
+
+## License
+
+Licensed under the MIT License

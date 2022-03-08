@@ -26,6 +26,13 @@ jobs:
       uses: jaywcjlove/markdown-to-html-cli@main
       with:
         output: build/index.html
+        github-corners: https://github.com/kktjs/ssr.git
+
+    - name: Converts create-kkt-ssr Markdown to HTML
+      uses: jaywcjlove/markdown-to-html-cli@main
+      with:
+        output: build/create-kkt-ssr.html
+        github-corners: https://github.com/kktjs/ssr/tree/master/packages/create-kkt-ssr
 
     - name: Generate Contributors Images
       uses: jaywcjlove/github-action-contributors@main
@@ -67,13 +74,20 @@ jobs:
         name: ${{ steps.create_tag.outputs.version }}
         tag: ${{ steps.create_tag.outputs.version }}
         body: |
-          
-          ${{ steps.changelog.outputs.compareurl }}
+          Documentation ${{ steps.changelog.outputs.tag }}: https://raw.githack.com/kktjs/ssr/${{ steps.changelog.outputs.gh-pages-short-hash }}/index.html  
+          Comparing Changes: ${{ steps.changelog.outputs.compareurl }} 
 
           ${{ steps.changelog.outputs.changelog }}
 
-          Document @kkt/ssr @${{ steps.create_tag.outputs.version }}:
+    - name: 📦 @kkt/ssr publish to NPM
+      uses: JS-DevTools/npm-publish@v1
+      with:
+        token: ${{ secrets.NPM_TOKEN }}
+        package: ./core/package.json
 
-    - run: npm install @jsdevtools/npm-publish -g
-    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./core/package.json
-    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/react-ssr-enhanced/package.json
+    - name: 📦 @kkt/react-ssr-enhanced publish to NPM
+      uses: JS-DevTools/npm-publish@v1
+      with:
+        token: ${{ secrets.NPM_TOKEN }}
+        package: ./packages/react-ssr-enhanced/package.json
+

@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kktjs/kkt-ssr/tree/master/packages/create-kkt-ssr"
+    "url": "https://github.com/kktjs/ssr/tree/master/packages/create-kkt-ssr"
   },
   "keywords": [
     "react",

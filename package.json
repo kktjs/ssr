@@ -1,7 +1,6 @@
 {
 	"name": "@kkt/root",
 	"private": true,
-	"version": "1.3.1",
 	"description": "A baseline for server side rendering for your React application.",
 	"scripts": {
 		"build": "npm run build:ssr && npm run build:enhanced",
@@ -29,12 +28,7 @@
 		"tsbb": "tsbb",
 		"lerna": "lerna"
 	},
-	"repository": "https://github.com/kktjs/kkt-ssr.git",
 	"author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
-	"bugs": {
-		"mail": "wowohoo@qq.com",
-		"url": "https://github.com/kktjs/kkt-ssr/issues"
-	},
 	"license": "MIT",
 	"husky": {
 		"hooks": {

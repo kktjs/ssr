@@ -11,7 +11,7 @@ export async function run(): Promise<void> {
       example: 'e',
     },
     default: {
-      path: 'https://kktjs.github.io/kkt-ssr/zip/',
+      path: 'https://kktjs.github.io/ssr/zip/',
       output: '.',
       force: false,
       example: 'basic',
@@ -37,7 +37,7 @@ export const helpExample: string = `Example:
     \x1b[35mnpx\x1b[0m create-kkt-ssr \x1b[33mmy-app\x1b[0m
     \x1b[35mnpm\x1b[0m create kkt-ssr \x1b[33mmy-app\x1b[0m
     \x1b[35mnpm\x1b[0m create kkt-ssr \x1b[33mmy-app\x1b[0m -f
-    \x1b[35mnpm\x1b[0m create kkt-ssr \x1b[33mmy-app\x1b[0m -p \x1b[34mhttps://kktjs.github.io/kkt-ssr/zip/\x1b[0m
+    \x1b[35mnpm\x1b[0m create kkt-ssr \x1b[33mmy-app\x1b[0m -p \x1b[34mhttps://kktjs.github.io/ssr/zip/\x1b[0m
 `;
 
 export const helpCli: string = `
@@ -48,9 +48,9 @@ export const helpCli: string = `
     --version, -v   Show version number
     --help, -h      Displays help information.
     --output, -o    Output directory.
-    --example, -e   Example from: \x1b[34mhttps://kktjs.github.io/kkt-ssr/zip/\x1b[0m, default: "kkt-ssr-ts"
+    --example, -e   Example from: \x1b[34mhttps://kktjs.github.io/ssr/zip/\x1b[0m, default: "kkt-ssr-ts"
     --path, -p      Specify the download target git address.
-                      default: "\x1b[34mhttps://kktjs.github.io/kkt-ssr/zip/\x1b[0m"
+                      default: "\x1b[34mhttps://kktjs.github.io/ssr/zip/\x1b[0m"
   
   ${helpExample}
   

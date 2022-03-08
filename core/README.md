@@ -1,21 +1,21 @@
 <p align="center">
-  <a href="https://github.com/kktjs/kkt-ssr">
-    <img src="./assets/kkt.ssr.svg?sanitize=true">
+  <a href="https://kktjs.github.io/ssr">
+    <img src="https://user-images.githubusercontent.com/1680273/157196191-9e56f20a-8991-487a-a78d-35352a2c1222.png">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/kktjs/kkt-ssr/issues">
-    <img src="https://img.shields.io/github/issues/kktjs/kkt-ssr.svg">
+  <a href="https://github.com/kktjs/ssr/issues">
+    <img src="https://img.shields.io/github/issues/kktjs/ssr.svg">
   </a>
-  <a href="https://github.com/kktjs/kkt-ssr/network">
-    <img src="https://img.shields.io/github/forks/kktjs/kkt-ssr.svg">
+  <a href="https://github.com/kktjs/ssr/network">
+    <img src="https://img.shields.io/github/forks/kktjs/ssr.svg">
   </a>
-  <a href="https://github.com/kktjs/kkt-ssr/stargazers">
-    <img src="https://img.shields.io/github/stars/kktjs/kkt-ssr.svg">
+  <a href="https://github.com/kktjs/ssr/stargazers">
+    <img src="https://img.shields.io/github/stars/kktjs/ssr.svg">
   </a>
-  <a href="https://github.com/kktjs/kkt-ssr/releases">
-    <img src="https://img.shields.io/github/release/kktjs/kkt-ssr.svg">
+  <a href="https://github.com/kktjs/ssr/releases">
+    <img src="https://img.shields.io/github/release/kktjs/ssr.svg">
   </a>
   <a href="https://www.npmjs.com/package/@kkt/ssr">
     <img src="https://img.shields.io/npm/v/@kkt/ssr.svg">
@@ -25,8 +25,8 @@
 Create [React](https://github.com/facebook/react) server-side rendering universal JavaScript applications with no configuration. If you don't need server-side rendering you can use [kkt](https://github.com/jaywcjlove/kkt) tools.
 
 <p align="center">
-  <a href="https://github.com/kktjs/kkt-ssr/tree/master/example/react-router%2Brematch">
-    <img src="https://github.com/kktjs/kkt-ssr/raw/847e32d0f04c30da9f7b3bd637be9fa6b1eee22b/assets/ssr.png?sanitize=true">
+  <a href="https://github.com/kktjs/ssr/tree/master/example/react-router%2Brematch">
+    <img src="https://github.com/kktjs/ssr/raw/847e32d0f04c30da9f7b3bd637be9fa6b1eee22b/assets/ssr.png?sanitize=true">
   </a>
 </p>
 
@@ -46,7 +46,7 @@ cd my-app
 npm start
 ```
 
-You can also initialize a project from one of the examples. Example from [kktjs/kkt-ssr](./example) example-path. 
+You can also initialize a project from one of the examples. Example from [kktjs/ssr](./example) example-path. 
 
 ```bash
 # Using the template method
@@ -229,6 +229,16 @@ npx create-kkt-app my-app -e react-router+rematch
 - [**`styled-components`**](example/styled-components) - Server-side rendering of the react [styled-components](https://github.com/styled-components/styled-components) base application.
 - [**`stylus`**](example/stylus) - React uses the server side rendering of the [stylus](https://github.com/stylus/stylus/) based application.
 - [**`unstated`**](example/unstated) - React uses the server side rendering of the [unstated](https://github.com/jamiebuilds/unstated) based application.
+
+## Contributors
+
+As always, thanks to our amazing contributors!
+
+<a href="https://github.com/kktjs/ssr/graphs/contributors">
+  <img src="https://kktjs.github.io/ssr/CONTRIBUTORS.svg" />
+</a>
+
+Made with [github-action-contributors](https://github.com/jaywcjlove/github-action-contributors).
 
 ## License
 
