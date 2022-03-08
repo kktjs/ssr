@@ -1,6 +1,6 @@
 {
   "name": "@kkt/react-ssr-enhanced",
-  "version": "2.0.2",
+  "version": "3.0.1",
   "description": "KKT react server side rendering enhancement tool.",
   "main": "lib/index.js",
   "module": "esm/index.js",
