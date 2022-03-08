@@ -98,7 +98,7 @@ jobs:
         <head>
         <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
-        <title>uiw-admin Example Zip Files</title>
+        <title>kkt-ssr Example Zip Files</title>
         <style type="text/css">
         body, html { height: 100%; font-size: 12px; font-family: Avenir Next,PingFang SC,Hiragino Sans GB,Droid Sans Fallback,Microsoft YaHei,sans-serif; }
         h1 { font-size: 2.6rem; font-weight: 300; }
@@ -133,7 +133,7 @@ jobs:
           <a target="__blank" href="https://github.com/kktjs/ssr">GitHub</a> ·
           <a target="__blank" href="https://github.com/kktjs/ssr/issues">Feedback</a> ·
           <a target="__blank" href="https://github.com/kktjs/ssr">Create SSR Project</a> ·
-          <a target="__blank" href="https://github.com/kktjs/ssr">uiw-admin</a>
+          <a target="__blank" href="https://github.com/kktjs/ssr">kkt-ssr</a>
         </div>
         <div class="footer">
           Licensed under MIT. (Yes it's free and open-sourced)
@@ -177,6 +177,12 @@ jobs:
       with:
         token: ${{ secrets.NPM_TOKEN }}
         package: ./core/package.json
+
+    - name: 📦 create-kkt-ssr publish to NPM
+      uses: JS-DevTools/npm-publish@v1
+      with:
+        token: ${{ secrets.NPM_TOKEN }}
+        package: ./packages/create-kkt-ssr/package.json
 
     - name: 📦 @kkt/react-ssr-enhanced publish to NPM
       uses: JS-DevTools/npm-publish@v1
