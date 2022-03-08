@@ -47,3 +47,16 @@ Within getInitialProps, you have access to all you need to fetch data on both th
 - `history`: React Router 4's `history` object.
 - `location`: (client-only) React Router 4's `location` object.
 
+## Contributors
+
+As always, thanks to our amazing contributors!
+
+<a href="https://github.com/kktjs/ssr/graphs/contributors">
+  <img src="https://kktjs.github.io/ssr/CONTRIBUTORS.svg" />
+</a>
+
+Made with [github-action-contributors](https://github.com/jaywcjlove/github-action-contributors).
+
+## License
+
+Licensed under the MIT License
