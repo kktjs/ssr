@@ -20,7 +20,7 @@ export const getWebpackRunPlugins = (plugins: WebpackConfiguration['plugins']) =
       !(
         plugin &&
         plugin.constructor &&
-        ['HtmlWebpackPlugin', 'SSRWebpackPlugin', 'SSRWebpackRunPlugin', 'WebpackManifestPlugin'].includes(
+        ['HtmlWebpackPlugin', 'SSRWebpackRunPlugin', 'WebpackManifestPlugin'].includes(
           plugin.constructor.name,
         )
       )

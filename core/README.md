@@ -43,7 +43,9 @@ You will need [`Node.js`](https://nodejs.org) installed on your system.
 ```bash
 npx create-kkt-ssr my-app
 cd my-app
-npm start
+npm install
+npm run start
+npm run server
 ```
 
 You can also initialize a project from one of the examples. Example from [kktjs/ssr](./example) example-path. 
@@ -120,6 +122,24 @@ export default (conf, evn) => {
   if (!options.bundle) {
     conf = restWebpackManifestPlugin(conf);
   }
+  return conf;
+};
+
+```
+
+**use SSRWebpackRunPlugin**
+
+```js
+import { restWebpackManifestPlugin, getRemoveHtmlTemp, SSRWebpackRunPlugin } from '@kkt/ssr/lib/plugins';
+
+export default (conf, evn) => {
+   // client ，
+  if (!options.bundle) {
+    conf.plugins.push(new SSRWebpackRunPlugin());
+    conf.plugins = getRemoveHtmlTemp(conf.plugins)
+    conf = restWebpackManifestPlugin(conf);
+  }
+  conf.module.exprContextCritical = false;
   return conf;
 };
 
