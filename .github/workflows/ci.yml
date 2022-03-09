@@ -75,7 +75,7 @@ jobs:
     
     # 压缩 basic 文件夹
     - name: Compress react-router-rematch-old Example.
-      run: zip -r -y react-router-rematch-old.zip . -x "node_modules/*" -x "build/*" -x "dist/*" -x "coverage/*" -x ".eslintcache" -x "sandbox.config.json" -x ".stackblitzrc"
+      run: zip -r -y react-router-rematch.zip . -x "node_modules/*" -x "build/*" -x "dist/*" -x "coverage/*" -x ".eslintcache" -x "sandbox.config.json" -x ".stackblitzrc"
       working-directory: example/react-router-rematch-old
 
     # 生成 zip 文件夹 用于存储压缩包
@@ -85,7 +85,7 @@ jobs:
     - run: cp -rp ./example/basic-plugins/basic-plugins.zip ./build/zip/
     - run: cp -rp ./example/basic-routes/basic-routes.zip ./build/zip/
     - run: cp -rp ./example/basic-routes-rematch-new/basic-routes-rematch-new.zip ./build/zip/
-    - run: cp -rp ./example/react-router-rematch-old/react-router-rematch-old.zip ./build/zip/
+    - run: cp -rp ./example/react-router-rematch-old/react-router-rematch.zip ./build/zip/
 
     - name: Add Download Page
       working-directory: ./build/zip

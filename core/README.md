@@ -51,7 +51,7 @@ You can also initialize a project from one of the examples. Example from [kktjs/
 ```bash
 # Using the template method
 # `npx create-kkt-ssr my-app [-e example name]`
-npx create-kkt-ssr my-app -e react-router+rematch
+npx create-kkt-ssr my-app -e react-router-rematch
 ```
 
 or
@@ -59,12 +59,12 @@ or
 ```bash
 npm install -g create-kkt-ssr
 # Create project, Using the template method
-create-kkt-ssr my-app -e react-router+rematch
+create-kkt-ssr my-app -e react-router-rematch
 cd my-app # Enter the directory
 npm start # Start service
 ```
 
-> ⚠️ A perfect example [`react-router+rematch`](example/react-router+rematch) is recommended for production environments, This example is similar to [`Next.js`](https://github.com/zeit/next.js).
+> ⚠️ A perfect example [`react-router-rematch`](example/react-router-rematch) is recommended for production environments, This example is similar to [`Next.js`](https://github.com/zeit/next.js).
 
 **development**
 
@@ -116,7 +116,7 @@ export default (conf, evn) => {
 import { restWebpackManifestPlugin } from '@kkt/ssr/lib/plugins';
 
 export default (conf, evn) => {
-  // client ， In order to adapt to the old version
+  // client ， In order to be compatible with the old lazy loading mode
   if (!options.bundle) {
     conf = restWebpackManifestPlugin(conf);
   }
@@ -205,15 +205,15 @@ export default (conf, evn, options) => {
 
 ## Example
 
-A complete [`react + react-router + rematch(redux)`](example/react-router+rematch) example is recommended for production projects, similar to [next.js](https://github.com/zeit/next.js). Initialize the project from one of the examples: 
+A complete [`react + react-router + rematch(redux)`](example/react-router-rematch-old) example is recommended for production projects, similar to [next.js](https://github.com/zeit/next.js). Initialize the project from one of the examples: 
 
 ```bash
-npx create-kkt-ssr my-app -e react-router+rematch
+npx create-kkt-ssr my-app -e react-router-rematch
 ```
 
 - [**`basic`**](example/basic) - Server-side rendering of the [react](https://github.com/facebook/react) base application.
 - [**`react-router`**](example/react-router) - React uses server-side rendering of the [react-router](https://github.com/ReactTraining/react-router).
-- [**`react-router+rematch`**](example/react-router-rematch-old) - This is a sophisticated example, similar to [next.js](https://github.com/zeit/next.js).
+- [**`react-router-rematch`**](example/react-router-rematch-old) - This is a sophisticated example, similar to [next.js](https://github.com/zeit/next.js).
 
 ## Contributors
 
