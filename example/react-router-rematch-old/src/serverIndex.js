@@ -7,27 +7,11 @@ import { createStore } from './store';
 import Path from 'path';
 import FS from 'fs';
 
-// const assets = require(process.env.KKT_ASSETS_MANIFEST); // eslint-disable-line
-
 // require 方式 打包报错
 const assetsMainifest = new Function(`return ${FS.readFileSync(`${OUTPUT_PUBLIC_PATH}/asset-manifest.json`, "utf-8")}`)()
 
 const appDirectory = FS.realpathSync(process.cwd());
 const resolveApp = (relativePath) => Path.resolve(appDirectory, relativePath);
-
-// const assets = {}
-
-// if (assetsMainifest && assetsMainifest["entrypoints"]) {
-//   Object.values(assetsMainifest.entrypoints).forEach((item) => {
-//     if (/.css$/.test(item)) {
-//       assets.css = item
-//     }
-//     if (/.js$/.test(item)) {
-//       assets.js = item
-//     }
-//   })
-// }
-
 
 const routes = getRouterData();
 const server = express();

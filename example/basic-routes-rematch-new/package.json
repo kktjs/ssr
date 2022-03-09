@@ -4,14 +4,16 @@
   "description": "",
   "private": true,
   "scripts": {
-    "server": "node dist/server.js",
-    "nodemon": "nodemon dist/server.js",
-    "build": "npm run build:server && npm run build:web",
-    "build:server": "kkt-ssr build",
+    "nodemon": "NODE_ENV=production nodemon dist/server.js",
+    "build": "npm run build:node && npm run build:web",
+    "build:ex": "kkt-ssr build --ne false",
     "build:web": "kkt-ssr build --target web",
+    "build:node": "kkt-ssr build",
     "start": "npm run start:server & npm run start:web",
     "start:server": "kkt-ssr watch",
-    "start:web": "kkt-ssr watch --target web"
+    "start:web": "kkt-ssr watch --target web",
+    "test": "kkt-ssr test --env=jsdom",
+    "server": "NODE_ENV=production nodemon dist/server.js"
   },
   "keywords": [],
   "dependencies": {
@@ -26,8 +28,8 @@
     "serialize-javascript": "6.0.0"
   },
   "devDependencies": {
-    "@kkt/ssr": "3.0.1",
-    "kkt": "7.1.5"
+    "@kkt/ssr": "~3.0.1",
+    "kkt": "~7.1.5"
   },
   "browserslist": {
     "production": [

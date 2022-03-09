@@ -50,9 +50,6 @@
 		"lerna": "4.0.0",
 		"lint-staged": "12.3.4",
 		"prettier": "2.5.1",
-		"tsbb": "3.7.0"
-	},
-	"dependencies": {
-		"hoist": "^0.0.6"
+		"tsbb": "~3.7.2"
 	}
 }

@@ -41,30 +41,32 @@ You will need [`Node.js`](https://nodejs.org) installed on your system.
 ## Quick Start
 
 ```bash
-npx create-kkt-app my-app
+npx create-kkt-ssr my-app
 cd my-app
-npm start
+npm install
+npm run start
+npm run server
 ```
 
 You can also initialize a project from one of the examples. Example from [kktjs/ssr](./example) example-path. 
 
 ```bash
 # Using the template method
-# `npx create-kkt-app my-app [-e example name]`
-npx create-kkt-app my-app -e react-router+rematch
+# `npx create-kkt-ssr my-app [-e example name]`
+npx create-kkt-ssr my-app -e react-router-rematch
 ```
 
 or
 
 ```bash
-npm install -g create-kkt-app
+npm install -g create-kkt-ssr
 # Create project, Using the template method
-create-kkt-app my-app -e react-router+rematch
+create-kkt-ssr my-app -e react-router-rematch
 cd my-app # Enter the directory
 npm start # Start service
 ```
 
-> ⚠️ A perfect example [`react-router+rematch`](example/react-router+rematch) is recommended for production environments, This example is similar to [`Next.js`](https://github.com/zeit/next.js).
+> ⚠️ A perfect example [`react-router-rematch`](example/react-router-rematch) is recommended for production environments, This example is similar to [`Next.js`](https://github.com/zeit/next.js).
 
 **development**
 
@@ -90,22 +92,6 @@ Your app is ready to be deployed!
 npm run server
 ```
 
-## Enable Inspector
-
-```bash
-npm start -- --inspect
-# or
-yarn start -- --inspect
-```
-
-To debug the node server, you can use `react-ssr start --inspect`. This will start the node server and enable the inspector agent. For more information, see [this](https://nodejs.org/en/docs/inspector/).
-
-```bash
-npm start -- --inspect-brk
-# or
-yarn start -- --inspect-brk
-```
-
 To debug the node server, you can use `react-ssr start --inspect-brk`. This will start the node server, enable the inspector agent and Break before user code starts. For more information, see [this](https://nodejs.org/en/docs/inspector/).
 
 ### Using Plugins
@@ -117,11 +103,46 @@ npm install kkt-plugin-xxxx
 ```
 
 ```js
-module.exports = {
-  plugins: [
-    require.resolve('kkt-plugin-xxxx'),
-  ],
+
+export default (conf, evn) => {
+  conf.plugins.push(require.resolve('kkt-plugin-xxxx'),)
+  return conf;
 };
+
+```
+
+**Reset WebpackManifestPlugin**
+
+```js
+
+import { restWebpackManifestPlugin } from '@kkt/ssr/lib/plugins';
+
+export default (conf, evn) => {
+  // client ， In order to be compatible with the old lazy loading mode
+  if (!options.bundle) {
+    conf = restWebpackManifestPlugin(conf);
+  }
+  return conf;
+};
+
+```
+
+**use SSRWebpackRunPlugin**
+
+```js
+import { restWebpackManifestPlugin, getRemoveHtmlTemp, SSRWebpackRunPlugin } from '@kkt/ssr/lib/plugins';
+
+export default (conf, evn) => {
+   // client ，
+  if (!options.bundle) {
+    conf.plugins.push(new SSRWebpackRunPlugin());
+    conf.plugins = getRemoveHtmlTemp(conf.plugins)
+    conf = restWebpackManifestPlugin(conf);
+  }
+  conf.module.exprContextCritical = false;
+  return conf;
+};
+
 ```
 
 [See All Plugins](https://www.npmjs.com/search?q=kkt-plugin)
@@ -131,13 +152,13 @@ module.exports = {
 Plugins are simply functions that modify and return KKT's webpack config.
 
 ```js
-module.exports = (conf, { target, dev, env, ...other }, webpack) => {
+export default  (conf, env, options) => {
   // client only
-  if (target === 'web') {}
+  if (!options.bundle) {}
   // server only
-  if (target === 'node') {}
+  if (options.bundle) {}
 
-  if (dev) {
+  if (env==="development") {
     // dev only
   } else {
     // prod only
@@ -171,11 +192,12 @@ npm install @kkt/plugin-less --save-dev
 Modify the `.kktrc.js` config and add plugins.
 
 ```js
-module.exports = {
-  plugins: [
-    require.resolve('@kkt/plugin-less'),
-  ],
+
+export default (conf, evn) => {
+  conf.plugins.push(require.resolve('@kkt/plugin-less'),)
+  return conf;
 };
+
 ```
 
 Use [`@kkt/plugin-less`](./packages/kkt-plugin-less) support Less.
@@ -194,41 +216,24 @@ export default Component;
 The root directory creates the `.kktrc.js` file.
 
 ```js
-module.exports = {
-  // Using plugins
-  plugins: [],
-  // Modify the babel config
-  babel: (conf, option) => {
-    return conf;
-  },
-  // Modify the webpack config
-  config: (conf, { target, dev, env, ...otherOptions }, webpack) => {
-    return conf;
-  }
+ // Modify the webpack config
+export default (conf, evn, options) => {
+  return conf;
 };
+
 ```
 
 ## Example
 
-A complete [`react + react-router + rematch(redux)`](example/react-router+rematch) example is recommended for production projects, similar to [next.js](https://github.com/zeit/next.js). Initialize the project from one of the examples: 
+A complete [`react + react-router + rematch(redux)`](example/react-router-rematch-old) example is recommended for production projects, similar to [next.js](https://github.com/zeit/next.js). Initialize the project from one of the examples: 
 
 ```bash
-npx create-kkt-app my-app -e react-router+rematch
+npx create-kkt-ssr my-app -e react-router-rematch
 ```
 
 - [**`basic`**](example/basic) - Server-side rendering of the [react](https://github.com/facebook/react) base application.
-- [**`dynamic-loadable`**](example/dynamic-loadable) - A [react-loadable](https://github.com/jamiebuilds/react-loadable) for server side rendering for your [react](https://github.com/facebook/react) application.
-- [**`less`**](example/less) - React uses the server side rendering of the [Less](https://github.com/less/less.js) based application.
-- [**`mock-api`**](example/mock-api) - Server-side rendering [mock api](https://github.com/jaywcjlove/webpack-api-mocker) of the React base application.
-- [**`reach-router + loadable-components`**](example/reach-router-loadable) - A [reach-router](https://github.com/reach/router) loadable for server side rendering for your react application.
 - [**`react-router`**](example/react-router) - React uses server-side rendering of the [react-router](https://github.com/ReactTraining/react-router).
-- [**`react-router + loadable-components`**](example/react-router-loadable) - A react-router [loadable-components](https://github.com/smooth-code/loadable-components) for server side rendering.
-- [**`react-router + rematch + loadable-component`**](example/react-router-rematch-loadable-component) - A react-router [loadable-components](https://github.com/smooth-code/loadable-components) for server side rendering.
-- [**`react-router+rematch`**](example/react-router+rematch) - This is a sophisticated example, similar to [next.js](https://github.com/zeit/next.js).
-- [**`scss`**](example/scss) - React uses the server side rendering of the [sass](https://github.com/sass/node-sass) based application.
-- [**`styled-components`**](example/styled-components) - Server-side rendering of the react [styled-components](https://github.com/styled-components/styled-components) base application.
-- [**`stylus`**](example/stylus) - React uses the server side rendering of the [stylus](https://github.com/stylus/stylus/) based application.
-- [**`unstated`**](example/unstated) - React uses the server side rendering of the [unstated](https://github.com/jamiebuilds/unstated) based application.
+- [**`react-router-rematch`**](example/react-router-rematch-old) - This is a sophisticated example, similar to [next.js](https://github.com/zeit/next.js).
 
 ## Contributors
 
