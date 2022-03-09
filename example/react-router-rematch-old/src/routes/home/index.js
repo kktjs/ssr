@@ -21,7 +21,6 @@ class Home extends React.Component {
     return { whatever: 'Home stuff', isServer: true };
   }
   render() {
-    console.log('~11~:', this.props.whatever);
     return (
       <Container title="Home">
         <Helmet>

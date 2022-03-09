@@ -1,3 +1,4 @@
+
 import { restWebpackManifestPlugin } from '@kkt/ssr/lib/plugins';
 export default (conf, evn, options) => {
   if (!options.bundle) {

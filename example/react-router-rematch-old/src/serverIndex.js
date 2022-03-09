@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser';
 import proxy from 'http-proxy-middleware';
 import { render } from '@kkt/react-ssr-enhanced';
 import { getRouterData } from './routes';
-import { createStore } from './store';
+import stores from './models';
 import Path from 'path';
 import FS from 'fs';
 
@@ -26,14 +26,13 @@ server.use('/api', proxy({
   changeOrigin: true,
 }));
 server.get('/*', async (req, res) => {
-  const store = await createStore();
   try {
     const html = await render({
       req,
       res,
       routes,
       assets: assetsMainifest,
-      store, // This Redux
+      store: stores, // This Redux
     });
     res.send(html);
   } catch (error) {
