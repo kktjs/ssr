@@ -7,19 +7,30 @@ import Container from '../../components/Container';
 import styles from './home.module.css';
 
 class Home extends React.Component {
-  // eslint-disable-next-line
-  static async getInitialProps({ req, res, match, store, history, location }) {
+
+  static getInitialProps = async ({ req, res, match, store, history, location }) => {
     let token = null;
-    // only on the server side
+    // // only on the server side
     if (req && store.dispatch.global && store.dispatch.global.verify && req.cookies) {
       token = req.cookies.token;
     }
-    if (typeof window !== 'undefined') {
-      token = cookie.get('token');
-    }
-    await store.dispatch.global.verify({ token });
-    return { whatever: 'Home stuff', isServer: true };
+    // if (window && typeof window !== 'undefined') {
+    //   token = cookie.get('token');
+    // }
+    // store.dispatch.global.verify
+    // console.log("store", store.dispatch.global.verify({ token: 2121 }))
+    // store.dispatch.global.verify({ token })
+    return Promise.resolve({
+      whatever: 'Home stuff', isServer: true
+    })
+
+    // return Promise.all([store.dispatch.global.verify({ token })]).then(() => ({
+    //   whatever: 'Home stuff', isServer: true
+    // }))
+    // return Promise.resolve(store.dispatch.global.verify({ token })).then(() => ({ whatever: 'Home stuff', isServer: true }));
   }
+
+
   render() {
     return (
       <Container title="Home">

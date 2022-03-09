@@ -5,10 +5,11 @@ import { Provider } from 'react-redux';
 import { ensureReady, RoutersController } from '@kkt/react-ssr-enhanced';
 import history from './utils/history';
 import { getRouterData } from './routes';
-import stores from './models';
+import { createStore } from './store';
 
 const routes = getRouterData();
 (async () => {
+  const store = await createStore(window._KKT_STORE);
   // Initialize store
   ensureReady(routes).then(async (data) => {
     // Fix: Expected server HTML to contain a matching <a> in
@@ -20,9 +21,9 @@ const routes = getRouterData();
     // The object exists only on the client side.
     window._history = history;
     renderMethod(
-      <Provider store={stores}>
+      <Provider store={store}>
         <BrowserRouter  >
-          <RoutersController store={stores} routes={routes} data={data} history={history} />
+          <RoutersController store={store} routes={routes} data={data} history={history} />
         </BrowserRouter>
       </Provider>,
       document.getElementById('root')

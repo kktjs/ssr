@@ -3,9 +3,9 @@ import cookieParser from 'cookie-parser';
 import proxy from 'http-proxy-middleware';
 import { render } from '@kkt/react-ssr-enhanced';
 import { getRouterData } from './routes';
-import stores from './models';
 import Path from 'path';
 import FS from 'fs';
+import { createStore } from './store';
 
 // require 方式 打包报错
 const assetsMainifest = new Function(`return ${FS.readFileSync(`${OUTPUT_PUBLIC_PATH}/asset-manifest.json`, "utf-8")}`)()
@@ -27,12 +27,13 @@ server.use('/api', proxy({
 }));
 server.get('/*', async (req, res) => {
   try {
+    const store = await createStore();
     const html = await render({
       req,
       res,
       routes,
       assets: assetsMainifest,
-      store: stores, // This Redux
+      store, // This Redux
     });
     res.send(html);
   } catch (error) {

@@ -75,11 +75,9 @@ class Controller extends React.PureComponent<ControllerProps, { data: any }> {
         // history: newHistory,
         ...rest,
       }).then(({ data: newData, match: currentMatch }) => {
-        // const ismatch = matchPath(window.location.pathname, currentMatch.path);
+        const ismatch = matchPath(currentMatch.path, window.location.pathname);
         // @ts-ignore
-        // if (window.location.pathname === currentMatch.path || (ismatch && ismatch.isExact)) { //  isExact ？ v4版本
-        console.log("newData", newData)
-        if (currentMatch && window.location.pathname === currentMatch.path) { //  isExact ？ v4版本
+        if (currentMatch && ismatch) {
           this.setState({ data: newData });
         }
       });

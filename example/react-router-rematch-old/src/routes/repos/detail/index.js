@@ -5,9 +5,8 @@ import './index.css';
 
 export default class Details extends React.Component {
   // eslint-disable-next-line
-  static async getInitialProps({ req, res, history, location, ...ctx }) {
-    console.log(222222222222)
-    return { whatever: `This params id: . ` };
+  static async getInitialProps({ req, res, history, location, match, ...ctx }) {
+    return { whatever: `This params id: ${match.params.id}. ` };
   }
   render() {
     const { match } = this.props;
