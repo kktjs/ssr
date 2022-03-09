@@ -232,7 +232,7 @@ npx create-kkt-ssr my-app -e react-router-rematch
 ```
 
 - [**`basic`**](example/basic) - Server-side rendering of the [react](https://github.com/facebook/react) base application.
-- [**`react-router`**](example/react-router) - React uses server-side rendering of the [react-router](https://github.com/ReactTraining/react-router).
+- [**`react-router`**](example/basic-routes) - React uses server-side rendering of the [react-router](https://github.com/ReactTraining/react-router).
 - [**`react-router-rematch`**](example/react-router-rematch-old) - This is a sophisticated example, similar to [next.js](https://github.com/zeit/next.js).
 
 ## Contributors
