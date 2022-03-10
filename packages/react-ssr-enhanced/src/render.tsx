@@ -15,7 +15,6 @@ export default async (options: RenderProps) => {
   const Doc = Document || DefaultDoc;
 
   const { match, data } = await loadInitialProps(routes, url.parse(req.url).pathname, { req, res, store, ...rest });
-  // const result = await loadInitialProps(routes, url.parse(req.url).pathname, { req, res, store, ...rest });
   if (!match) {
     res.status(404);
     return;

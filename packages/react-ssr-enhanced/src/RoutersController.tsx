@@ -1,12 +1,10 @@
 import React from 'react';
 import {
-  Routes,
   Route,
   matchPath, useLocation,
   useParams, useNavigate,
   Location,
   NavigateFunction,
-  RouteObject,
   Params,
   useRoutes,
   createRoutesFromChildren,
@@ -15,7 +13,6 @@ import {
 import { loadInitialProps } from './loadInitialProps';
 import { RematchStore, Models } from "@rematch/core"
 import { RouteNewObject } from './interface'
-// import { history as newHistory } from "./utils"
 
 export interface ControllerProps {
   data: unknown;
@@ -38,7 +35,6 @@ const ChildRoutes = (props: ControllerProps) => {
         if (React.isValidElement(routeItem.element)) {
           routeItem.element = React.cloneElement(routeItem.element, { ...props })
         }
-        // routeItem.element = <>{`${routeItem.path || "首页"}`}</>
       }
       if (routeItem.index) {
         routeItem.element = <Navigate to={routeItem.path} />
@@ -72,7 +68,7 @@ class Controller extends React.PureComponent<ControllerProps, { data: any }> {
       // eslint-disable-next-line
       loadInitialProps(this.props.routes, nextProps.location.pathname, {
         location: nextProps.location,
-        // history: newHistory,
+        history: nextProps.history,
         ...rest,
       }).then(({ data: newData, match: currentMatch }) => {
         const ismatch = matchPath(currentMatch.path, window.location.pathname);
@@ -91,7 +87,6 @@ class Controller extends React.PureComponent<ControllerProps, { data: any }> {
       ...rest,
       ...(data || {}),
       store,
-      // history: newHistory,
       location,
       routes
     }
