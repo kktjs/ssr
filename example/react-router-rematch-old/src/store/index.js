@@ -20,10 +20,11 @@ export const createStore = async (initialState = stores.getState() || {}) => {
 
   const models = await Promise.all(promises);
   storeInit = init({
-    models: models,
+    models: {},
     models: models.length > 0 ? models : {
       global: global,
     },
+    models: {},
     plugins: [
       {
         middleware: () => next => async (action) => {

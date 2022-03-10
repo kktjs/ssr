@@ -9,7 +9,7 @@
     "build:ex": "kkt-ssr build --ne false",
     "build:web": "kkt-ssr build --target web",
     "build:node": "kkt-ssr build --ne false",
-    "start": "npm run start:server && npm run start:web",
+    "start": "npm run start:server & npm run start:web",
     "start:k": "kkt start",
     "start:server": "kkt-ssr watch --ne false",
     "start:web": "kkt-ssr watch --target web",
