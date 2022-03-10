@@ -69,6 +69,17 @@ const data = {
 }
 
 process.on("exit", (code) => {
+
+  // web 结束的时候再把 public 下 除了 index.html 文件 其他复制到输出文件中
+  const publicPath = path.resolve(process.cwd(), "public")
+  if (fs.existsSync(publicPath) && fs.existsSync(data.out)) {
+    fs.copySync(path.resolve(process.cwd(), "public"), data.out, {
+      filter: (src) => {
+        return !/index.html$/.test(src)
+      }
+    })
+  }
+
   // 开发模式下不需要进行复制
   if (data.nolog || code === 1 || data.isEnvDevelopment) {
     return;
@@ -78,12 +89,6 @@ process.on("exit", (code) => {
   }
   if (data.isWeb) {
     fs.copySync(data.publicFolder, data.out)
-    // web 结束的时候再把 public 下 除了 index.html 文件 其他复制到输出文件中
-    fs.copySync(path.resolve(process.cwd(), "public"), data.out, {
-      filter: (src) => {
-        return !/index.html$/.test(src)
-      }
-    })
   }
 });
 
