@@ -1,34 +1,34 @@
 import React from 'react';
-// import loadable from 'react-dynamic-loadable';
+import loadable from 'react-dynamic-loadable';
 import './index.css';
-
-import Home from "./home"
+import { store } from "./../store"
 import About from "./about"
 import Notmatch from "./notmatch"
 import Repos from "./repos"
 import ReposDetail from "./repos/detail"
 
+const Home = loadable((props) => import("./home"))
+
 // // wrapper of dynamic
-// const dynamicWrapper = (models, component) => loadable({
-//   component,
-//   // LoadingComponent: () => <div>...LOADING...</div>,
-//   models: () => models.map((m) => {
-//     return import(`../models/${m}.js`).then((md) => {
-//       const model = md.default || md;
-//       const stored = store();
-//       if (stored && stored.model) {
-//         stored.model({ name: m, ...model });
-//       }
-//     });
-//   }),
-// });
+const dynamicWrapper = (models, component) => loadable({
+  component,
+  // LoadingComponent: () => <div>...LOADING...</div>,
+  models: () => models.map((m) => {
+    return import(`../models/${m}.js`).then((md) => {
+      const model = md.default || md;
+      const stored = store();
+      if (stored && stored.model) {
+        stored.model({ name: m, ...model });
+      }
+    });
+  }),
+});
 
 export const getRouterData = () => {
   let conf = {
     '/': {
       name: 'page-home',
-      element: <Home />,
-      load: Home.getInitialProps
+      element: dynamicWrapper([], () => import(/* webpackChunkName: 'page-home' */ './home')),
     },
     '/about': {
       name: 'page-about',

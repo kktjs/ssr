@@ -7,8 +7,19 @@ export const loadInitialProps = async (routes: RouteNewObject[], pathname: strin
     return matchPath(route.path, pathname)
   }
 
-  const currentMatch = routes.filter((route) => matchPath(route.path, pathname) && typeof route.load === "function")
-    .map((item) => item.load({ match: getMatch(item), ...ctx }));
+  const currentMatch = routes.filter((route) => {
+    if (matchPath(route.path, pathname)) {
+      return (route.element && route.element.name === "AsyncRouteComponent") || route.load
+    }
+    return false
+  }).map((item) => {
+    if (item.load) {
+      return item.load({ match: getMatch(item), ...ctx })
+    }
+    if (item.element.getInitialProps) {
+      return item.element.getInitialProps({ match: getMatch(item), ...ctx })
+    }
+  });
 
   const current = routes.find((route) => !!matchPath(route.path, pathname))
 
