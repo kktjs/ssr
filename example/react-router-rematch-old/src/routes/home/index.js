@@ -21,11 +21,6 @@ class Home extends React.Component {
     return Promise.resolve({
       whatever: 'Home stuff', isServer: true
     })
-
-    // return Promise.all([store.dispatch.global.verify({ token })]).then(() => ({
-    //   whatever: 'Home stuff', isServer: true
-    // }))
-    // return Promise.resolve(store.dispatch.global.verify({ token })).then(() => ({ whatever: 'Home stuff', isServer: true }));
   }
 
 

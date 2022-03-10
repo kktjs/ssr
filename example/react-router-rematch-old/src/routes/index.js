@@ -7,8 +7,6 @@ import Notmatch from "./notmatch"
 import Repos from "./repos"
 import ReposDetail from "./repos/detail"
 
-const Home = loadable((props) => import("./home"))
-
 // // wrapper of dynamic
 const dynamicWrapper = (models, component) => loadable({
   component,
