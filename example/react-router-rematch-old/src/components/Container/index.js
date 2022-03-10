@@ -13,7 +13,7 @@ const Container = (props) => {
         <h2 className={styles.title}>{title}</h2>
         <div className={styles.menus}>
           <Link to="/">Home</Link>
-          <Link to="/about/">About</Link>
+          <Link to="/about">About</Link>
           <Link to="/repos">Repos</Link>
           <Link to="/repos/detail/123?id=34334">Repos Detail</Link>
           <Link to="/repos/dets">No Match</Link>

@@ -14,20 +14,13 @@ class Home extends React.Component {
     if (req && store.dispatch.global && store.dispatch.global.verify && req.cookies) {
       token = req.cookies.token;
     }
-    // if (window && typeof window !== 'undefined') {
-    //   token = cookie.get('token');
-    // }
-    // store.dispatch.global.verify
-    // console.log("store", store.dispatch.global.verify({ token: 2121 }))
-    // store.dispatch.global.verify({ token })
+    if (window && typeof window !== 'undefined') {
+      token = cookie.get('token');
+    }
+    await store.dispatch.global.verify({ token: 2121 })
     return Promise.resolve({
       whatever: 'Home stuff', isServer: true
     })
-
-    // return Promise.all([store.dispatch.global.verify({ token })]).then(() => ({
-    //   whatever: 'Home stuff', isServer: true
-    // }))
-    // return Promise.resolve(store.dispatch.global.verify({ token })).then(() => ({ whatever: 'Home stuff', isServer: true }));
   }
 
 

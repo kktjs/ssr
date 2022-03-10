@@ -1,6 +1,6 @@
 {
   "name": "@examples/basic-routes-rematch-old",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "",
   "private": true,
   "scripts": {
@@ -20,23 +20,23 @@
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@kkt/react-ssr-enhanced": "~3.0.1",
+    "@kkt/react-ssr-enhanced": "3.0.2",
     "@rematch/core": "2.2.0",
     "axios": "0.26.0",
     "cookie-parser": "1.4.3",
     "cookiejs": "1.0.15",
     "express": "4.16.4",
     "http-proxy-middleware": "0.19.1",
-    "react-dynamic-loadable": "3.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-dynamic-loadable": "3.0.0",
     "react-redux": "7.2.6",
-    "redux": "4.1.2",
+    "react-router": "^6.2.2",
     "react-router-dom": "^6.2.2",
-    "react-router": "^6.2.2"
+    "redux": "4.1.2"
   },
   "devDependencies": {
-    "@kkt/ssr": "~3.0.1",
+    "@kkt/ssr": "3.0.2",
     "kkt": "~7.1.5",
     "mocker-api": "1.6.6"
   },

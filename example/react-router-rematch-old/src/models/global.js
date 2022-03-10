@@ -8,16 +8,16 @@ export default {
     userinfo: null,
   },
   reducers: {
-    // verify: (state, payload) => ({ ...state, ...payload }),
+    verify: (state, payload) => ({ ...state, ...payload }),
     updateState: (state, payload) => ({ ...state, ...payload }),
   },
   effects: () => ({
-    async verify({ token }, { global }) {
-      const verify = await request('/api/user/verify', { body: { token } });
-      const state = { ...global, test: 'test:global:111----------->' };
-      state.token = verify ? token : null;
-      state.userinfo = verify;
-      await this.updateState({ ...state });
-    },
+    // async verify({ token }, { global }) {
+    //   const verify = await request('/api/user/verify', { body: { token } });
+    //   const state = { ...global, test: 'test:global:111----------->' };
+    //   state.token = verify ? token : null;
+    //   state.userinfo = verify;
+    //   await this.updateState({ ...state });
+    // },
   }),
 };

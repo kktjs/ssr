@@ -78,6 +78,12 @@ process.on("exit", (code) => {
   }
   if (data.isWeb) {
     fs.copySync(data.publicFolder, data.out)
+    // web 结束的时候再把 public 下 除了 index.html 文件 其他复制到输出文件中
+    fs.copySync(path.resolve(process.cwd(), "public"), data.out, {
+      filter: (src) => {
+        return !/index.html$/.test(src)
+      }
+    })
   }
 });
 

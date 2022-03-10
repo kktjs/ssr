@@ -34,6 +34,8 @@ const ChildRoutes = (props: ControllerProps) => {
       if (routeItem.element) {
         if (React.isValidElement(routeItem.element)) {
           routeItem.element = React.cloneElement(routeItem.element, { ...props })
+        } else if (!React.isValidElement(routeItem.element) && routeItem.element && routeItem.element.name === "AsyncRouteComponent") {
+          routeItem.element = React.createElement(routeItem.element as any, { ...props })
         }
       }
       if (routeItem.index) {

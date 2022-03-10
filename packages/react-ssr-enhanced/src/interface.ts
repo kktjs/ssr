@@ -6,8 +6,7 @@ import React from "React"
 export type ElementNewType = React.ReactNode & {
   load?: (v?: unknown) => Promise<void>;
   getInitialProps?: (v?: unknown) => Promise<void>;
-  $$typeof?: any;
-  name?: string
+  name?: string;
 }
 
 export interface RouteNewObject extends RouteObject {
