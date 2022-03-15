@@ -1,8 +1,7 @@
 import WebpackBar from 'webpackbar';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { WebpackConfiguration } from 'kkt';
-import { publicUrlOrPath } from "./pathUtils"
-
+import { paths } from "./pathUtils"
 // plugin 根据 client  server
 
 /** 加 进度条，  */
@@ -28,7 +27,7 @@ export const restWebpackManifestPlugin = (conf: WebpackConfiguration, type?: str
     .concat([
       new WebpackManifestPlugin({
         fileName: type ? `asset-${type}-manifest.json` : 'asset-manifest.json',
-        publicPath: publicUrlOrPath,
+        publicPath: paths.publicUrlOrPath,
         generate: (seed, files, entrypoints) => {
           const manifestFiles = files.reduce((manifest, file) => {
             manifest[file.name] = file.path;

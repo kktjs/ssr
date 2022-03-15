@@ -1,29 +1,41 @@
-import getPublicUrlOrPath from 'react-dev-utils/getPublicUrlOrPath';
 import path from 'path';
 import fs from 'fs';
 
+
+export type Paths = {
+  dotenv: string;
+  appPath: string;
+  appBuild: string;
+  appPublic: string;
+  appHtml: string;
+  appIndexJs: string;
+  appPackageJson: string;
+  /** App Root Path */
+  appSrc: string;
+  appTsConfig: string;
+  appJsConfig: string;
+  yarnLockFile: string;
+  testsSetup: string;
+  proxySetup: string;
+  appNodeModules: string;
+  swSrc: string;
+  publicUrlOrPath: string;
+  // These properties only exist before ejecting:
+  ownPath: string;
+  ownNodeModules: string;
+  appTypeDeclarations: string;
+  ownTypeDeclarations: string;
+  moduleFileExtensions: string[]
+};
+
+
 export const appDirectory = fs.realpathSync(process.cwd());
 export const resolveApp = (relativePath: string) => path.resolve(appDirectory, relativePath);
+export const reactScripts = path.join(require.resolve('react-scripts/package.json'), '..');
 
-export const publicUrlOrPath = getPublicUrlOrPath(
-  process.env.NODE_ENV === 'development',
-  require(resolveApp('package.json')).homepage,
-  process.env.PUBLIC_URL
-);
+export const paths: Paths = require(`${reactScripts}/config/paths`);
 
-export const moduleFileExtensions = [
-  'web.mjs',
-  'mjs',
-  'web.js',
-  'js',
-  'web.ts',
-  'ts',
-  'web.tsx',
-  'tsx',
-  'json',
-  'web.jsx',
-  'jsx',
-];
+export const moduleFileExtensions: string[] = paths.moduleFileExtensions || [];
 
 // Resolve file paths in the same order as webpack
 export const resolveModule = (resolveFn: { (relativePath: string): string; (arg0: string): fs.PathLike; }, filePath: string) => {
@@ -37,5 +49,4 @@ export const resolveModule = (resolveFn: { (relativePath: string): string; (arg0
 
   return resolveFn(`${filePath}.js`);
 };
-export const reactScripts = path.join(require.resolve('react-scripts/package.json'), '..');
-export const paths = require(`${reactScripts}/config/paths`);
+
