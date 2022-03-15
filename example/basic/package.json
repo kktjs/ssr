@@ -13,7 +13,9 @@
     "start:server": "kkt-ssr watch",
     "start:web": "kkt-ssr watch --target web",
     "test": "kkt-ssr test --env=jsdom",
-    "server": "NODE_ENV=production nodemon dist/server.js"
+    "server": "NODE_ENV=production nodemon dist/server.js",
+    "builds": "kkt-ssr build",
+    "watch": "kkt-ssr watch"
   },
   "keywords": [],
   "dependencies": {
