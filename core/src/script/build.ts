@@ -1,9 +1,9 @@
 
-
 import createCompiler from "./utils"
-import paths from "../overrides/path"
 import fs from "fs-extra";
 import FileSizeReporter from "react-dev-utils/FileSizeReporter";
+import { Paths } from "./../overrides/pathUtils"
+import { OptionsProps } from "../interface"
 
 const chalk = require('react-dev-utils/chalk');
 
@@ -17,13 +17,15 @@ export interface OpaqueFileSizes {
   sizes: Record<string, number>;
 }
 
-const build = () => {
+const build = async (options: OptionsProps) => {
+
+  const { compiler, overrides } = await createCompiler("production", options)
+
   console.log('Creating an optimized production build...');
-  const { compiler } = createCompiler("production")
 
-  fs.emptyDirSync(paths.appBuild);
+  fs.emptyDirSync(overrides.paths.appBuild);
 
-  copyPublicFolder();
+  copyPublicFolder(overrides.paths);
 
   compiler.run((error, stats: any) => {
     if (!error) {
@@ -31,8 +33,8 @@ const build = () => {
       console.log('File sizes after gzip:\n');
       printFileSizesAfterBuild(
         stats,
-        { root: paths.appBuild, sizes: {} },
-        paths.appBuild,
+        { root: overrides.paths.appBuild, sizes: {} },
+        overrides.paths.appBuild,
         WARN_AFTER_BUNDLE_GZIP_SIZE,
         WARN_AFTER_CHUNK_GZIP_SIZE
       );
@@ -46,7 +48,7 @@ const build = () => {
   });
 }
 
-function copyPublicFolder() {
+function copyPublicFolder(paths: Partial<Paths>) {
   fs.copySync(paths.appPublic, paths.appBuild, {
     dereference: true,
     filter: (file: string) => file !== paths.appHtml,

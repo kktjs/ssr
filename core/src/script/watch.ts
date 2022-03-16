@@ -1,12 +1,13 @@
 
+
 import createCompiler from "./utils"
 import clearConsole from 'react-dev-utils/clearConsole';
-import overrides from "./../overrides"
+import { OptionsProps } from "../interface"
 
 const today = () => new Date().toISOString().split('.')[0].replace('T', ' ');
 
-export default async () => {
-  const { compiler } = createCompiler("development")
+export default async (options: OptionsProps) => {
+  const { compiler, overrides } = await createCompiler("development", options)
   compiler.watch({
     ...(overrides.watchOptions || {}),
   }, (err, stats) => {

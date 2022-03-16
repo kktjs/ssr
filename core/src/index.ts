@@ -1,12 +1,9 @@
 #!/usr/bin/env node
-
 process.env.FAST_REFRESH = 'false';
 process.env.BUILD_PATH = "dist"
 
 import minimist from 'minimist';
 import { BuildArgs } from 'kkt';
-import { overridePaths } from 'kkt/lib/overrides/paths';
-import { loaderConf } from "./overrides"
 
 function help() {
   const { version } = require('../package.json');
@@ -15,15 +12,31 @@ function help() {
   console.log('\n  Options:\n');
   console.log('   --version, -v        ', 'Show version number');
   console.log('   --help, -h           ', 'Displays help information.');
+  console.log('   --s-ne, --s-nodeExternals         ', 'server use webpack-node-external .');
+  console.log('   --c-ne, --c-nodeExternals         ', 'client use webpack-node-external .');
+  console.log('   --s-st, --s-split         ', 'server Split code .');
+  console.log('   --c-st, --c-split         ', 'client Split code .');
+
 
   console.log('\n  Example:\n');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m build');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch');
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m build --s-ne');
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch --s-ne');
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m build --s-st');
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch --s-st');
   console.log(`\n  \x1b[34;1m@kkt/ssr\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
 }
 
 interface SSRNCCArgs extends BuildArgs {
-
+  "s-ne"?: boolean;
+  "s-nodeExternals"?: boolean,
+  "s-st"?: boolean,
+  "s-split"?: boolean,
+  "c-ne"?: boolean;
+  "c-nodeExternals"?: boolean,
+  "c-st"?: boolean,
+  "c-split"?: boolean,
 }
 
 (async () => {
@@ -57,24 +70,30 @@ interface SSRNCCArgs extends BuildArgs {
     }
     const scriptName = argvs._[0];
 
+    const clientNodeExternals = argvs["c-ne"] || argvs['c-nodeExternals']
+    const serverNodeExternals = argvs["s-ne"] || argvs['s-nodeExternals']
+
+    const clientIsChunk = argvs["c-st"] || argvs['c-split']
+    const serverIsChunk = argvs["s-st"] || argvs['s-split']
+
     if (scriptName === 'build') {
       process.env.BABEL_ENV = 'production';
       process.env.NODE_ENV = 'production';
-      // 加载最新配置
-      await loaderConf();
-      const paths = (await import("./overrides/path")).default
-      // 覆盖配置 里面的地址
-      overridePaths(undefined, { ...(paths as unknown as Record<string, string>) });
-      (await import("./script/build")).default()
+      (await import("./script/build")).default({
+        clientNodeExternals,
+        serverNodeExternals,
+        clientIsChunk,
+        serverIsChunk
+      })
     } else if (scriptName === 'watch') {
       process.env.BABEL_ENV = 'development';
       process.env.NODE_ENV = 'development';
-      // 加载最新配置
-      await loaderConf();
-      const paths = (await import("./overrides/path")).default
-      // 覆盖配置 里面的地址
-      overridePaths(undefined, { ...(paths as unknown as Record<string, string>) });
-      (await import("./script/watch")).default()
+      (await import("./script/watch")).default({
+        clientNodeExternals,
+        serverNodeExternals,
+        clientIsChunk,
+        serverIsChunk
+      })
     }
   } catch (error) {
     console.log('\x1b[31m KKT:SSR:ERROR:\x1b[0m', error);

@@ -1,8 +1,11 @@
-import overrides from ".";
-import { paths } from "./pathUtils"
+import { OverridesProps } from ".";
+import { paths, Paths } from "./pathUtils"
+
 /** 覆盖 */
-export default {
-  ...paths,
-  ...overrides.paths,
-  appBuild: overrides.output_path
+export default (overrides: OverridesProps): Paths => {
+  return {
+    ...paths,
+    ...overrides.paths,
+    appBuild: overrides.output_path
+  }
 }

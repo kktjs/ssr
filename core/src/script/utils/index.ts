@@ -1,17 +1,21 @@
 // 根据 kkt 写法 重置 create-react-app 中的 react-script配置
 import { reactScripts } from "../../overrides/pathUtils"
+import webpackNodeExternals from "webpack-node-externals"
 import webpack from "webpack"
-import { getWbpackBarPlugins, restOutPut, restWebpackManifestPlugin, clearHtmlTemp } from "../../overrides/utils"
-import overrides from "../../overrides"
-require(`${reactScripts}/config/env`);
-require("./../../overrides/env")
+import { OptionsProps } from "../../interface"
+import fs from 'fs';
 
-const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "client") => {
+import { loaderConf, OverridesProps } from "./../../overrides"
+
+import { getWbpackBarPlugins, restOutPut, restWebpackManifestPlugin, clearHtmlTemp } from "../../overrides/utils"
+// 引入环境变量
+require(`${reactScripts}/config/env`);
+
+const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "client", overrides: OverridesProps, nodeExternals: boolean, split: boolean) => {
   newConfig.entry = overrides[`${type}_path`]
   newConfig = getWbpackBarPlugins(newConfig, {
     name: type,
   })
-
   const out: webpack.Configuration["output"] = {
     filename: `${type}.js`,
     path: overrides.output_path,
@@ -29,10 +33,18 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   newConfig.plugins.push(new webpack.DefinePlugin({
     OUTPUT_PUBLIC_PATH: JSON.stringify(overrides.output_path),
   }))
+  if (split) {
+    newConfig.plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }))
+  }
+  if (nodeExternals) {
+    newConfig.externals = [webpackNodeExternals()]
+  }
+
   return newConfig
 }
 
-export default (env: "development" | "production") => {
+export default async (env: "development" | "production", options: OptionsProps) => {
+  const overrides = await loaderConf()
 
   const { overridesClientWebpack, overridesServerWebpack, overridesWebpack } = overrides
 
@@ -41,30 +53,36 @@ export default (env: "development" | "production") => {
   let configArr: webpack.Configuration[] = []
 
   /**------------------------  client    ---------------------    */
-  const configClient = configFactory(env);
-  let newConfigClient = getWebpackConfig(configClient, "client")
-  if (overridesClientWebpack) {
-    newConfigClient = overridesClientWebpack(newConfigClient, env)
+  if (fs.existsSync(overrides.client_path)) {
+    const configClient = configFactory(env);
+    let newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk)
+    if (overridesClientWebpack) {
+      newConfigClient = overridesClientWebpack(newConfigClient, env)
+    }
+    configArr.push(newConfigClient)
   }
-  configArr.push(newConfigClient)
 
   /**------------------------  server    ---------------------    */
-  const configServer = configFactory(env);
-  let newConfigServer = getWebpackConfig(configServer, "server")
-  newConfigServer.devtool = false
-  newConfigServer.target = "node"
-  if (overridesServerWebpack) {
-    newConfigServer = overridesServerWebpack(newConfigServer, env)
+  if (fs.existsSync(overrides.server_path)) {
+    const configServer = configFactory(env);
+    let newConfigServer = getWebpackConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk)
+    newConfigServer.devtool = false
+    newConfigServer.target = "node"
+    if (overridesServerWebpack) {
+      newConfigServer = overridesServerWebpack(newConfigServer, env)
+    }
+    configArr.push(newConfigServer)
   }
-  configArr.push(newConfigServer)
 
   /**------------------------  other    ---------------------    */
   if (overridesWebpack && typeof overridesWebpack === "function") {
     configArr = overridesWebpack(configArr, env) as webpack.Configuration[]
   }
+
   const compiler = webpack(configArr);
   return {
     compiler,
-    config: configArr
+    config: configArr,
+    overrides
   }
 }
