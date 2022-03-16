@@ -3,6 +3,24 @@
 import fs from 'fs';
 import { resolveModule, resolveApp } from "./pathUtils"
 import webpack from "webpack"
+
+const tsOptions = {
+  compilerOptions: {
+    sourceMap: false,
+    target: 'es6',
+    module: 'commonjs',
+    moduleResolution: 'node',
+    allowJs: false,
+    declaration: true,
+    strict: true,
+    noUnusedLocals: true,
+    experimentalDecorators: true,
+    resolveJsonModule: true,
+    esModuleInterop: true,
+    removeComments: false,
+  },
+};
+
 const confPath = resolveModule(resolveApp, '.kktssrrc');
 
 export type WebpackConfigFunction = (conf: webpack.Configuration[] | webpack.Configuration, env: "development" | "production") => webpack.Configuration[] | webpack.Configuration;
@@ -52,19 +70,28 @@ let overrides: OverridesProps = {
 
 };
 
-if (fs.existsSync(confPath)) {
-  const config = require(confPath);
-  const configDefault = require(confPath).default;
-  if (configDefault) {
+export async function loaderConf(): Promise<OverridesProps> {
+  let kktssrrc: OverridesProps = {};
+  try {
+    if (fs.existsSync(confPath) && /.ts$/.test(confPath)) {
+      require('ts-node').register(tsOptions);
+      kktssrrc = await import(confPath);
+    } else if (fs.existsSync(confPath) && /.js$/.test(confPath)) {
+      require('@babel/register')({
+        presets: [[require.resolve('babel-preset-react-app'), { runtime: 'classic', useESModules: false }]],
+      });
+      kktssrrc = await import(confPath);
+    }
     overrides = {
       ...overrides,
-      ...configDefault,
-    };
-  } else if (config) {
-    overrides = {
-      ...overrides,
-      ...config,
-    };
+      ...kktssrrc,
+    }
+    return overrides;
+  } catch (error) {
+    const message = error && error.message ? error.message : '';
+    console.log('Invalid \x1b[31;1m .kktssrrc.js \x1b[0m file.\n', error);
+    new Error(`Invalid .kktssrrc.js file. \n ${message}`);
+    process.exit(1);
   }
 }
 

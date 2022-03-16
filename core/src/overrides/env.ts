@@ -17,6 +17,7 @@ if (Reflect.has(overrides, 'ESLINT_NO_DEV_ERRORS')) {
     'ESLINT_NO_DEV_ERRORS'
   );
 }
+
 if (Reflect.has(overrides, 'DISABLE_ESLINT_PLUGIN')) {
   process.env.DISABLE_ESLINT_PLUGIN = Reflect.get(
     overrides,

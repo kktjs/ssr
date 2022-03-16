@@ -1,9 +1,10 @@
-// 根据 kkt 写法 重置 create-react-app 中的 react-script配置
-import createCompiler from "./utils"
 
+import createCompiler from "./utils"
 import clearConsole from 'react-dev-utils/clearConsole';
 import overrides from "./../overrides"
+
 const today = () => new Date().toISOString().split('.')[0].replace('T', ' ');
+
 export default async () => {
   const { compiler } = createCompiler("development")
   compiler.watch({

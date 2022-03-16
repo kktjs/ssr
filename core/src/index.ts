@@ -3,16 +3,10 @@
 process.env.FAST_REFRESH = 'false';
 process.env.BUILD_PATH = "dist"
 
-// import "./overrides/env"
-
-
 import minimist from 'minimist';
 import { BuildArgs } from 'kkt';
 import { overridePaths } from 'kkt/lib/overrides/paths';
-import overrides from "./overrides"
-import buildScript from "./script/build"
-import watchScript from "./script/watch"
-
+import { loaderConf } from "./overrides"
 
 function help() {
   const { version } = require('../package.json');
@@ -80,19 +74,29 @@ interface SSRNCCArgs extends BuildArgs {
     }
     if (argvs.v || argvs.version) {
       const { version } = require('../package.json');
-      console.log(`\n \x1b[34;1m@kkt/ssr-ncc\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
+      console.log(`\n \x1b[34;1m@kkt/ssr\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
       return;
     }
     const scriptName = argvs._[0];
-    // 覆盖配置 里面的地址
-    overridePaths(undefined, { ...overrides.paths });
 
     if (scriptName === 'build') {
+      process.env.BABEL_ENV = 'production';
       process.env.NODE_ENV = 'production';
-      await buildScript()
+      // 加载最新配置
+      await loaderConf();
+      const paths = (await import("./overrides/path")).default
+      // 覆盖配置 里面的地址
+      overridePaths(undefined, { ...(paths as unknown as Record<string, string>) });
+      (await import("./script/build")).default()
     } else if (scriptName === 'watch') {
+      process.env.BABEL_ENV = 'development';
       process.env.NODE_ENV = 'development';
-      await watchScript()
+      // 加载最新配置
+      await loaderConf();
+      const paths = (await import("./overrides/path")).default
+      // 覆盖配置 里面的地址
+      overridePaths(undefined, { ...(paths as unknown as Record<string, string>) });
+      (await import("./script/watch")).default()
     }
   } catch (error) {
     console.log('\x1b[31m KKT:SSR:ERROR:\x1b[0m', error);

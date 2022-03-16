@@ -25,7 +25,7 @@ export type Paths = {
   ownNodeModules: string;
   appTypeDeclarations: string;
   ownTypeDeclarations: string;
-  moduleFileExtensions: string[]
+  moduleFileExtensions?: string[]
 };
 
 

@@ -2,6 +2,7 @@ import WebpackBar from 'webpackbar';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { WebpackConfiguration } from 'kkt';
 import { paths } from "./pathUtils"
+
 // plugin 根据 client  server
 
 /** 加 进度条，  */
@@ -59,7 +60,7 @@ export const clearHtmlTemp = (conf: WebpackConfiguration): WebpackConfiguration 
     );
   return { ...conf, plugins };
 };
-
+/** 输出配置 */
 export const restOutPut = (conf: WebpackConfiguration, options: WebpackConfiguration['output']): WebpackConfiguration => {
   return {
     ...conf,

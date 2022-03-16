@@ -3,6 +3,8 @@ import { reactScripts } from "../../overrides/pathUtils"
 import webpack from "webpack"
 import { getWbpackBarPlugins, restOutPut, restWebpackManifestPlugin, clearHtmlTemp } from "../../overrides/utils"
 import overrides from "../../overrides"
+require(`${reactScripts}/config/env`);
+require("./../../overrides/env")
 
 const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "client") => {
   newConfig.entry = overrides[`${type}_path`]
@@ -24,8 +26,11 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
 }
 
 export default (env: "development" | "production") => {
+
   const { overridesClientWebpack, overridesServerWebpack, overridesWebpack } = overrides
+
   const configFactory = require(`${reactScripts}/config/webpack.config`);
+
   let configArr: webpack.Configuration[] = []
 
   /**------------------------  client    ---------------------    */
@@ -44,7 +49,6 @@ export default (env: "development" | "production") => {
   if (overridesServerWebpack) {
     newConfigServer = overridesServerWebpack(newConfigServer, env)
   }
-
   configArr.push(newConfigServer)
 
   /**------------------------  other    ---------------------    */
