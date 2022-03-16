@@ -10,11 +10,19 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   newConfig.entry = overrides[`${type}_path`]
   newConfig = getWbpackBarPlugins(newConfig, {
     name: type,
-    ...(type === "server" && {
-      type: "commonjs"
-    } || {})
   })
-  newConfig = restOutPut(newConfig, { filename: `${type}.js`, path: overrides.output_path, })
+
+  const out = {
+    filename: `${type}.js`,
+    path: overrides.output_path,
+    library: {}
+  }
+
+  if (type === "server") {
+    out.library = { type: "commonjs" }
+  }
+
+  newConfig = restOutPut(newConfig, out)
   newConfig = restWebpackManifestPlugin(newConfig, type)
   newConfig = clearHtmlTemp(newConfig)
   newConfig.module.exprContextCritical = false;

@@ -10,37 +10,15 @@ import { loaderConf } from "./overrides"
 
 function help() {
   const { version } = require('../package.json');
-  console.log('\n  Usage: \x1b[34;1mkkt-ssr\x1b[0m [build|watch] [input-file] [--help|h]');
+  console.log('\n  Usage: \x1b[34;1mkkt-ssr\x1b[0m [build|watch] [--help|h]');
   console.log('\n  Displays help information.');
   console.log('\n  Options:\n');
   console.log('   --version, -v        ', 'Show version number');
   console.log('   --help, -h           ', 'Displays help information.');
-  console.log('   -o, --out [dir]      ', 'Output directory for build (defaults to \x1b[35mdist\x1b[0m).');
-  console.log('   -m, --minify         ', 'Minify output.');
-  console.log(
-    '   -t, --target         ',
-    'Instructs webpack to target a specific environment (defaults to \x1b[35mnode14\x1b[0m).',
-  );
-  console.log(
-    '   -l, --library        ',
-    'Output a library exposing the exports of your entry point. The parameter "--target=web" works.',
-  );
-  console.log('   -ne, --nodeExternals         ', 'use webpack-node-external .');
-  console.log('   -lt, --libraryTarget         ', 'Output library type .');
 
-  console.log('   -s, --source-map     ', 'Generate source map.');
-  console.log('   -e, --external [mod] ', "Skip bundling 'mod'. Can be used many times.");
-  console.log('   --filename           ', 'output file name.');
   console.log('\n  Example:\n');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m build');
-  console.log('   $ \x1b[35mkkt-ssr\x1b[0m build --out ./dist');
-  console.log('   $ \x1b[35mkkt-ssr\x1b[0m build --minify');
-  console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch --minify');
-  console.log('   $ \x1b[35mkkt-ssr\x1b[0m build src/app.ts');
-  console.log(`   $ \x1b[35mkkt-ssr\x1b[0m build --target web --library MyLibrary`);
-  console.log(`   $ \x1b[35mkkt-ssr\x1b[0m build --source-map`);
-  console.log(`   $ \x1b[35mkkt-ssr\x1b[0m build --nodeExternals`);
-  console.log(`   $ \x1b[35mkkt-ssr\x1b[0m build --libraryTarget commonjs2`);
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch');
   console.log(`\n  \x1b[34;1m@kkt/ssr\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
 }
 
