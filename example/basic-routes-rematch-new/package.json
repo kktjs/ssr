@@ -1,6 +1,6 @@
 {
   "name": "@examples/basic-routes-rematch-new",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "description": "",
   "private": true,
   "scripts": {
@@ -21,7 +21,7 @@
     "serialize-javascript": "6.0.0"
   },
   "devDependencies": {
-    "@kkt/ssr": "3.0.2",
+    "@kkt/ssr": "3.1.0",
     "kkt": "~7.1.5"
   },
   "browserslist": {
