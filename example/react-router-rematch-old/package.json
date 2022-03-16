@@ -4,7 +4,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "nodemon": "nodemon dist/server.js",
+    "server": "node dist/server.js",
     "build": "kkt-ssr build",
     "watch": "kkt-ssr watch"
   },
