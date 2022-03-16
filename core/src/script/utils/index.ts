@@ -26,7 +26,7 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   }
 
   newConfig = restOutPut(newConfig, out)
-  newConfig = restWebpackManifestPlugin(newConfig, type)
+  newConfig = restWebpackManifestPlugin(newConfig, overrides.paths, type)
   newConfig = clearHtmlTemp(newConfig)
   newConfig.module.exprContextCritical = false;
 

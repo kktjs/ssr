@@ -1,8 +1,8 @@
 import WebpackBar from 'webpackbar';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { WebpackConfiguration } from 'kkt';
-import { paths } from "./pathUtils"
 import path from "path"
+import { Paths } from "./pathUtils"
 
 // plugin 根据 client  server
 
@@ -20,7 +20,7 @@ export const getWbpackBarPlugins = (conf: WebpackConfiguration, opt: WebpackBar[
 };
 
 /** 重置 WebpackManifestPlugin 输出名称 */
-export const restWebpackManifestPlugin = (conf: WebpackConfiguration, type?: string): WebpackConfiguration => {
+export const restWebpackManifestPlugin = (conf: WebpackConfiguration, paths: Partial<Paths>, type?: string): WebpackConfiguration => {
   const plugins = []
     .concat(conf.plugins)
     .filter(
@@ -31,13 +31,6 @@ export const restWebpackManifestPlugin = (conf: WebpackConfiguration, type?: str
         fileName: type ? `asset-${type}-manifest.json` : 'asset-manifest.json',
         publicPath: paths.publicUrlOrPath,
         generate: (seed, files, entrypoints) => {
-          // const manifestFiles = files.reduce((manifest, file) => {
-          //   manifest[file.name] = file.path;
-          //   return manifest;
-          // }, seed);
-          // const entrypointFiles = entrypoints.main.filter(
-          //   fileName => !fileName.endsWith('.map')
-          // );
           const routhPaths: Record<string, { css?: string, js?: string }> = {}
           const manifestFiles = files.reduce((manifest, file) => {
             manifest[file.name] = file.path;
