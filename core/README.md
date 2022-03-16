@@ -30,13 +30,14 @@ Create [React](https://github.com/facebook/react) server-side rendering universa
   </a>
 </p>
 
-[Quick Start](#quick-start) · [Using Plugins](#using-plugins) · [Writing Plugins](#writing-plugins) · [CSS Modules](#css-modules) · [KKT Config](#kkt-config) · [Example](#example)
+[Quick Start](#quick-start) · [Using Plugins](#using-plugins) · [Rewrite Config](#rewrite-config) · [KKTSSR Config](#kktssr-config) · [Example](#example)
 
 [![Let's fund issues in this repository](https://issuehunt.io/static/embed/issuehunt-button-v1.svg)](https://issuehunt.io/repos/159655834)
 
 ## Usage
 
 You will need [`Node.js`](https://nodejs.org) installed on your system.
+Support multiple webpack configurations to execute together.
 
 ## Quick Start
 
@@ -44,7 +45,7 @@ You will need [`Node.js`](https://nodejs.org) installed on your system.
 npx create-kkt-ssr my-app
 cd my-app
 npm install
-npm run start
+npm run watch
 npm run server
 ```
 
@@ -63,7 +64,8 @@ npm install -g create-kkt-ssr
 # Create project, Using the template method
 create-kkt-ssr my-app -e react-router-rematch
 cd my-app # Enter the directory
-npm start # Start service
+npm run watch # Watch file
+npm run server # Start service
 ```
 
 > ⚠️ A perfect example [`react-router-rematch`](example/react-router-rematch) is recommended for production environments, This example is similar to [`Next.js`](https://github.com/zeit/next.js).
@@ -73,7 +75,8 @@ npm start # Start service
 Runs the project in development mode.  
 
 ```bash
-npm run start
+npm run watch 
+npm run server
 ```
 
 **production**
@@ -96,36 +99,8 @@ To debug the node server, you can use `react-ssr start --inspect-brk`. This will
 
 ### Using Plugins
 
-You can use KKT plugins by installing in your project and adding them to your `.kktrc.js`. See the README.md of the specific plugin, Just like the following:
-
-```bash
-npm install kkt-plugin-xxxx
-```
-
-```js
-
-export default (conf, evn) => {
-  conf.plugins.push(require.resolve('kkt-plugin-xxxx'),)
-  return conf;
-};
-
-```
-
-**Reset WebpackManifestPlugin**
-
-```js
-
-import { restWebpackManifestPlugin } from '@kkt/ssr/lib/plugins';
-
-export default (conf, evn) => {
-  // client ， In order to be compatible with the old lazy loading mode
-  if (!options.bundle) {
-    conf = restWebpackManifestPlugin(conf);
-  }
-  return conf;
-};
-
-```
+You can use plug-ins, taking KKT as an example
+Add `.kktrc.js` to the root directory of your project
 
 **use SSRWebpackRunPlugin**
 
@@ -147,78 +122,98 @@ export default (conf, evn) => {
 
 [See All Plugins](https://www.npmjs.com/search?q=kkt-plugin)
 
-### Writing Plugins
 
-Plugins are simply functions that modify and return KKT's webpack config.
+### Rewrite Config
+
+Add `.kktssrrc.js` to the root directory of your project
+
+**Rewrite Client Config**
 
 ```js
-export default  (conf, env, options) => {
-  // client only
-  if (!options.bundle) {}
-  // server only
-  if (options.bundle) {}
-
-  if (env==="development") {
-    // dev only
-  } else {
-    // prod only
+export default {
+  overridesClientWebpack:(conf,env)=>{
+    return conf
   }
-  // conf: Webpack config
-  return conf;
 }
 ```
 
-### CSS Modules
+**Rewrite Server Config**
 
-KKT supports [CSS Modules](https://github.com/css-modules/css-modules) using Webpack's [css-loader](https://github.com/webpack-contrib/css-loader). Simply import your CSS file with the extension `.module.css` and will process the file using `css-loader`.
-
-```jsx
-import React from 'react';
-import styles from './style.module.css';
-
-const Component = () => <div className={styles.className} />;
-
-export default Component;
-```
-
-**Use Less**
-
-Install the less plugin.
-
-```bash
-npm install @kkt/plugin-less --save-dev
-```
-
-Modify the `.kktrc.js` config and add plugins.
+> Default devtool value `false`, Default target value `node`, Default target value `node`,
 
 ```js
-
-export default (conf, evn) => {
-  conf.plugins.push(require.resolve('@kkt/plugin-less'),)
-  return conf;
-};
-
+export default {
+  overridesServerWebpack:(conf,env)=>{
+    return conf
+  }
+}
 ```
 
-Use [`@kkt/plugin-less`](./packages/kkt-plugin-less) support Less.
+**More Webpack Config**
 
-```jsx
-import React from 'react';
-import styles from './style.module.less';
-
-const Component = () => <div className={styles.className} />;
-
-export default Component;
+```js
+export default {
+  overridesWebpack:(conf,env)=>{
+    return conf
+  }
+}
 ```
 
-## KKT Config
+**Rewrite Env**
 
-The root directory creates the `.kktrc.js` file.
+```js
+export default {
+   /** 环境变变量 */
+  GENERATE_SOURCEMAP: "false",
+  INLINE_RUNTIME_CHUNK: "false",
+  ESLINT_NO_DEV_ERRORS: "false",
+  DISABLE_ESLINT_PLUGIN: "false",
+}
+```
+
+**Rewrite Paths**
+
+```js
+export default {
+  paths:{
+    appBuild: path.join(process.cwd(),"dist")
+  }
+}
+```
+
+**Rewrite build output path**
+
+> server_path: Default value `src/server.js`.
+> client_path: Default value `src/client.js`.
+> output_path: Default value `dist`.
+
+```js
+export default {
+    /** 服务端打包入口 */
+  server_path: path.join(process.cwd(),"src/server.js"),
+  /** 客户端打包入口 */
+  client_path: path.join(process.cwd(),"src/client.js"),
+  /** 输出文件地址 */
+  output_path: path.join(process.cwd(),"dist");
+}
+```
+
+**Rewrite watchOptions**
+
+```js
+export default {
+  watchOptions:{}
+}
+```
+
+## KKTSSR Config
+
+The root directory creates the `.kktssrrc.js` file.
 
 ```js
  // Modify the webpack config
-export default (conf, evn, options) => {
-  return conf;
+export default {
+  
 };
 
 ```
