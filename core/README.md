@@ -139,7 +139,7 @@ export default {
 
 **Rewrite Server Config**
 
-> Default devtool value `false`, Default target value `node`, Default target value `node`,
+> Default devtool value `false`, Default target value `node`, Default output.library.type value `commonjs`,
 
 ```js
 export default {
