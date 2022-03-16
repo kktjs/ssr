@@ -819,20 +819,23 @@ color: #0a53c1;
 </a><a href="https://www.npmjs.com/package/@kkt/ssr"><img src="https://img.shields.io/npm/v/@kkt/ssr.svg"></a></p>
       <p>Create <a href="https://github.com/facebook/react">React</a> server-side rendering universal JavaScript applications with no configuration. If you don't need server-side rendering you can use <a href="https://github.com/jaywcjlove/kkt">kkt</a> tools.</p>
       <p align="center"><a href="https://github.com/kktjs/ssr/tree/master/example/react-router%2Brematch"><img src="https://github.com/kktjs/ssr/raw/847e32d0f04c30da9f7b3bd637be9fa6b1eee22b/assets/ssr.png?sanitize=true"></a></p>
-      <p><a href="#quick-start">Quick Start</a> · <a href="#using-plugins">Using Plugins</a> · <a href="#writing-plugins">Writing Plugins</a> · <a href="#css-modules">CSS Modules</a> · <a href="#kkt-config">KKT Config</a> · <a href="#example">Example</a></p>
+      <p><a href="#quick-start">Quick Start</a> · <a href="#using-plugins">Using Plugins</a> · <a href="#rewrite-config">Rewrite Config</a> · <a href="#kktssr-config">KKTSSR Config</a> · <a href="#example">Example</a></p>
       <p><a href="https://issuehunt.io/repos/159655834"><img src="https://issuehunt.io/static/embed/issuehunt-button-v1.svg" alt="Let&#x27;s fund issues in this repository"></a></p>
       <h2 id="usage"><a class="anchor" aria-hidden="true" tabindex="-1" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
-      <p>You will need <a href="https://nodejs.org/"><code>Node.js</code></a> installed on your system.</p>
+      <p>
+        You will need <a href="https://nodejs.org/"><code>Node.js</code></a> installed on your system.
+        Support multiple webpack configurations to execute together.
+      </p>
       <h2 id="quick-start"><a class="anchor" aria-hidden="true" tabindex="-1" href="#quick-start"><span class="octicon octicon-link"></span></a>Quick Start</h2>
       <pre class="language-bash"><code class="language-bash">npx create-kkt-ssr my-app
 <span class="token builtin class-name">cd</span> my-app
 <span class="token function">npm</span> <span class="token function">install</span>
-<span class="token function">npm</span> run start
+<span class="token function">npm</span> run <span class="token function">watch</span>
 <span class="token function">npm</span> run server
 </code><div onclick="copied(this)" data-code="npx create-kkt-ssr my-app
 cd my-app
 npm install
-npm run start
+npm run watch
 npm run server
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
       <p>You can also initialize a project from one of the examples. Example from <a href="./example">kktjs/ssr</a> example-path.</p>
@@ -848,20 +851,24 @@ npx create-kkt-ssr my-app -e react-router-rematch
 <span class="token comment"># Create project, Using the template method</span>
 create-kkt-ssr my-app -e react-router-rematch
 <span class="token builtin class-name">cd</span> my-app <span class="token comment"># Enter the directory</span>
-<span class="token function">npm</span> start <span class="token comment"># Start service</span>
+<span class="token function">npm</span> run <span class="token function">watch</span> <span class="token comment"># Watch file</span>
+<span class="token function">npm</span> run server <span class="token comment"># Start service</span>
 </code><div onclick="copied(this)" data-code="npm install -g create-kkt-ssr
 # Create project, Using the template method
 create-kkt-ssr my-app -e react-router-rematch
 cd my-app # Enter the directory
-npm start # Start service
+npm run watch # Watch file
+npm run server # Start service
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
       <blockquote>
         <p>⚠️ A perfect example <a href="example/react-router-rematch"><code>react-router-rematch</code></a> is recommended for production environments, This example is similar to <a href="https://github.com/zeit/next.js"><code>Next.js</code></a>.</p>
       </blockquote>
       <p><strong>development</strong></p>
       <p>Runs the project in development mode.</p>
-      <pre class="language-bash"><code class="language-bash"><span class="token function">npm</span> run start
-</code><div onclick="copied(this)" data-code="npm run start
+      <pre class="language-bash"><code class="language-bash"><span class="token function">npm</span> run <span class="token function">watch</span> 
+<span class="token function">npm</span> run server
+</code><div onclick="copied(this)" data-code="npm run watch 
+npm run server
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
       <p><strong>production</strong></p>
       <p>Builds the app for production to the build folder.</p>
@@ -879,47 +886,10 @@ npm run server
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
       <p>To debug the node server, you can use <code>react-ssr start --inspect-brk</code>. This will start the node server, enable the inspector agent and Break before user code starts. For more information, see <a href="https://nodejs.org/en/docs/inspector/">this</a>.</p>
       <h3 id="using-plugins"><a class="anchor" aria-hidden="true" tabindex="-1" href="#using-plugins"><span class="octicon octicon-link"></span></a>Using Plugins</h3>
-      <p>You can use KKT plugins by installing in your project and adding them to your <code>.kktrc.js</code>. See the README.md of the specific plugin, Just like the following:</p>
-      <pre class="language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> kkt-plugin-xxxx
-</code><div onclick="copied(this)" data-code="npm install kkt-plugin-xxxx
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-      <pre class="language-js"><code class="language-js">
-<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">(</span><span class="token parameter">conf<span class="token punctuation">,</span> evn</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
-  conf<span class="token punctuation">.</span><span class="token property-access">plugins</span><span class="token punctuation">.</span><span class="token method function property-access">push</span><span class="token punctuation">(</span>require<span class="token punctuation">.</span><span class="token method function property-access">resolve</span><span class="token punctuation">(</span><span class="token string">'kkt-plugin-xxxx'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">)</span>
-  <span class="token keyword control-flow">return</span> conf<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-
-</code><div onclick="copied(this)" data-code="
-export default (conf, evn) => {
-  conf.plugins.push(require.resolve(&#x27;kkt-plugin-xxxx&#x27;),)
-  return conf;
-};
-
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-      <p><strong>Reset WebpackManifestPlugin</strong></p>
-      <pre class="language-js"><code class="language-js">
-<span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> restWebpackManifestPlugin <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@kkt/ssr/lib/plugins'</span><span class="token punctuation">;</span>
-
-<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">(</span><span class="token parameter">conf<span class="token punctuation">,</span> evn</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
-  <span class="token comment">// client ， In order to be compatible with the old lazy loading mode</span>
-  <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>options<span class="token punctuation">.</span><span class="token property-access">bundle</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    conf <span class="token operator">=</span> <span class="token function">restWebpackManifestPlugin</span><span class="token punctuation">(</span>conf<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-  <span class="token keyword control-flow">return</span> conf<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-
-</code><div onclick="copied(this)" data-code="
-import { restWebpackManifestPlugin } from &#x27;@kkt/ssr/lib/plugins&#x27;;
-
-export default (conf, evn) => {
-  // client ， In order to be compatible with the old lazy loading mode
-  if (!options.bundle) {
-    conf = restWebpackManifestPlugin(conf);
-  }
-  return conf;
-};
-
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+      <p>
+        You can use plug-ins, taking KKT as an example
+        Add <code>.kktrc.js</code> to the root directory of your project
+      </p>
       <p><strong>use SSRWebpackRunPlugin</strong></p>
       <pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> restWebpackManifestPlugin<span class="token punctuation">,</span> getRemoveHtmlTemp<span class="token punctuation">,</span> <span class="token maybe-class-name">SSRWebpackRunPlugin</span> <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@kkt/ssr/lib/plugins'</span><span class="token punctuation">;</span>
 
@@ -949,95 +919,118 @@ export default (conf, evn) => {
 
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
       <p><a href="https://www.npmjs.com/search?q=kkt-plugin">See All Plugins</a></p>
-      <h3 id="writing-plugins"><a class="anchor" aria-hidden="true" tabindex="-1" href="#writing-plugins"><span class="octicon octicon-link"></span></a>Writing Plugins</h3>
-      <p>Plugins are simply functions that modify and return KKT's webpack config.</p>
-      <pre class="language-js"><code class="language-js"><span class="token keyword module">export</span> <span class="token keyword module">default</span>  <span class="token punctuation">(</span><span class="token parameter">conf<span class="token punctuation">,</span> env<span class="token punctuation">,</span> options</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
-  <span class="token comment">// client only</span>
-  <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>options<span class="token punctuation">.</span><span class="token property-access">bundle</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-  <span class="token comment">// server only</span>
-  <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>options<span class="token punctuation">.</span><span class="token property-access">bundle</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-
-  <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>env<span class="token operator">===</span><span class="token string">"development"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment">// dev only</span>
-  <span class="token punctuation">}</span> <span class="token keyword control-flow">else</span> <span class="token punctuation">{</span>
-    <span class="token comment">// prod only</span>
+      <h3 id="rewrite-config"><a class="anchor" aria-hidden="true" tabindex="-1" href="#rewrite-config"><span class="octicon octicon-link"></span></a>Rewrite Config</h3>
+      <p>Add <code>.kktssrrc.js</code> to the root directory of your project</p>
+      <p><strong>Rewrite Client Config</strong></p>
+      <pre class="language-js"><code class="language-js"><span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">{</span>
+  <span class="token function-variable function">overridesClientWebpack</span><span class="token operator">:</span><span class="token punctuation">(</span><span class="token parameter">conf<span class="token punctuation">,</span>env</span><span class="token punctuation">)</span><span class="token arrow operator">=></span><span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> conf
   <span class="token punctuation">}</span>
-  <span class="token comment">// conf: Webpack config</span>
-  <span class="token keyword control-flow">return</span> conf<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-</code><div onclick="copied(this)" data-code="export default  (conf, env, options) => {
-  // client only
-  if (!options.bundle) {}
-  // server only
-  if (options.bundle) {}
-
-  if (env===&#x22;development&#x22;) {
-    // dev only
-  } else {
-    // prod only
+</code><div onclick="copied(this)" data-code="export default {
+  overridesClientWebpack:(conf,env)=>{
+    return conf
   }
-  // conf: Webpack config
-  return conf;
 }
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-      <h3 id="css-modules"><a class="anchor" aria-hidden="true" tabindex="-1" href="#css-modules"><span class="octicon octicon-link"></span></a>CSS Modules</h3>
-      <p>KKT supports <a href="https://github.com/css-modules/css-modules">CSS Modules</a> using Webpack's <a href="https://github.com/webpack-contrib/css-loader">css-loader</a>. Simply import your CSS file with the extension <code>.module.css</code> and will process the file using <code>css-loader</code>.</p>
-      <pre class="language-jsx"><code class="language-jsx"><span class="token keyword module">import</span> <span class="token imports"><span class="token maybe-class-name">React</span></span> <span class="token keyword module">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
-<span class="token keyword module">import</span> <span class="token imports">styles</span> <span class="token keyword module">from</span> <span class="token string">'./style.module.css'</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> <span class="token function-variable function"><span class="token maybe-class-name">Component</span></span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&#x3C;</span>div</span> <span class="token attr-name">className</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>styles<span class="token punctuation">.</span><span class="token property-access">className</span><span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span><span class="token punctuation">;</span>
-
-<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token maybe-class-name">Component</span><span class="token punctuation">;</span>
-</code><div onclick="copied(this)" data-code="import React from &#x27;react&#x27;;
-import styles from &#x27;./style.module.css&#x27;;
-
-const Component = () => <div className={styles.className} />;
-
-export default Component;
+      <p><strong>Rewrite Server Config</strong></p>
+      <blockquote>
+        <p>Default devtool value <code>false</code>, Default target value <code>node</code>, Default target value <code>node</code>,</p>
+      </blockquote>
+      <pre class="language-js"><code class="language-js"><span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">{</span>
+  <span class="token function-variable function">overridesServerWebpack</span><span class="token operator">:</span><span class="token punctuation">(</span><span class="token parameter">conf<span class="token punctuation">,</span>env</span><span class="token punctuation">)</span><span class="token arrow operator">=></span><span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> conf
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code><div onclick="copied(this)" data-code="export default {
+  overridesServerWebpack:(conf,env)=>{
+    return conf
+  }
+}
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-      <p><strong>Use Less</strong></p>
-      <p>Install the less plugin.</p>
-      <pre class="language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> @kkt/plugin-less --save-dev
-</code><div onclick="copied(this)" data-code="npm install @kkt/plugin-less --save-dev
+      <p><strong>More Webpack Config</strong></p>
+      <pre class="language-js"><code class="language-js"><span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">{</span>
+  <span class="token function-variable function">overridesWebpack</span><span class="token operator">:</span><span class="token punctuation">(</span><span class="token parameter">conf<span class="token punctuation">,</span>env</span><span class="token punctuation">)</span><span class="token arrow operator">=></span><span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> conf
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code><div onclick="copied(this)" data-code="export default {
+  overridesWebpack:(conf,env)=>{
+    return conf
+  }
+}
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-      <p>Modify the <code>.kktrc.js</code> config and add plugins.</p>
-      <pre class="language-js"><code class="language-js">
-<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">(</span><span class="token parameter">conf<span class="token punctuation">,</span> evn</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
-  conf<span class="token punctuation">.</span><span class="token property-access">plugins</span><span class="token punctuation">.</span><span class="token method function property-access">push</span><span class="token punctuation">(</span>require<span class="token punctuation">.</span><span class="token method function property-access">resolve</span><span class="token punctuation">(</span><span class="token string">'@kkt/plugin-less'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">)</span>
-  <span class="token keyword control-flow">return</span> conf<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-
-</code><div onclick="copied(this)" data-code="
-export default (conf, evn) => {
-  conf.plugins.push(require.resolve(&#x27;@kkt/plugin-less&#x27;),)
-  return conf;
-};
-
+      <p><strong>Rewrite Env</strong></p>
+      <pre class="language-js"><code class="language-js"><span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">{</span>
+   <span class="token doc-comment comment">/** 环境变变量 */</span>
+  <span class="token constant">GENERATE_SOURCEMAP</span><span class="token operator">:</span> <span class="token string">"false"</span><span class="token punctuation">,</span>
+  <span class="token constant">INLINE_RUNTIME_CHUNK</span><span class="token operator">:</span> <span class="token string">"false"</span><span class="token punctuation">,</span>
+  <span class="token constant">ESLINT_NO_DEV_ERRORS</span><span class="token operator">:</span> <span class="token string">"false"</span><span class="token punctuation">,</span>
+  <span class="token constant">DISABLE_ESLINT_PLUGIN</span><span class="token operator">:</span> <span class="token string">"false"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code><div onclick="copied(this)" data-code="export default {
+   /** 环境变变量 */
+  GENERATE_SOURCEMAP: &#x22;false&#x22;,
+  INLINE_RUNTIME_CHUNK: &#x22;false&#x22;,
+  ESLINT_NO_DEV_ERRORS: &#x22;false&#x22;,
+  DISABLE_ESLINT_PLUGIN: &#x22;false&#x22;,
+}
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-      <p>Use <a href="./packages/kkt-plugin-less"><code>@kkt/plugin-less</code></a> support Less.</p>
-      <pre class="language-jsx"><code class="language-jsx"><span class="token keyword module">import</span> <span class="token imports"><span class="token maybe-class-name">React</span></span> <span class="token keyword module">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
-<span class="token keyword module">import</span> <span class="token imports">styles</span> <span class="token keyword module">from</span> <span class="token string">'./style.module.less'</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> <span class="token function-variable function"><span class="token maybe-class-name">Component</span></span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&#x3C;</span>div</span> <span class="token attr-name">className</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>styles<span class="token punctuation">.</span><span class="token property-access">className</span><span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span><span class="token punctuation">;</span>
-
-<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token maybe-class-name">Component</span><span class="token punctuation">;</span>
-</code><div onclick="copied(this)" data-code="import React from &#x27;react&#x27;;
-import styles from &#x27;./style.module.less&#x27;;
-
-const Component = () => <div className={styles.className} />;
-
-export default Component;
+      <p><strong>Rewrite Paths</strong></p>
+      <pre class="language-js"><code class="language-js"><span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">paths</span><span class="token operator">:</span><span class="token punctuation">{</span>
+    <span class="token literal-property property">appBuild</span><span class="token operator">:</span> path<span class="token punctuation">.</span><span class="token method function property-access">join</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span><span class="token method function property-access">cwd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token string">"dist"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code><div onclick="copied(this)" data-code="export default {
+  paths:{
+    appBuild: path.join(process.cwd(),&#x22;dist&#x22;)
+  }
+}
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-      <h2 id="kkt-config"><a class="anchor" aria-hidden="true" tabindex="-1" href="#kkt-config"><span class="octicon octicon-link"></span></a>KKT Config</h2>
-      <p>The root directory creates the <code>.kktrc.js</code> file.</p>
+      <p><strong>Rewrite build output path</strong></p>
+      <blockquote>
+        <p>
+          server_path: Default value <code>src/server.js</code>.
+          client_path: Default value <code>src/client.js</code>.
+          output_path: Default value <code>dist</code>.
+        </p>
+      </blockquote>
+      <pre class="language-js"><code class="language-js"><span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">{</span>
+    <span class="token doc-comment comment">/** 服务端打包入口 */</span>
+  <span class="token literal-property property">server_path</span><span class="token operator">:</span> path<span class="token punctuation">.</span><span class="token method function property-access">join</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span><span class="token method function property-access">cwd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token string">"src/server.js"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token doc-comment comment">/** 客户端打包入口 */</span>
+  <span class="token literal-property property">client_path</span><span class="token operator">:</span> path<span class="token punctuation">.</span><span class="token method function property-access">join</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span><span class="token method function property-access">cwd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token string">"src/client.js"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token doc-comment comment">/** 输出文件地址 */</span>
+  <span class="token literal-property property">output_path</span><span class="token operator">:</span> path<span class="token punctuation">.</span><span class="token method function property-access">join</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span><span class="token method function property-access">cwd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token string">"dist"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code><div onclick="copied(this)" data-code="export default {
+    /** 服务端打包入口 */
+  server_path: path.join(process.cwd(),&#x22;src/server.js&#x22;),
+  /** 客户端打包入口 */
+  client_path: path.join(process.cwd(),&#x22;src/client.js&#x22;),
+  /** 输出文件地址 */
+  output_path: path.join(process.cwd(),&#x22;dist&#x22;);
+}
+" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+      <p><strong>Rewrite watchOptions</strong></p>
+      <pre class="language-js"><code class="language-js"><span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">watchOptions</span><span class="token operator">:</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code><div onclick="copied(this)" data-code="export default {
+  watchOptions:{}
+}
+" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
+      <h2 id="kktssr-config"><a class="anchor" aria-hidden="true" tabindex="-1" href="#kktssr-config"><span class="octicon octicon-link"></span></a>KKTSSR Config</h2>
+      <p>The root directory creates the <code>.kktssrrc.js</code> file.</p>
       <pre class="language-js"><code class="language-js"> <span class="token comment">// Modify the webpack config</span>
-<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">(</span><span class="token parameter">conf<span class="token punctuation">,</span> evn<span class="token punctuation">,</span> options</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
-  <span class="token keyword control-flow">return</span> conf<span class="token punctuation">;</span>
+<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">{</span>
+  
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
 </code><div onclick="copied(this)" data-code=" // Modify the webpack config
-export default (conf, evn, options) => {
-  return conf;
+export default {
+  
 };
 
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
