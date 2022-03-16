@@ -3,6 +3,7 @@ import { reactScripts } from "../../overrides/pathUtils"
 import webpackNodeExternals from "webpack-node-externals"
 import webpack from "webpack"
 import { OptionsProps } from "../../interface"
+import fs from 'fs';
 
 import { loaderConf, OverridesProps } from "./../../overrides"
 
@@ -52,27 +53,32 @@ export default async (env: "development" | "production", options: OptionsProps) 
   let configArr: webpack.Configuration[] = []
 
   /**------------------------  client    ---------------------    */
-  const configClient = configFactory(env);
-  let newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk)
-  if (overridesClientWebpack) {
-    newConfigClient = overridesClientWebpack(newConfigClient, env)
+  if (fs.existsSync(overrides.client_path)) {
+    const configClient = configFactory(env);
+    let newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk)
+    if (overridesClientWebpack) {
+      newConfigClient = overridesClientWebpack(newConfigClient, env)
+    }
+    configArr.push(newConfigClient)
   }
-  configArr.push(newConfigClient)
 
   /**------------------------  server    ---------------------    */
-  const configServer = configFactory(env);
-  let newConfigServer = getWebpackConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk)
-  newConfigServer.devtool = false
-  newConfigServer.target = "node"
-  if (overridesServerWebpack) {
-    newConfigServer = overridesServerWebpack(newConfigServer, env)
+  if (fs.existsSync(overrides.server_path)) {
+    const configServer = configFactory(env);
+    let newConfigServer = getWebpackConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk)
+    newConfigServer.devtool = false
+    newConfigServer.target = "node"
+    if (overridesServerWebpack) {
+      newConfigServer = overridesServerWebpack(newConfigServer, env)
+    }
+    configArr.push(newConfigServer)
   }
-  configArr.push(newConfigServer)
 
   /**------------------------  other    ---------------------    */
   if (overridesWebpack && typeof overridesWebpack === "function") {
     configArr = overridesWebpack(configArr, env) as webpack.Configuration[]
   }
+
   const compiler = webpack(configArr);
   return {
     compiler,
