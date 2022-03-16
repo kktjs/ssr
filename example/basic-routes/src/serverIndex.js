@@ -8,7 +8,7 @@ import FS from 'fs';
 import App from './routes';
 
 // require 方式 打包报错
-const assetsMainifest = new Function(`return ${FS.readFileSync(`${OUTPUT_PUBLIC_PATH}/asset-manifest.json`, "utf-8")}`)()
+const assetsMainifest = new Function(`return ${FS.readFileSync(`${OUTPUT_PUBLIC_PATH}/asset-client-manifest.json`, "utf-8")}`)()
 
 const assets = {}
 

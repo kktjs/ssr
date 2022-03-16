@@ -26,6 +26,7 @@
     "@types/webpack-node-externals": "2.5.3"
   },
   "dependencies": {
+    "webpackbar": "5.0.2",
     "@kkt/simple-progress-webpack-plugin": "1.1.5",
     "css-minimizer-webpack-plugin": "3.4.1",
     "kkt": "~7.1.5",
