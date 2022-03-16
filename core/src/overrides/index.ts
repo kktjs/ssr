@@ -1,8 +1,11 @@
 // 获取 根目录下 自己定义的配置
 
 import fs from 'fs';
-import { resolveModule, resolveApp } from "./pathUtils"
+import { resolveModule, resolveApp, Paths } from "./pathUtils"
 import webpack from "webpack"
+import { restENV } from "./env"
+import paths from "./path"
+import { overridePaths } from 'kkt/lib/overrides/paths';
 
 const tsOptions = {
   compilerOptions: {
@@ -32,7 +35,7 @@ export interface OverridesProps {
   ESLINT_NO_DEV_ERRORS?: string,
   DISABLE_ESLINT_PLUGIN?: string,
   /** paths 脚本中webpack配置 使用的地址  */
-  paths?: Record<string, string>;
+  paths?: Partial<Paths>;
 
   /** 最终覆写 webpack  配置 **/
   /** 客户端配置  */
@@ -75,17 +78,28 @@ export async function loaderConf(): Promise<OverridesProps> {
   try {
     if (fs.existsSync(confPath) && /.ts$/.test(confPath)) {
       require('ts-node').register(tsOptions);
-      kktssrrc = await import(confPath);
+      const config = await import(confPath);
+      kktssrrc = config.default || kktssrrc
     } else if (fs.existsSync(confPath) && /.js$/.test(confPath)) {
       require('@babel/register')({
         presets: [[require.resolve('babel-preset-react-app'), { runtime: 'classic', useESModules: false }]],
       });
-      kktssrrc = await import(confPath);
+      const config = await import(confPath);
+      kktssrrc = config.default || kktssrrc
     }
     overrides = {
       ...overrides,
       ...kktssrrc,
     }
+
+    // 重写环境变量
+    restENV(overrides)
+    // 重写 paths 值
+    const path = paths(overrides)
+    overrides.paths = path
+    // 覆盖配置 里面的地址
+    overridePaths(undefined, { ...(path as unknown as Record<string, string>) });
+
     return overrides;
   } catch (error) {
     const message = error && error.message ? error.message : '';
@@ -94,5 +108,3 @@ export async function loaderConf(): Promise<OverridesProps> {
     process.exit(1);
   }
 }
-
-export default overrides

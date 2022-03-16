@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 process.env.FAST_REFRESH = 'false';
 process.env.BUILD_PATH = "dist"
 
@@ -60,20 +59,10 @@ interface SSRNCCArgs extends BuildArgs {
     if (scriptName === 'build') {
       process.env.BABEL_ENV = 'production';
       process.env.NODE_ENV = 'production';
-      // 加载最新配置
-      await loaderConf();
-      const paths = (await import("./overrides/path")).default
-      // 覆盖配置 里面的地址
-      overridePaths(undefined, { ...(paths as unknown as Record<string, string>) });
       (await import("./script/build")).default()
     } else if (scriptName === 'watch') {
       process.env.BABEL_ENV = 'development';
       process.env.NODE_ENV = 'development';
-      // 加载最新配置
-      await loaderConf();
-      const paths = (await import("./overrides/path")).default
-      // 覆盖配置 里面的地址
-      overridePaths(undefined, { ...(paths as unknown as Record<string, string>) });
       (await import("./script/watch")).default()
     }
   } catch (error) {

@@ -1,17 +1,19 @@
 // 根据 kkt 写法 重置 create-react-app 中的 react-script配置
 import { reactScripts } from "../../overrides/pathUtils"
-import webpack from "webpack"
-import { getWbpackBarPlugins, restOutPut, restWebpackManifestPlugin, clearHtmlTemp } from "../../overrides/utils"
-import overrides from "../../overrides"
-require(`${reactScripts}/config/env`);
-require("./../../overrides/env")
 
-const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "client") => {
+import webpack from "webpack"
+
+import { loaderConf, OverridesProps } from "./../../overrides"
+
+import { getWbpackBarPlugins, restOutPut, restWebpackManifestPlugin, clearHtmlTemp } from "../../overrides/utils"
+// 引入环境变量
+require(`${reactScripts}/config/env`);
+
+const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "client", overrides: OverridesProps) => {
   newConfig.entry = overrides[`${type}_path`]
   newConfig = getWbpackBarPlugins(newConfig, {
     name: type,
   })
-
   const out: webpack.Configuration["output"] = {
     filename: `${type}.js`,
     path: overrides.output_path,
@@ -32,7 +34,8 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   return newConfig
 }
 
-export default (env: "development" | "production") => {
+export default async (env: "development" | "production") => {
+  const overrides = await loaderConf()
 
   const { overridesClientWebpack, overridesServerWebpack, overridesWebpack } = overrides
 
@@ -42,7 +45,7 @@ export default (env: "development" | "production") => {
 
   /**------------------------  client    ---------------------    */
   const configClient = configFactory(env);
-  let newConfigClient = getWebpackConfig(configClient, "client")
+  let newConfigClient = getWebpackConfig(configClient, "client", overrides)
   if (overridesClientWebpack) {
     newConfigClient = overridesClientWebpack(newConfigClient, env)
   }
@@ -50,7 +53,7 @@ export default (env: "development" | "production") => {
 
   /**------------------------  server    ---------------------    */
   const configServer = configFactory(env);
-  let newConfigServer = getWebpackConfig(configServer, "server")
+  let newConfigServer = getWebpackConfig(configServer, "server", overrides)
   newConfigServer.devtool = false
   newConfigServer.target = "node"
   if (overridesServerWebpack) {
@@ -65,6 +68,7 @@ export default (env: "development" | "production") => {
   const compiler = webpack(configArr);
   return {
     compiler,
-    config: configArr
+    config: configArr,
+    overrides
   }
 }

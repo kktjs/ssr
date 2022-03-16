@@ -2,6 +2,7 @@ import WebpackBar from 'webpackbar';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { WebpackConfiguration } from 'kkt';
 import { paths } from "./pathUtils"
+import path from "path"
 
 // plugin 根据 client  server
 
@@ -30,16 +31,42 @@ export const restWebpackManifestPlugin = (conf: WebpackConfiguration, type?: str
         fileName: type ? `asset-${type}-manifest.json` : 'asset-manifest.json',
         publicPath: paths.publicUrlOrPath,
         generate: (seed, files, entrypoints) => {
+          // const manifestFiles = files.reduce((manifest, file) => {
+          //   manifest[file.name] = file.path;
+          //   return manifest;
+          // }, seed);
+          // const entrypointFiles = entrypoints.main.filter(
+          //   fileName => !fileName.endsWith('.map')
+          // );
+          const routhPaths: Record<string, { css?: string, js?: string }> = {}
           const manifestFiles = files.reduce((manifest, file) => {
             manifest[file.name] = file.path;
+            if (!file.name.endsWith('.map')) {
+              const routePath = `${file.name}`.replace(/.(css|js)$/, "")
+              if (!routhPaths[routePath]) {
+                routhPaths[routePath] = {}
+              }
+              const extname = path.extname(file.name).replace(".", "") as "css" | "js";	 //获取文件的后缀名
+              routhPaths[routePath][extname] = file.path;
+            }
             return manifest;
           }, seed);
+
+          const clientOrServer: Record<string, string> = { css: null, js: null }
           const entrypointFiles = entrypoints.main.filter(
             fileName => !fileName.endsWith('.map')
           );
+
+          entrypointFiles.forEach((filename) => {
+            const extname = path.extname(filename).replace(".", "") as "css" | "js";	 //获取文件的后缀名
+            clientOrServer[extname] = filename
+          })
+
           return {
+            ...routhPaths,
             files: manifestFiles,
             entrypoints: entrypointFiles,
+            [type]: clientOrServer,
           };
         },
       }),

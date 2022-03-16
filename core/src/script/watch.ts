@@ -1,12 +1,12 @@
 
+
 import createCompiler from "./utils"
 import clearConsole from 'react-dev-utils/clearConsole';
-import overrides from "./../overrides"
 
 const today = () => new Date().toISOString().split('.')[0].replace('T', ' ');
 
 export default async () => {
-  const { compiler } = createCompiler("development")
+  const { compiler, overrides } = await createCompiler("development")
   compiler.watch({
     ...(overrides.watchOptions || {}),
   }, (err, stats) => {
