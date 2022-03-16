@@ -12,10 +12,9 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
     name: type,
   })
 
-  const out = {
+  const out: webpack.Configuration["output"] = {
     filename: `${type}.js`,
     path: overrides.output_path,
-    library: {}
   }
 
   if (type === "server") {
