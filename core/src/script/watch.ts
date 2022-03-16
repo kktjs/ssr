@@ -2,14 +2,12 @@
 
 import createCompiler from "./utils"
 import clearConsole from 'react-dev-utils/clearConsole';
+import { OptionsProps } from "../interface"
 
 const today = () => new Date().toISOString().split('.')[0].replace('T', ' ');
 
-export default async (nodeExternals: {
-  clientNodeExternals: boolean,
-  serverNodeExternals: boolean
-}) => {
-  const { compiler, overrides } = await createCompiler("development", nodeExternals)
+export default async (options: OptionsProps) => {
+  const { compiler, overrides } = await createCompiler("development", options)
   compiler.watch({
     ...(overrides.watchOptions || {}),
   }, (err, stats) => {

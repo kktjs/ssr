@@ -3,6 +3,8 @@ import createCompiler from "./utils"
 import fs from "fs-extra";
 import FileSizeReporter from "react-dev-utils/FileSizeReporter";
 import { Paths } from "./../overrides/pathUtils"
+import { OptionsProps } from "../interface"
+
 const chalk = require('react-dev-utils/chalk');
 
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
@@ -15,12 +17,9 @@ export interface OpaqueFileSizes {
   sizes: Record<string, number>;
 }
 
-const build = async (nodeExternals: {
-  clientNodeExternals: boolean,
-  serverNodeExternals: boolean
-}) => {
+const build = async (options: OptionsProps) => {
 
-  const { compiler, overrides } = await createCompiler("production", nodeExternals)
+  const { compiler, overrides } = await createCompiler("production", options)
 
   console.log('Creating an optimized production build...');
 

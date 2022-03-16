@@ -6,7 +6,9 @@
   "scripts": {
     "server": "node dist/server.js",
     "build": "kkt-ssr build",
-    "watch": "kkt-ssr watch"
+    "watch": "kkt-ssr watch",
+    "build:s": "kkt-ssr build --s-st",
+    "watch:s": "kkt-ssr watch --s-st"
   },
   "keywords": [],
   "author": "Kenny Wong <wowohoo@qq.com>",

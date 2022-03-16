@@ -2,6 +2,7 @@
 import { reactScripts } from "../../overrides/pathUtils"
 import webpackNodeExternals from "webpack-node-externals"
 import webpack from "webpack"
+import { OptionsProps } from "../../interface"
 
 import { loaderConf, OverridesProps } from "./../../overrides"
 
@@ -9,7 +10,7 @@ import { getWbpackBarPlugins, restOutPut, restWebpackManifestPlugin, clearHtmlTe
 // 引入环境变量
 require(`${reactScripts}/config/env`);
 
-const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "client", overrides: OverridesProps, nodeExternals: boolean) => {
+const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "client", overrides: OverridesProps, nodeExternals: boolean, split: boolean) => {
   newConfig.entry = overrides[`${type}_path`]
   newConfig = getWbpackBarPlugins(newConfig, {
     name: type,
@@ -31,7 +32,9 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   newConfig.plugins.push(new webpack.DefinePlugin({
     OUTPUT_PUBLIC_PATH: JSON.stringify(overrides.output_path),
   }))
-
+  if (split) {
+    newConfig.plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }))
+  }
   if (nodeExternals) {
     newConfig.externals = [webpackNodeExternals()]
   }
@@ -39,10 +42,7 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   return newConfig
 }
 
-export default async (env: "development" | "production", nodeExternals: {
-  clientNodeExternals: boolean,
-  serverNodeExternals: boolean
-}) => {
+export default async (env: "development" | "production", options: OptionsProps) => {
   const overrides = await loaderConf()
 
   const { overridesClientWebpack, overridesServerWebpack, overridesWebpack } = overrides
@@ -53,7 +53,7 @@ export default async (env: "development" | "production", nodeExternals: {
 
   /**------------------------  client    ---------------------    */
   const configClient = configFactory(env);
-  let newConfigClient = getWebpackConfig(configClient, "client", overrides, nodeExternals.clientNodeExternals)
+  let newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk)
   if (overridesClientWebpack) {
     newConfigClient = overridesClientWebpack(newConfigClient, env)
   }
@@ -61,7 +61,7 @@ export default async (env: "development" | "production", nodeExternals: {
 
   /**------------------------  server    ---------------------    */
   const configServer = configFactory(env);
-  let newConfigServer = getWebpackConfig(configServer, "server", overrides, nodeExternals.serverNodeExternals)
+  let newConfigServer = getWebpackConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk)
   newConfigServer.devtool = false
   newConfigServer.target = "node"
   if (overridesServerWebpack) {

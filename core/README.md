@@ -206,6 +206,10 @@ export default {
 }
 ```
 
+### DefinePlugin 
+
+OUTPUT_PUBLIC_PATH：Default value `path.join(process.cwd(),"dist")`
+
 ## KKTSSR Config
 
 The root directory creates the `.kktssrrc.js` file.
