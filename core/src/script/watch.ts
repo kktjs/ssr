@@ -5,8 +5,11 @@ import clearConsole from 'react-dev-utils/clearConsole';
 
 const today = () => new Date().toISOString().split('.')[0].replace('T', ' ');
 
-export default async () => {
-  const { compiler, overrides } = await createCompiler("development")
+export default async (nodeExternals: {
+  clientNodeExternals: boolean,
+  serverNodeExternals: boolean
+}) => {
+  const { compiler, overrides } = await createCompiler("development", nodeExternals)
   compiler.watch({
     ...(overrides.watchOptions || {}),
   }, (err, stats) => {

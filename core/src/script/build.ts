@@ -15,9 +15,12 @@ export interface OpaqueFileSizes {
   sizes: Record<string, number>;
 }
 
-const build = async () => {
+const build = async (nodeExternals: {
+  clientNodeExternals: boolean,
+  serverNodeExternals: boolean
+}) => {
 
-  const { compiler, overrides } = await createCompiler("production")
+  const { compiler, overrides } = await createCompiler("production", nodeExternals)
 
   console.log('Creating an optimized production build...');
 

@@ -1,6 +1,6 @@
 // 根据 kkt 写法 重置 create-react-app 中的 react-script配置
 import { reactScripts } from "../../overrides/pathUtils"
-
+import webpackNodeExternals from "webpack-node-externals"
 import webpack from "webpack"
 
 import { loaderConf, OverridesProps } from "./../../overrides"
@@ -9,7 +9,7 @@ import { getWbpackBarPlugins, restOutPut, restWebpackManifestPlugin, clearHtmlTe
 // 引入环境变量
 require(`${reactScripts}/config/env`);
 
-const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "client", overrides: OverridesProps) => {
+const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "client", overrides: OverridesProps, nodeExternals: boolean) => {
   newConfig.entry = overrides[`${type}_path`]
   newConfig = getWbpackBarPlugins(newConfig, {
     name: type,
@@ -31,10 +31,18 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   newConfig.plugins.push(new webpack.DefinePlugin({
     OUTPUT_PUBLIC_PATH: JSON.stringify(overrides.output_path),
   }))
+
+  if (nodeExternals) {
+    newConfig.externals = [webpackNodeExternals()]
+  }
+
   return newConfig
 }
 
-export default async (env: "development" | "production") => {
+export default async (env: "development" | "production", nodeExternals: {
+  clientNodeExternals: boolean,
+  serverNodeExternals: boolean
+}) => {
   const overrides = await loaderConf()
 
   const { overridesClientWebpack, overridesServerWebpack, overridesWebpack } = overrides
@@ -45,7 +53,7 @@ export default async (env: "development" | "production") => {
 
   /**------------------------  client    ---------------------    */
   const configClient = configFactory(env);
-  let newConfigClient = getWebpackConfig(configClient, "client", overrides)
+  let newConfigClient = getWebpackConfig(configClient, "client", overrides, nodeExternals.clientNodeExternals)
   if (overridesClientWebpack) {
     newConfigClient = overridesClientWebpack(newConfigClient, env)
   }
@@ -53,7 +61,7 @@ export default async (env: "development" | "production") => {
 
   /**------------------------  server    ---------------------    */
   const configServer = configFactory(env);
-  let newConfigServer = getWebpackConfig(configServer, "server", overrides)
+  let newConfigServer = getWebpackConfig(configServer, "server", overrides, nodeExternals.serverNodeExternals)
   newConfigServer.devtool = false
   newConfigServer.target = "node"
   if (overridesServerWebpack) {

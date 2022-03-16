@@ -4,8 +4,6 @@ process.env.BUILD_PATH = "dist"
 
 import minimist from 'minimist';
 import { BuildArgs } from 'kkt';
-import { overridePaths } from 'kkt/lib/overrides/paths';
-import { loaderConf } from "./overrides"
 
 function help() {
   const { version } = require('../package.json');
@@ -14,15 +12,22 @@ function help() {
   console.log('\n  Options:\n');
   console.log('   --version, -v        ', 'Show version number');
   console.log('   --help, -h           ', 'Displays help information.');
+  console.log('   --s-ne, --s-nodeExternals         ', 'server use webpack-node-external .');
+  console.log('   --c-ne, --c-nodeExternals         ', 'client use webpack-node-external .');
 
   console.log('\n  Example:\n');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m build');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch');
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m build --s-ne');
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch --s-ne');
   console.log(`\n  \x1b[34;1m@kkt/ssr\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
 }
 
 interface SSRNCCArgs extends BuildArgs {
-
+  "s-ne"?: boolean;
+  "s-nodeExternals"?: boolean,
+  "c-ne"?: boolean;
+  "c-nodeExternals"?: boolean,
 }
 
 (async () => {
@@ -56,14 +61,24 @@ interface SSRNCCArgs extends BuildArgs {
     }
     const scriptName = argvs._[0];
 
+    const clientNodeExternals = argvs["c-ne"] || argvs['c-nodeExternals']
+    const serverNodeExternals = argvs["s-ne"] || argvs['s-nodeExternals']
+
+
     if (scriptName === 'build') {
       process.env.BABEL_ENV = 'production';
       process.env.NODE_ENV = 'production';
-      (await import("./script/build")).default()
+      (await import("./script/build")).default({
+        clientNodeExternals,
+        serverNodeExternals
+      })
     } else if (scriptName === 'watch') {
       process.env.BABEL_ENV = 'development';
       process.env.NODE_ENV = 'development';
-      (await import("./script/watch")).default()
+      (await import("./script/watch")).default({
+        clientNodeExternals,
+        serverNodeExternals
+      })
     }
   } catch (error) {
     console.log('\x1b[31m KKT:SSR:ERROR:\x1b[0m', error);
