@@ -26,7 +26,7 @@ const tsOptions = {
 
 const confPath = resolveModule(resolveApp, '.kktssrrc');
 
-export type WebpackConfigFunction = (conf: webpack.Configuration[] | webpack.Configuration, env: "development" | "production") => webpack.Configuration[] | webpack.Configuration;
+export type WebpackConfigFunction = (conf: webpack.Configuration[] | webpack.Configuration, env: "development" | "production", options: any) => webpack.Configuration[] | webpack.Configuration;
 
 export interface OverridesProps {
   /** 环境变变量 */
@@ -39,9 +39,9 @@ export interface OverridesProps {
 
   /** 最终覆写 webpack  配置 **/
   /** 客户端配置  */
-  overridesClientWebpack?: (conf: webpack.Configuration, env: "development" | "production") => webpack.Configuration,
+  overridesClientWebpack?: (conf: webpack.Configuration, env: "development" | "production", options: any) => webpack.Configuration,
   /** 服务端配置  */
-  overridesServerWebpack?: (conf: webpack.Configuration, env: "development" | "production") => webpack.Configuration;
+  overridesServerWebpack?: (conf: webpack.Configuration, env: "development" | "production", options: any) => webpack.Configuration;
   // 最终的配置
   overridesWebpack?: WebpackConfigFunction
 

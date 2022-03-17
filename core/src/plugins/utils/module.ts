@@ -6,6 +6,8 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+const lessModuleRegex = /\.module\.(less)$/;
+const lessRegex = /\.(less)$/;
 
 const getToString = (rule: RegExp) => {
   return rule.toString();
@@ -55,6 +57,8 @@ export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[], isEnvD
             getToString(cssModuleRegex),
             getToString(sassRegex),
             getToString(sassModuleRegex),
+            getToString(lessModuleRegex),
+            getToString(lessRegex),
           ].includes(item.test.toString())
         ) {
           let newUse;

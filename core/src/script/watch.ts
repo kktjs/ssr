@@ -7,7 +7,7 @@ import { OptionsProps } from "../interface"
 const today = () => new Date().toISOString().split('.')[0].replace('T', ' ');
 
 export default async (options: OptionsProps) => {
-  const { compiler, overrides } = await createCompiler("production", options)
+  const { compiler, overrides } = await createCompiler("development", options)
   compiler.watch({
     ...(overrides.watchOptions || {}),
   }, (err, stats) => {

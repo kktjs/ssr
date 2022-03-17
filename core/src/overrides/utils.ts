@@ -3,6 +3,22 @@ import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { WebpackConfiguration } from 'kkt';
 import path from "path"
 import { Paths } from "./pathUtils"
+import { MiniCssExtractPlugin } from 'kkt';
+import webpack from "webpack"
+
+
+// style files regexes
+const cssRegex = /\.css$/;
+const cssModuleRegex = /\.module\.css$/;
+const sassRegex = /\.(scss|sass)$/;
+const sassModuleRegex = /\.module\.(scss|sass)$/;
+const lessModuleRegex = /\.module\.(less)$/;
+const lessRegex = /\.(less)$/;
+
+const getToString = (rule: RegExp) => {
+  return rule.toString();
+};
+
 
 // plugin 根据 client  server
 
@@ -80,6 +96,7 @@ export const clearHtmlTemp = (conf: WebpackConfiguration): WebpackConfiguration 
     );
   return { ...conf, plugins };
 };
+
 /** 输出配置 */
 export const restOutPut = (conf: WebpackConfiguration, options: WebpackConfiguration['output']): WebpackConfiguration => {
   return {
@@ -89,4 +106,77 @@ export const restOutPut = (conf: WebpackConfiguration, options: WebpackConfigura
       ...options,
     },
   };
+};
+
+// 开发模式下 把 css 进行处理
+export const restDevModuleRuleCss = (conf: WebpackConfiguration, isEnvDevelopment: boolean): WebpackConfiguration => {
+  return {
+    ...conf,
+    module: {
+      ...conf.module,
+      rules: getModuleCSSRules(conf.module.rules, isEnvDevelopment)
+    },
+    plugins: conf.plugins.concat(new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: `server.css`,
+    }))
+  }
+}
+
+/**
+ * 1. 开发模式下，去除  style-loader  改成  MiniCssExtractPlugin.lader，让他生成 css 文件
+ * */
+export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[], isEnvDevelopment: boolean, sourceMap: boolean = false) => {
+  const newRules: any = [];
+  rules.forEach((rule) => {
+    if (typeof rule === 'string') {
+      newRules.push(rule);
+      return;
+    }
+    if (/style-loader/.test(rule.loader) && isEnvDevelopment) {
+      newRules.push({
+        loader: MiniCssExtractPlugin.loader,
+      });
+    } else if (rule.oneOf) {
+      const newOneOf = rule.oneOf.map((item) => {
+        if (
+          item.test &&
+          [
+            getToString(cssRegex),
+            getToString(cssModuleRegex),
+            getToString(sassRegex),
+            getToString(sassModuleRegex),
+            getToString(lessModuleRegex),
+            getToString(lessRegex),
+          ].includes(item.test.toString())
+        ) {
+          let newUse;
+          if (Array.isArray(item.use)) {
+            newUse = item.use.map((ite) => {
+              if (typeof ite === 'string' && /style-loader/.test(ite) && isEnvDevelopment) {
+                return {
+                  loader: MiniCssExtractPlugin.loader,
+                };
+              } else if (typeof ite === 'object' && /style-loader/.test(ite.loader) && isEnvDevelopment) {
+                return {
+                  loader: MiniCssExtractPlugin.loader,
+                };
+              }
+              return ite;
+            });
+          }
+          return {
+            ...item,
+            use: newUse || item.use,
+          };
+        }
+        return item;
+      });
+      newRules.push({ ...rule, oneOf: newOneOf });
+    } else {
+      newRules.push(rule);
+    }
+  });
+  return newRules;
 };

@@ -4,6 +4,7 @@ import webpackNodeExternals from "webpack-node-externals"
 import webpack from "webpack"
 import { OptionsProps } from "../../interface"
 import fs from 'fs';
+import { restDevModuleRuleCss } from "./../../overrides/utils"
 
 import { loaderConf, OverridesProps } from "./../../overrides"
 
@@ -46,7 +47,7 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
 export default async (env: "development" | "production", options: OptionsProps) => {
   const overrides = await loaderConf()
 
-  const { overridesClientWebpack, overridesServerWebpack, overridesWebpack } = overrides
+  const { overridesClientWebpack, overridesServerWebpack, overridesWebpack, ...rest } = overrides
 
   const configFactory = require(`${reactScripts}/config/webpack.config`);
 
@@ -57,7 +58,7 @@ export default async (env: "development" | "production", options: OptionsProps) 
     const configClient = configFactory(env);
     let newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk)
     if (overridesClientWebpack) {
-      newConfigClient = overridesClientWebpack(newConfigClient, env)
+      newConfigClient = overridesClientWebpack(newConfigClient, env, { ...rest, env })
     }
     configArr.push(newConfigClient)
   }
@@ -68,15 +69,18 @@ export default async (env: "development" | "production", options: OptionsProps) 
     let newConfigServer = getWebpackConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk)
     newConfigServer.devtool = false
     newConfigServer.target = "node"
+    if (env === "development") {
+      newConfigServer = restDevModuleRuleCss(newConfigServer, true)
+    }
     if (overridesServerWebpack) {
-      newConfigServer = overridesServerWebpack(newConfigServer, env)
+      newConfigServer = overridesServerWebpack(newConfigServer, env, { ...rest, env })
     }
     configArr.push(newConfigServer)
   }
 
   /**------------------------  other    ---------------------    */
   if (overridesWebpack && typeof overridesWebpack === "function") {
-    configArr = overridesWebpack(configArr, env) as webpack.Configuration[]
+    configArr = overridesWebpack(configArr, env, { ...rest, env }) as webpack.Configuration[]
   }
 
   const compiler = webpack(configArr);

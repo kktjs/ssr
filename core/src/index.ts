@@ -2,6 +2,8 @@
 process.env.FAST_REFRESH = 'false';
 process.env.BUILD_PATH = "dist"
 
+
+
 import minimist from 'minimist';
 import { BuildArgs } from 'kkt';
 
@@ -75,19 +77,24 @@ interface SSRNCCArgs extends BuildArgs {
 
     const clientIsChunk = argvs["c-st"] || argvs['c-split']
     const serverIsChunk = argvs["s-st"] || argvs['s-split']
-    process.env.BABEL_ENV = 'production';
-    process.env.NODE_ENV = 'production';
+
+
     if (scriptName === 'build') {
-      (await import("./script/build")).default({
+      process.env.BABEL_ENV = 'production';
+      process.env.NODE_ENV = 'production';
+
+      const build = await import("./script/build")
+      await build.default({
         clientNodeExternals,
         serverNodeExternals,
         clientIsChunk,
         serverIsChunk
       })
     } else if (scriptName === 'watch') {
-      // process.env.BABEL_ENV = 'development';
-      // process.env.NODE_ENV = 'development';
-      (await import("./script/watch")).default({
+      process.env.BABEL_ENV = 'development';
+      process.env.NODE_ENV = 'development';
+      const watch = await import("./script/watch")
+      await watch.default({
         clientNodeExternals,
         serverNodeExternals,
         clientIsChunk,
