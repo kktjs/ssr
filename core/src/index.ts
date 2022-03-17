@@ -75,10 +75,9 @@ interface SSRNCCArgs extends BuildArgs {
 
     const clientIsChunk = argvs["c-st"] || argvs['c-split']
     const serverIsChunk = argvs["s-st"] || argvs['s-split']
-
+    process.env.BABEL_ENV = 'production';
+    process.env.NODE_ENV = 'production';
     if (scriptName === 'build') {
-      process.env.BABEL_ENV = 'production';
-      process.env.NODE_ENV = 'production';
       (await import("./script/build")).default({
         clientNodeExternals,
         serverNodeExternals,
@@ -86,8 +85,8 @@ interface SSRNCCArgs extends BuildArgs {
         serverIsChunk
       })
     } else if (scriptName === 'watch') {
-      process.env.BABEL_ENV = 'development';
-      process.env.NODE_ENV = 'development';
+      // process.env.BABEL_ENV = 'development';
+      // process.env.NODE_ENV = 'development';
       (await import("./script/watch")).default({
         clientNodeExternals,
         serverNodeExternals,
