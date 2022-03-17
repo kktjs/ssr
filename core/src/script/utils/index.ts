@@ -4,15 +4,17 @@ import webpackNodeExternals from "webpack-node-externals"
 import webpack from "webpack"
 import { OptionsProps } from "../../interface"
 import fs from 'fs';
-import { restDevModuleRuleCss } from "./../../overrides/utils"
+import { restDevModuleRuleCss, getStyleLoaders } from "./../../overrides/utils"
 
 import { loaderConf, OverridesProps } from "./../../overrides"
 
 import { getWbpackBarPlugins, restOutPut, restWebpackManifestPlugin, clearHtmlTemp } from "../../overrides/utils"
+import { getLessRules } from "./lessRules"
+
 // 引入环境变量
 require(`${reactScripts}/config/env`);
 
-const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "client", overrides: OverridesProps, nodeExternals: boolean, split: boolean) => {
+const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "client", overrides: OverridesProps, nodeExternals: boolean, split: boolean, env: "development" | "production") => {
   newConfig.entry = overrides[`${type}_path`]
   newConfig = getWbpackBarPlugins(newConfig, {
     name: type,
@@ -40,7 +42,14 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   if (nodeExternals) {
     newConfig.externals = [webpackNodeExternals()]
   }
-
+  // 新增 less 处理
+  newConfig = {
+    ...newConfig,
+    module: {
+      ...newConfig.module,
+      rules: newConfig.module.rules.concat(getLessRules(newConfig, env, overrides))
+    }
+  }
   return newConfig
 }
 
@@ -56,7 +65,7 @@ export default async (env: "development" | "production", options: OptionsProps) 
   /**------------------------  client    ---------------------    */
   if (fs.existsSync(overrides.client_path)) {
     const configClient = configFactory(env);
-    let newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk)
+    let newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk, env)
     if (overridesClientWebpack) {
       newConfigClient = overridesClientWebpack(newConfigClient, env, { ...rest, env })
     }
@@ -66,11 +75,11 @@ export default async (env: "development" | "production", options: OptionsProps) 
   /**------------------------  server    ---------------------    */
   if (fs.existsSync(overrides.server_path)) {
     const configServer = configFactory(env);
-    let newConfigServer = getWebpackConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk)
+    let newConfigServer = getWebpackConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk, env)
     newConfigServer.devtool = false
     newConfigServer.target = "node"
     if (env === "development") {
-      newConfigServer = restDevModuleRuleCss(newConfigServer, true)
+      newConfigServer = restDevModuleRuleCss(newConfigServer)
     }
     if (overridesServerWebpack) {
       newConfigServer = overridesServerWebpack(newConfigServer, env, { ...rest, env })

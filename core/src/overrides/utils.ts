@@ -12,8 +12,8 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
-const lessModuleRegex = /\.module\.(less)$/;
-const lessRegex = /\.(less)$/;
+const lessModuleRegex = /\.module\.less$/;
+const lessRegex = /\.less$/;
 
 const getToString = (rule: RegExp) => {
   return rule.toString();
@@ -109,35 +109,28 @@ export const restOutPut = (conf: WebpackConfiguration, options: WebpackConfigura
 };
 
 // 开发模式下 把 css 进行处理
-export const restDevModuleRuleCss = (conf: WebpackConfiguration, isEnvDevelopment: boolean): WebpackConfiguration => {
+export const restDevModuleRuleCss = (conf: WebpackConfiguration): WebpackConfiguration => {
   return {
     ...conf,
     module: {
       ...conf.module,
-      rules: getModuleCSSRules(conf.module.rules, isEnvDevelopment)
+      rules: getModuleCSSRules(conf.module.rules)
     },
-    plugins: conf.plugins.concat(new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
-      filename: `server.css`,
-    }))
   }
 }
 
 /**
- * 1. 开发模式下，去除  style-loader  改成  MiniCssExtractPlugin.lader，让他生成 css 文件
+ * 1. 开发模式下， node  去除  style-loader 
  * */
-export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[], isEnvDevelopment: boolean, sourceMap: boolean = false) => {
+export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[]) => {
   const newRules: any = [];
   rules.forEach((rule) => {
     if (typeof rule === 'string') {
       newRules.push(rule);
       return;
     }
-    if (/style-loader/.test(rule.loader) && isEnvDevelopment) {
-      newRules.push({
-        loader: MiniCssExtractPlugin.loader,
-      });
+    if (/style-loader/.test(rule.loader)) {
+      // 去除
     } else if (rule.oneOf) {
       const newOneOf = rule.oneOf.map((item) => {
         if (
@@ -154,17 +147,13 @@ export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[], isEnvD
           let newUse;
           if (Array.isArray(item.use)) {
             newUse = item.use.map((ite) => {
-              if (typeof ite === 'string' && /style-loader/.test(ite) && isEnvDevelopment) {
-                return {
-                  loader: MiniCssExtractPlugin.loader,
-                };
-              } else if (typeof ite === 'object' && /style-loader/.test(ite.loader) && isEnvDevelopment) {
-                return {
-                  loader: MiniCssExtractPlugin.loader,
-                };
+              if (typeof ite === 'string' && /style-loader/.test(ite)) {
+                return false
+              } else if (typeof ite === 'object' && /style-loader/.test(ite.loader)) {
+                return false
               }
               return ite;
-            });
+            }).filter(Boolean);
           }
           return {
             ...item,
@@ -179,4 +168,88 @@ export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[], isEnvD
     }
   });
   return newRules;
+};
+
+
+type GetStyleLoadersProps = {
+  webpackEnv: "development" | "production";
+  devtool: boolean | string;
+  paths: Partial<Paths>,
+  isStyleLoader: boolean
+}
+
+// common function to get style loaders
+export const getStyleLoaders = (cssOptions: any, {
+  webpackEnv,
+  devtool,
+  paths,
+  isStyleLoader = true,
+}: GetStyleLoadersProps, preProcessor: string) => {
+  const isEnvDevelopment = webpackEnv === 'development';
+  const isEnvProduction = webpackEnv === 'production';
+  const loaders = [
+    isEnvDevelopment && isStyleLoader && require.resolve('style-loader'),
+    isEnvProduction && {
+      loader: MiniCssExtractPlugin.loader,
+      // css is located in `static/css`, use '../../' to locate index.html folder
+      // in production `paths.publicUrlOrPath` can be a relative path
+      options: paths.publicUrlOrPath.startsWith('.')
+        ? { publicPath: '../../' }
+        : {},
+    },
+    {
+      loader: require.resolve('css-loader'),
+      options: cssOptions,
+    },
+    {
+      // Options for PostCSS as we reference these options twice
+      // Adds vendor prefixing based on your specified browser support in
+      // package.json
+      loader: require.resolve('postcss-loader'),
+      options: {
+        postcssOptions: {
+          // Necessary for external CSS imports to work
+          // https://github.com/facebook/create-react-app/issues/2677
+          ident: 'postcss',
+          config: false,
+          plugins: [
+            'postcss-flexbugs-fixes',
+            [
+              'postcss-preset-env',
+              {
+                autoprefixer: {
+                  flexbox: 'no-2009',
+                },
+                stage: 3,
+              },
+            ],
+            // Adds PostCSS Normalize as the reset css with default options,
+            // so that it honors browserslist config in package.json
+            // which in turn let's users customize the target behavior as per their needs.
+            'postcss-normalize',
+          ]
+
+        },
+        sourceMap: isEnvProduction ? devtool : isEnvDevelopment,
+      },
+    },
+  ].filter(Boolean);
+  if (preProcessor) {
+    loaders.push(
+      {
+        loader: require.resolve('resolve-url-loader'),
+        options: {
+          sourceMap: isEnvProduction ? devtool : isEnvDevelopment,
+          root: paths.appSrc,
+        },
+      },
+      {
+        loader: require.resolve(preProcessor),
+        options: {
+          sourceMap: true,
+        },
+      }
+    );
+  }
+  return loaders;
 };

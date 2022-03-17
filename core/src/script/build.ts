@@ -4,8 +4,8 @@ import fs from "fs-extra";
 import FileSizeReporter from "react-dev-utils/FileSizeReporter";
 import { Paths } from "./../overrides/pathUtils"
 import { OptionsProps } from "../interface"
-const file = fs.createWriteStream('./outPut.txt');
-let logger = new console.Console(file, file);
+// const file = fs.createWriteStream('./outPut.txt');
+// let logger = new console.Console(file, file);
 const chalk = require('react-dev-utils/chalk');
 
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
@@ -31,7 +31,7 @@ const build = async (options: OptionsProps) => {
   compiler.run((error, stats: any) => {
     if (!error) {
       const errs = stats.toJson().errors || []
-      logger.log(stats.toJson())
+      // logger.log(stats.toJson())
       if (errs && errs.length === 0) {
         console.log(chalk.green('Compiled successfully.\n'));
         console.log('File sizes after gzip:\n');
@@ -44,7 +44,7 @@ const build = async (options: OptionsProps) => {
         );
         console.log();
       } else {
-        console.log("报错");
+        console.log("error");
         process.exit(1);
       }
     } else {

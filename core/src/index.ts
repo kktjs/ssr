@@ -91,8 +91,10 @@ interface SSRNCCArgs extends BuildArgs {
         serverIsChunk
       })
     } else if (scriptName === 'watch') {
+
       process.env.BABEL_ENV = 'development';
       process.env.NODE_ENV = 'development';
+
       const watch = await import("./script/watch")
       await watch.default({
         clientNodeExternals,

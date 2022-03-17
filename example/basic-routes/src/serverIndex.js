@@ -41,7 +41,7 @@ const render = (props = {}) => {
 
 server
   .disable('x-powered-by')
-  .use(express.static(resolveApp('dist')))
+  .use(express.static(resolveApp('build')))
   .get('/*', (req, res) => {
     let urls = req.url
     if (urls === "/") {
