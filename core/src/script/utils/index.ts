@@ -33,7 +33,7 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   newConfig.plugins.push(new webpack.DefinePlugin({
     OUTPUT_PUBLIC_PATH: JSON.stringify(overrides.output_path),
   }))
-  if (split) {
+  if (!split) {
     newConfig.plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }))
   }
   if (nodeExternals) {
