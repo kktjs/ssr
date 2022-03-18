@@ -190,3 +190,9 @@ jobs:
         token: ${{ secrets.NPM_TOKEN }}
         package: ./packages/react-ssr-enhanced/package.json
 
+    - name: 📦 @kkt/plugin-less publish to NPM
+      uses: JS-DevTools/npm-publish@v1
+      with:
+        token: ${{ secrets.NPM_TOKEN }}
+        package: ./packages/kkt-plugin-less/package.json
+

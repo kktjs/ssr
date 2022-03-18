@@ -3,7 +3,7 @@
 	"private": true,
 	"description": "A baseline for server side rendering for your React application.",
 	"scripts": {
-		"build": "npm run build:ssr && npm run build:enhanced",
+		"build": "npm run build:ssr && npm run build:enhanced && npm run build:less",
 		"-----build:ssr-----": "----------",
 		"build:ssr": "lerna exec --scope @kkt/ssr -- npm run build",
 		"watch:ssr": "lerna exec --scope @kkt/ssr -- npm run watch",
