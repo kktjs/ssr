@@ -1,5 +1,5 @@
 import React from 'react';
-// import loadable from 'react-dynamic-loadable';
+import loadable from 'react-dynamic-loadable';
 // import './index.css';
 // import { store } from "./../store"
 import About from "./about"

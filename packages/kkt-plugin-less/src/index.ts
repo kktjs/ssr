@@ -10,7 +10,6 @@ export interface LessOptions {
 
 export default (conf: WebpackConfiguration, options: LessOptions): WebpackConfiguration => {
   let shouldUseSourceMap = options.shouldUseSourceMap || !!conf.devtool;
-  const IS_NODE = /node/.test(typeof options.target === "string" ? options.target : options.target.toString());
   const IS_DEV = options.env === 'development';
   const isEnvProduction = options.env === 'production';
   const postcssLoader = {
@@ -69,48 +68,29 @@ export default (conf: WebpackConfiguration, options: LessOptions): WebpackConfig
       // Remove this when webpack adds a warning or an error for this.
       // See https://github.com/webpack/webpack/issues/6571
       sideEffects: true,
-      use: (() => {
-        const rulers = [];
-        // Style-loader does not work in Node.js without some crazy
-        // magic. Luckily we just need css-loader.
-        if (IS_NODE) {
-          rulers.push({
-            loader: require.resolve('css-loader'),
-            options: {
-              ...cssModuleOption,
-            },
-          });
-        } else {
-          // Generating inline styles makes it harder to locate problems.
-          // rulers.push(MiniCssExtractPlugin.loader);
-          if (IS_DEV) {
-            rulers.push(require.resolve('style-loader'));
-          } else {
-            rulers.push({
-              loader: MiniCssExtractPlugin.loader,
-              // css is located in `static/css`, use '../../' to locate index.html folder
-              // in production `paths.publicUrlOrPath` can be a relative path
-              options: options.paths.publicUrlOrPath.startsWith('.')
-                ? { publicPath: '../../' }
-                : {},
-            });
-          }
-          rulers.push({
-            loader: require.resolve('css-loader'),
-            options: {
-              ...cssModuleOption,
-            },
-          });
-          rulers.push(postcssLoader);
-        }
-        rulers.push({
+      use: [
+        {
+          loader: MiniCssExtractPlugin.loader,
+          // css is located in `static/css`, use '../../' to locate index.html folder
+          // in production `paths.publicUrlOrPath` can be a relative path
+          options: options.paths.publicUrlOrPath.startsWith('.')
+            ? { publicPath: '../../' }
+            : {},
+        },
+        {
+          loader: require.resolve('css-loader'),
+          options: {
+            ...cssModuleOption,
+          },
+        },
+        postcssLoader,
+        {
           loader: require.resolve('less-loader'),
           options: {
             sourceMap: true,
           }
-        });
-        return rulers;
-      })(),
+        }
+      ],
     },
     // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
     // using the extension .module.css
@@ -118,45 +98,32 @@ export default (conf: WebpackConfiguration, options: LessOptions): WebpackConfig
       test: /\.module\.less$/,
       exclude: [options.paths.appBuild],
       sideEffects: true,
-      use: (() => {
-        const rulers = [];
-        if (IS_NODE) {
-          rulers.push({
-            loader: require.resolve('css-loader'),
-            options: {
-              ...cssModuleOption,
-              modules: {
-                mode: 'local',
-              },
+      use: [
+        {
+          loader: MiniCssExtractPlugin.loader,
+          // css is located in `static/css`, use '../../' to locate index.html folder
+          // in production `paths.publicUrlOrPath` can be a relative path
+          options: options.paths.publicUrlOrPath.startsWith('.')
+            ? { publicPath: '../../' }
+            : {},
+        },
+        {
+          loader: require.resolve('css-loader'),
+          options: {
+            ...cssModuleOption,
+            modules: {
+              mode: 'local',
             },
-          });
-        } else {
-          // Generating inline styles makes it harder to locate problems.
-          // rulers.push(MiniCssExtractPlugin.loader);
-          if (IS_DEV) {
-            rulers.push(require.resolve('style-loader'));
-          } else {
-            rulers.push(MiniCssExtractPlugin.loader);
-          }
-          rulers.push({
-            loader: require.resolve('css-loader'),
-            options: {
-              ...cssModuleOption,
-              modules: {
-                mode: 'local',
-              },
-            },
-          });
-          rulers.push(postcssLoader);
-        }
-        rulers.push({
+          },
+        },
+        postcssLoader,
+        {
           loader: require.resolve('less-loader'),
           options: {
             sourceMap: true,
           }
-        });
-        return rulers;
-      })(),
+        }
+      ],
     },
   ];
   return conf

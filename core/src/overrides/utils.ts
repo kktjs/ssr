@@ -3,8 +3,8 @@ import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { WebpackConfiguration } from 'kkt';
 import path from "path"
 import { Paths } from "./pathUtils"
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack from "webpack"
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 
 // style files regexes
@@ -108,20 +108,29 @@ export const restOutPut = (conf: WebpackConfiguration, options: WebpackConfigura
 };
 
 // 开发模式下 把 css 进行处理
-export const restDevModuleRuleCss = (conf: WebpackConfiguration): WebpackConfiguration => {
+export const restDevModuleRuleCss = (conf: WebpackConfiguration,): WebpackConfiguration => {
   return {
     ...conf,
+    plugins: conf.plugins.concat([
+      // 开发状态下没有这个 plugin 
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // both options are optional
+        filename: 'static/css/[name].[contenthash:8].css',
+        chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+      })
+    ]),
     module: {
       ...conf.module,
-      rules: getModuleCSSRules(conf.module.rules)
+      rules: getModuleCSSRules(conf.module.rules,)
     },
   }
 }
 
 /**
- * 1. 开发模式下， node  去除  style-loader 
+ * 1. 开发模式下，去除  style-loader  改成  MiniCssExtractPlugin.lader，让他生成 css 文件
  * */
-export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[]) => {
+export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[],) => {
   const newRules: any = [];
   rules.forEach((rule) => {
     if (typeof rule === 'string') {
@@ -129,7 +138,9 @@ export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[]) => {
       return;
     }
     if (/style-loader/.test(rule.loader)) {
-      // 去除
+      newRules.push({
+        loader: MiniCssExtractPlugin.loader,
+      });
     } else if (rule.oneOf) {
       const newOneOf = rule.oneOf.map((item) => {
         if (
@@ -147,12 +158,16 @@ export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[]) => {
           if (Array.isArray(item.use)) {
             newUse = item.use.map((ite) => {
               if (typeof ite === 'string' && /style-loader/.test(ite)) {
-                return false
+                return {
+                  loader: MiniCssExtractPlugin.loader,
+                };
               } else if (typeof ite === 'object' && /style-loader/.test(ite.loader)) {
-                return false
+                return {
+                  loader: MiniCssExtractPlugin.loader,
+                };
               }
               return ite;
-            }).filter(Boolean);
+            });
           }
           return {
             ...item,
@@ -168,4 +183,3 @@ export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[]) => {
   });
   return newRules;
 };
-

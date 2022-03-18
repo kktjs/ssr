@@ -6,5 +6,19 @@
     "packages/react-ssr-enhanced",
     "packages/kkt-plugin-less"
   ],
-  "version": "3.1.1"
+  "version": "3.1.1",
+  "command": {
+    "create": {
+      "license": "MIT"
+    },
+    "bootstrap": {
+      "yarnClientArgs": [
+        "--no-yarn-lock",
+        "--no-package-lock"
+      ],
+      "forceLocal": true
+    }
+  },
+  "npmClient": "yarn",
+  "useWorkspaces": true
 }

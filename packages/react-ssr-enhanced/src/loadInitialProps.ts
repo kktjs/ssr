@@ -2,16 +2,18 @@ import { matchPath } from 'react-router-dom';
 import { RouteNewObject } from "./interface"
 
 export const loadInitialProps = async (routes: RouteNewObject[], pathname: string, ctx: any) => {
-  const promises = [];
+
+  const promises: Promise<any>[] = [];
+
   const matchedComponent = routes.find((route) => {
-    const match = matchPath(route.path, pathname);
-    if (match && route.element && route.element.getInitialProps !== undefined) {
-      const component = route.element;
-      promises.push(
-        component.load
-          ? component.load().then(() => component.getInitialProps({ match, ...ctx }))
-          : component.getInitialProps({ match, ...ctx })
-      );
+    const match = matchPath(route.path as string, pathname);
+    const component = route.element;
+    if (route.path && match && component) {
+      if (component.getInitialProps && typeof component.getInitialProps === "function") {
+        // @ts-ignore
+        const resule = component.load ? component.load().then(() => component.getInitialProps({ match, ...ctx })) : component.getInitialProps({ match, ...ctx })
+        promises.push(resule);
+      }
     }
     return !!match;
   });
