@@ -27,8 +27,8 @@ export const getRouterData = () => {
   let conf = {
     '/': {
       name: 'page-home',
-      element: <Home />
-      // element: dynamicWrapper([], () => import(/* webpackChunkName: 'page-home' */ './home')),
+      // element: <Home />
+      element: dynamicWrapper([], () => import(/* webpackChunkName: 'page-home' */ './home')),
     },
     '/about': {
       name: 'page-about',
