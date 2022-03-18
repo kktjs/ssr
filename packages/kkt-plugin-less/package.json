@@ -2,13 +2,24 @@
   "name": "@kkt/plugin-less",
   "version": "1.2.0",
   "description": "Support less.",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "watch": "tsbb watch",
+    "build": "tsbb build"
+  },
   "keywords": [
     "less",
     "react",
     "kkt",
     "ssr",
     "@kkt/ssr"
+  ],
+  "files": [
+    "lib",
+    "esm",
+    "src"
   ],
   "repository": "https://github.com/kktjs/ssr.git",
   "author": "Kenny Wong <wowohoo@qq.com> (https://github.com/jaywcjlove)",
@@ -18,8 +29,17 @@
   },
   "license": "MIT",
   "dependencies": {
-    "css-loader": "6.6.0",
-    "sass-loader": "12.6.0",
-    "less": "4.1.2"
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0",
+    "style-loader": "^3.3.1",
+    "css-loader": "^6.7.1",
+    "postcss-loader": "^6.2.1",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-preset-env": "^7.4.2",
+    "mini-css-extract-plugin": "^2.6.0"
+  },
+  "devDependencies": {
+    "@kkt/ssr": "^3.1.0",
+    "tsbb": "~3.7.2"
   }
 }

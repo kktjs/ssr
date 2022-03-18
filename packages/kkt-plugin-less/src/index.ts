@@ -1,8 +1,16 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+import MiniCssExtractPlugin from "mini-css-extract-plugin"
+import { Paths } from "@kkt/ssr/lib/overrides/pathUtils"
+import { WebpackConfiguration } from 'kkt';
 
-module.exports = (conf, options) => {
-  const IS_NODE = options.target === 'node';
-  const IS_DEV = options.env === 'dev';
+export interface LessOptions {
+  target: string | false | string[];
+  env: "development" | "production",
+  paths: Partial<Paths>
+}
+
+export default (conf: WebpackConfiguration, options: LessOptions): WebpackConfiguration => {
+  const IS_NODE = /node/.test(typeof options.target === "string" ? options.target : options.target.toString());
+  const IS_DEV = options.env === 'development';
   const postcssLoader = {
     // Options for PostCSS as we reference these options twice
     // Adds vendor prefixing based on your specified browser support in
@@ -23,13 +31,13 @@ module.exports = (conf, options) => {
       ],
     },
   };
+
   const cssModuleOption = {
     importLoaders: 1,
-    localIdentName: '[hash:8]',
+    modules: {
+      mode: 'icss',
+    },
   };
-  if (IS_DEV) {
-    cssModuleOption.localIdentName = '[path]__[name]___[local]';
-  }
   // "postcss" loader applies autoprefixer to our CSS.
   // "css" loader resolves paths in CSS and adds assets as dependencies.
   // "style" loader turns CSS into JS modules that inject <style> tags.
@@ -41,7 +49,7 @@ module.exports = (conf, options) => {
     ...conf.module.rules,
     {
       test: /\.less$/,
-      exclude: [options.appBuildDist, /\.module\.less$/],
+      exclude: [options.paths.appBuild, /\.module\.less$/],
       // Don't consider CSS imports dead code even if the
       // containing package claims to have no side effects.
       // Remove this when webpack adds a warning or an error for this.
@@ -56,7 +64,6 @@ module.exports = (conf, options) => {
             loader: require.resolve('css-loader'),
             options: {
               ...cssModuleOption,
-              exportOnlyLocals: true,
             },
           });
         } else {
@@ -65,7 +72,14 @@ module.exports = (conf, options) => {
           if (IS_DEV) {
             rulers.push(require.resolve('style-loader'));
           } else {
-            rulers.push(MiniCssExtractPlugin.loader);
+            rulers.push({
+              loader: MiniCssExtractPlugin.loader,
+              // css is located in `static/css`, use '../../' to locate index.html folder
+              // in production `paths.publicUrlOrPath` can be a relative path
+              options: options.paths.publicUrlOrPath.startsWith('.')
+                ? { publicPath: '../../' }
+                : {},
+            });
           }
           rulers.push({
             loader: require.resolve('css-loader'),
@@ -83,7 +97,7 @@ module.exports = (conf, options) => {
     // using the extension .module.css
     {
       test: /\.module\.less$/,
-      exclude: [options.appBuildDist],
+      exclude: [options.paths.appBuild],
       sideEffects: true,
       use: (() => {
         const rulers = [];
@@ -92,9 +106,9 @@ module.exports = (conf, options) => {
             loader: require.resolve('css-loader'),
             options: {
               ...cssModuleOption,
-              // css-loader@2 dropped css-loader/locals loader and replaced it with exportOnlyLocals option.
-              exportOnlyLocals: true,
-              modules: true,
+              modules: {
+                mode: 'local',
+              },
             },
           });
         } else {
@@ -109,7 +123,9 @@ module.exports = (conf, options) => {
             loader: require.resolve('css-loader'),
             options: {
               ...cssModuleOption,
-              modules: true,
+              modules: {
+                mode: 'local',
+              },
             },
           });
           rulers.push(postcssLoader);
@@ -119,5 +135,5 @@ module.exports = (conf, options) => {
       })(),
     },
   ];
-  return conf;
-};
+  return conf
+}
