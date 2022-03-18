@@ -8,7 +8,7 @@ import { restDevModuleRuleCss } from "./../../overrides/utils"
 
 import { loaderConf, OverridesProps } from "./../../overrides"
 
-import { getWbpackBarPlugins, restOutPut, restWebpackManifestPlugin, clearHtmlTemp } from "../../overrides/utils"
+import { getWbpackBarPlugins, restOutPut, restWebpackManifestPlugin, clearHtmlTemp, addMiniCssExtractPlugin } from "../../overrides/utils"
 
 // 引入环境变量
 require(`${reactScripts}/config/env`);
@@ -43,7 +43,6 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   if (nodeExternals) {
     newConfig.externals = [webpackNodeExternals()]
   }
-  newConfig = restDevModuleRuleCss(newConfig)
 
   return newConfig
 }
@@ -61,6 +60,7 @@ export default async (env: "development" | "production", options: OptionsProps) 
   if (fs.existsSync(overrides.client_path)) {
     const configClient = configFactory(env);
     let newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk, env)
+    newConfigClient = addMiniCssExtractPlugin(newConfigClient)
     if (overridesClientWebpack) {
       newConfigClient = overridesClientWebpack(newConfigClient, env, { ...rest, env })
     }
@@ -73,6 +73,7 @@ export default async (env: "development" | "production", options: OptionsProps) 
     let newConfigServer = getWebpackConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk, env)
     newConfigServer.devtool = false
     newConfigServer.target = "node14"
+    newConfigServer = restDevModuleRuleCss(newConfigServer)
     if (overridesServerWebpack) {
       newConfigServer = overridesServerWebpack(newConfigServer, env, { ...rest, env })
     }

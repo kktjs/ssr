@@ -1,4 +1,3 @@
-import path from "path"
 import pluginLess from "@kkt/plugin-less"
 export default {
   overridesWebpack: (confArr, env, options) => {
@@ -11,6 +10,9 @@ export default {
       })
       arr.push({
         ...newConfig,
+        module: {
+          ...newConfig.module,
+        },
         resolve: {
           ...newConfig.resolve,
           fallback: newConfig.target !== "node" && {

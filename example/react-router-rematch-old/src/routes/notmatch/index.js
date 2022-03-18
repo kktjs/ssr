@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Helmet from 'react-helmet';
-// import styles from './index.module.less';
-const styles = {}
+import styles from './index.module.less';
 
 export default function NotMatch() {
+  console.log(styles)
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} style={{ background: "red" }} >
       <Helmet>
         <title>Page not found</title>
       </Helmet>

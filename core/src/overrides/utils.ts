@@ -107,8 +107,7 @@ export const restOutPut = (conf: WebpackConfiguration, options: WebpackConfigura
   };
 };
 
-// 开发模式下 把 css 进行处理
-export const restDevModuleRuleCss = (conf: WebpackConfiguration,): WebpackConfiguration => {
+export const addMiniCssExtractPlugin = (conf: WebpackConfiguration): WebpackConfiguration => {
   return {
     ...conf,
     plugins: conf.plugins.concat([
@@ -120,6 +119,14 @@ export const restDevModuleRuleCss = (conf: WebpackConfiguration,): WebpackConfig
         chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
       })
     ]),
+  }
+}
+
+// 开发模式下 把 css 进行处理
+export const restDevModuleRuleCss = (conf: WebpackConfiguration,): WebpackConfiguration => {
+  return {
+    ...conf,
+    plugins: conf.plugins.filter(plugin => plugin && plugin.constructor && plugin.constructor.name !== "MiniCssExtractPlugin"),
     module: {
       ...conf.module,
       rules: getModuleCSSRules(conf.module.rules,)
@@ -137,10 +144,10 @@ export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[],) => {
       newRules.push(rule);
       return;
     }
-    if (/style-loader/.test(rule.loader)) {
-      newRules.push({
-        loader: MiniCssExtractPlugin.loader,
-      });
+    if (/(style-loader|mini-css-extract-plugin)/.test(rule.loader)) {
+      // newRules.push({
+      //   loader: MiniCssExtractPlugin.loader,
+      // });
     } else if (rule.oneOf) {
       const newOneOf = rule.oneOf.map((item) => {
         if (
@@ -157,17 +164,20 @@ export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[],) => {
           let newUse;
           if (Array.isArray(item.use)) {
             newUse = item.use.map((ite) => {
-              if (typeof ite === 'string' && /style-loader/.test(ite)) {
-                return {
-                  loader: MiniCssExtractPlugin.loader,
-                };
-              } else if (typeof ite === 'object' && /style-loader/.test(ite.loader)) {
-                return {
-                  loader: MiniCssExtractPlugin.loader,
-                };
+              // if (typeof ite === 'string' && /(style-loader)/.test(ite)) {
+              if (typeof ite === 'string' && /(style-loader|mini-css-extract-plugin)/.test(ite)) {
+                return false
+                // return {
+                //   loader: MiniCssExtractPlugin.loader,
+                // };
+              } else if (typeof ite === 'object' && /(style-loader|mini-css-extract-plugin)/.test(ite.loader)) {
+                return false
+                // return {
+                //   loader: MiniCssExtractPlugin.loader,
+                // };
               }
               return ite;
-            });
+            }).filter(Boolean);
           }
           return {
             ...item,
