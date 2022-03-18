@@ -2,17 +2,16 @@ import webpack from 'webpack';
 import { WebpackConfiguration } from 'kkt';
 import { WebpackManifestPlugin } from "webpack-manifest-plugin"
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import WebpackBar from 'webpackbar';
 
 import path from 'path';
 import paths from "./paths"
 
-const SimpleProgressWebpackPlugin = require('@kkt/simple-progress-webpack-plugin');
 
 export const getWebpackRunPlugins = (plugins: WebpackConfiguration['plugins']) => {
   // 过滤 不用的插件
   let newPlugins: webpack.Configuration['plugins'] = [
-    new SimpleProgressWebpackPlugin({
-      format: 'compact',
+    new WebpackBar({
       name: 'Server',
     }),
   ];

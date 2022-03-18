@@ -1,6 +1,6 @@
 {
   "name": "@kkt/plugin-less",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Support less.",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -32,14 +32,10 @@
     "css-loader": "^6.7.1",
     "less": "^4.1.2",
     "less-loader": "^10.2.0",
-    "mini-css-extract-plugin": "^2.6.0",
-    "postcss-flexbugs-fixes": "^5.0.2",
-    "postcss-loader": "^6.2.1",
-    "postcss-preset-env": "^7.4.2",
     "style-loader": "^3.3.1"
   },
   "devDependencies": {
-    "@kkt/ssr": "3.1.1",
+    "kkt": "~7.1.5",
     "tsbb": "~3.7.2"
   }
 }

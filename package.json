@@ -54,5 +54,15 @@
 		"lint-staged": "12.3.4",
 		"prettier": "2.5.1",
 		"tsbb": "~3.7.2"
+	},
+	"workspaces": {
+		"packages": [
+			"example/*",
+			"core/",
+			"packages/create-kkt-ssr",
+			"packages/react-ssr-enhanced",
+			"packages/kkt-plugin-less"
+		],
+		"nohoist": []
 	}
 }

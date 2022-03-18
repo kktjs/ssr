@@ -36,37 +36,6 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
       OUTPUT_PUBLIC_PATH: JSON.stringify(overrides.output_path),
     }),
   )
-  // if (type === "client") {
-  //   "buffer": "6.0.3",
-  //   "crypto": "1.0.1",
-  //   "https-browserify": "1.0.0",
-  //   "path-browserify": "1.0.1",
-  //   "stream-http": "3.2.0",
-  //   "tty-browserify": "0.0.1",
-  //   "util": "0.12.4",
-  //   "process": "0.11.10",
-  //   "browserify-zlib": "0.2.0",
-  //   "crypto-browserify": "3.12.0",
-  //   "stream-browserify": "3.0.0",
-  //   "os-browserify": "0.3.0",
-  //   "url": "0.11.0",
-  // newConfig.plugins.push(
-  //   new webpack.ProvidePlugin({
-  //     "process": require.resolve("process/browser"),
-  //     "path": require.resolve("path-browserify"),
-  //     "http": require.resolve("stream-http"),
-  //     "https": require.resolve("https-browserify"),
-  //     "zlib": require.resolve("browserify-zlib"),
-  //     "tty": require.resolve("tty-browserify"),
-  //     "util": require.resolve("util/"),
-  //     "crypto": require.resolve("crypto-browserify"),
-  //     "stream": require.resolve("stream-browserify"),
-  //     "os": require.resolve("os-browserify/browser"),
-  //     "Buffer": require.resolve("buffer"),
-  //     "url": require.resolve("url/"),
-  //   })
-  // )
-  // }
 
   if (!split) {
     newConfig.plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }))
@@ -74,6 +43,8 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   if (nodeExternals) {
     newConfig.externals = [webpackNodeExternals()]
   }
+  newConfig = restDevModuleRuleCss(newConfig)
+
   return newConfig
 }
 
@@ -102,9 +73,6 @@ export default async (env: "development" | "production", options: OptionsProps) 
     let newConfigServer = getWebpackConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk, env)
     newConfigServer.devtool = false
     newConfigServer.target = "node14"
-    if (env === "development") {
-      newConfigServer = restDevModuleRuleCss(newConfigServer)
-    }
     if (overridesServerWebpack) {
       newConfigServer = overridesServerWebpack(newConfigServer, env, { ...rest, env })
     }

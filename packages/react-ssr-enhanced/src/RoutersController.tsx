@@ -27,7 +27,7 @@ export interface ControllerProps {
 const ChildRoutes = (props: ControllerProps) => {
   const deepRoutes = (routes: RouteNewObject[]) => {
     return routes.map((route, ind) => {
-      const routeItem = { ...route }
+      const routeItem = route
       if (Array.isArray(routeItem.children) && routeItem.children.length) {
         routeItem.children = deepRoutes(routeItem.children) as RouteNewObject[]
       }

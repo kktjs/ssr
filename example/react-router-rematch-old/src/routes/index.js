@@ -1,5 +1,5 @@
 import React from 'react';
-// import loadable from 'react-dynamic-loadable';
+import loadable from 'react-dynamic-loadable';
 // import './index.css';
 // import { store } from "./../store"
 import About from "./about"
@@ -27,8 +27,8 @@ export const getRouterData = () => {
   let conf = {
     '/': {
       name: 'page-home',
-      element: <Home />
-      // element: dynamicWrapper([], () => import(/* webpackChunkName: 'page-home' */ './home')),
+      // element: <Home />
+      element: dynamicWrapper([], () => import(/* webpackChunkName: 'page-home' */ './home')),
     },
     '/about': {
       name: 'page-about',
