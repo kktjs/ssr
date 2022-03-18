@@ -1,6 +1,8 @@
 import webpack from 'webpack';
-import { WebpackConfiguration, MiniCssExtractPlugin } from 'kkt';
+import { WebpackConfiguration } from 'kkt';
 import { WebpackManifestPlugin } from "webpack-manifest-plugin"
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
 import path from 'path';
 import paths from "./paths"
 

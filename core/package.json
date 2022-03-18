@@ -23,21 +23,14 @@
   },
   "keywords": [],
   "devDependencies": {
-    "@types/webpack-node-externals": "2.5.3"
+    "@types/webpack-node-externals": "^2.5.3"
   },
   "dependencies": {
-    "less": "4.1.2",
-    "less-loader": "10.2.0",
-    "resolve-url-loader": "5.0.0",
-    "postcss-loader": "6.2.1",
-    "css-loader": "6.7.1",
-    "style-loader": "3.3.1",
-    "css-minimizer-webpack-plugin": "3.4.1",
     "mini-css-extract-plugin": "2.6.0",
     "kkt": "~7.1.5",
-    "webpack-node-externals": "3.0.0",
-    "webpackbar": "5.0.2",
-    "react-scripts": "5.0.0",
-    "webpack-manifest-plugin": "5.0.0"
+    "webpack-node-externals": "^3.0.0",
+    "webpackbar": "^5.0.2",
+    "react-scripts": "^5.0.0",
+    "webpack-manifest-plugin": "^5.0.0"
   }
 }

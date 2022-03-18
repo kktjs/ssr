@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import { MiniCssExtractPlugin } from 'kkt';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 // style files regexes
 const cssRegex = /\.css$/;
