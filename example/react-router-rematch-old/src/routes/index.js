@@ -1,13 +1,14 @@
 import React from 'react';
-import loadable from 'react-dynamic-loadable';
-import './index.css';
-import { store } from "./../store"
+// import loadable from 'react-dynamic-loadable';
+// import './index.css';
+// import { store } from "./../store"
 import About from "./about"
+import Home from "./home"
 import Notmatch from "./notmatch"
 import Repos from "./repos"
 import ReposDetail from "./repos/detail"
 
-// // wrapper of dynamic
+// wrapper of dynamic
 const dynamicWrapper = (models, component) => loadable({
   component,
   // LoadingComponent: () => <div>...LOADING...</div>,
@@ -26,7 +27,8 @@ export const getRouterData = () => {
   let conf = {
     '/': {
       name: 'page-home',
-      element: dynamicWrapper([], () => import(/* webpackChunkName: 'page-home' */ './home')),
+      element: <Home />
+      // element: dynamicWrapper([], () => import(/* webpackChunkName: 'page-home' */ './home')),
     },
     '/about': {
       name: 'page-about',

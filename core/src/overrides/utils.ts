@@ -1,8 +1,23 @@
 import WebpackBar from 'webpackbar';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import { WebpackConfiguration } from 'kkt';
-import { paths } from "./pathUtils"
 import path from "path"
+import { Paths } from "./pathUtils"
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import webpack from "webpack"
+
+
+// style files regexes
+const cssRegex = /\.css$/;
+const cssModuleRegex = /\.module\.css$/;
+const sassRegex = /\.(scss|sass)$/;
+const sassModuleRegex = /\.module\.(scss|sass)$/;
+const lessModuleRegex = /\.module\.less$/;
+const lessRegex = /\.less$/;
+
+const getToString = (rule: RegExp) => {
+  return rule.toString();
+};
 
 // plugin 根据 client  server
 
@@ -20,7 +35,7 @@ export const getWbpackBarPlugins = (conf: WebpackConfiguration, opt: WebpackBar[
 };
 
 /** 重置 WebpackManifestPlugin 输出名称 */
-export const restWebpackManifestPlugin = (conf: WebpackConfiguration, type?: string): WebpackConfiguration => {
+export const restWebpackManifestPlugin = (conf: WebpackConfiguration, paths: Partial<Paths>, type?: string): WebpackConfiguration => {
   const plugins = []
     .concat(conf.plugins)
     .filter(
@@ -31,13 +46,6 @@ export const restWebpackManifestPlugin = (conf: WebpackConfiguration, type?: str
         fileName: type ? `asset-${type}-manifest.json` : 'asset-manifest.json',
         publicPath: paths.publicUrlOrPath,
         generate: (seed, files, entrypoints) => {
-          // const manifestFiles = files.reduce((manifest, file) => {
-          //   manifest[file.name] = file.path;
-          //   return manifest;
-          // }, seed);
-          // const entrypointFiles = entrypoints.main.filter(
-          //   fileName => !fileName.endsWith('.map')
-          // );
           const routhPaths: Record<string, { css?: string, js?: string }> = {}
           const manifestFiles = files.reduce((manifest, file) => {
             manifest[file.name] = file.path;
@@ -87,6 +95,7 @@ export const clearHtmlTemp = (conf: WebpackConfiguration): WebpackConfiguration 
     );
   return { ...conf, plugins };
 };
+
 /** 输出配置 */
 export const restOutPut = (conf: WebpackConfiguration, options: WebpackConfiguration['output']): WebpackConfiguration => {
   return {
@@ -97,3 +106,66 @@ export const restOutPut = (conf: WebpackConfiguration, options: WebpackConfigura
     },
   };
 };
+
+// 开发模式下 把 css 进行处理
+export const restDevModuleRuleCss = (conf: WebpackConfiguration): WebpackConfiguration => {
+  return {
+    ...conf,
+    module: {
+      ...conf.module,
+      rules: getModuleCSSRules(conf.module.rules)
+    },
+  }
+}
+
+/**
+ * 1. 开发模式下， node  去除  style-loader 
+ * */
+export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[]) => {
+  const newRules: any = [];
+  rules.forEach((rule) => {
+    if (typeof rule === 'string') {
+      newRules.push(rule);
+      return;
+    }
+    if (/style-loader/.test(rule.loader)) {
+      // 去除
+    } else if (rule.oneOf) {
+      const newOneOf = rule.oneOf.map((item) => {
+        if (
+          item.test &&
+          [
+            getToString(cssRegex),
+            getToString(cssModuleRegex),
+            getToString(sassRegex),
+            getToString(sassModuleRegex),
+            getToString(lessModuleRegex),
+            getToString(lessRegex),
+          ].includes(item.test.toString())
+        ) {
+          let newUse;
+          if (Array.isArray(item.use)) {
+            newUse = item.use.map((ite) => {
+              if (typeof ite === 'string' && /style-loader/.test(ite)) {
+                return false
+              } else if (typeof ite === 'object' && /style-loader/.test(ite.loader)) {
+                return false
+              }
+              return ite;
+            }).filter(Boolean);
+          }
+          return {
+            ...item,
+            use: newUse || item.use,
+          };
+        }
+        return item;
+      });
+      newRules.push({ ...rule, oneOf: newOneOf });
+    } else {
+      newRules.push(rule);
+    }
+  });
+  return newRules;
+};
+

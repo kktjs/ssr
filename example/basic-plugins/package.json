@@ -1,6 +1,6 @@
 {
   "name": "@examples/basic-plugins",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "",
   "private": true,
   "scripts": {
@@ -16,7 +16,7 @@
     "react-dom": "17.0.2"
   },
   "devDependencies": {
-    "@kkt/ssr": "3.1.0",
+    "@kkt/ssr": "3.1.1",
     "kkt": "~7.1.5"
   },
   "browserslist": {

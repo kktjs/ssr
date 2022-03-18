@@ -1,10 +1,10 @@
 {
   "name": "@examples/basic-routes-rematch-old",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "",
   "private": true,
   "scripts": {
-    "server": "node dist/server.js",
+    "server": "nodemon dist/server.js",
     "build": "kkt-ssr build",
     "watch": "kkt-ssr watch",
     "build:s": "kkt-ssr build --s-st",
@@ -14,7 +14,7 @@
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@kkt/react-ssr-enhanced": "3.1.0",
+    "@kkt/react-ssr-enhanced": "3.1.1",
     "@rematch/core": "2.2.0",
     "axios": "0.26.0",
     "cookie-parser": "1.4.3",
@@ -30,8 +30,7 @@
     "redux": "4.1.2"
   },
   "devDependencies": {
-    "@kkt/ssr": "3.1.0",
-    "browserify-zlib": "0.2.0",
+    "@kkt/ssr": "3.1.1",
     "buffer": "6.0.3",
     "crypto": "1.0.1",
     "https-browserify": "1.0.0",
