@@ -1,6 +1,6 @@
 {
   "name": "@examples/basic-routes-rematch-old",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "",
   "private": true,
   "scripts": {
@@ -14,7 +14,7 @@
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@kkt/react-ssr-enhanced": "3.1.1",
+    "@kkt/react-ssr-enhanced": "3.1.2",
     "@rematch/core": "2.2.0",
     "axios": "0.26.0",
     "cookie-parser": "1.4.3",
@@ -30,23 +30,23 @@
     "redux": "4.1.2"
   },
   "devDependencies": {
-    "crypto": "1.0.1",
-    "https-browserify": "1.0.0",
-    "stream-http": "3.2.0",
-    "tty-browserify": "0.0.1",
-    "util": "0.12.4",
-    "buffer": "6.0.3",
+    "@kkt/plugin-less": "3.1.2",
+    "@kkt/ssr": "3.1.2",
+    "assert": "2.0.0",
     "browserify-zlib": "0.2.0",
+    "buffer": "6.0.3",
+    "crypto": "1.0.1",
     "crypto-browserify": "3.12.0",
-    "stream-browserify": "3.0.0",
+    "https-browserify": "1.0.0",
+    "kkt": "~7.1.5",
+    "mocker-api": "1.6.6",
     "os-browserify": "0.3.0",
     "path-browserify": "1.0.1",
-    "assert": "2.0.0",
+    "stream-browserify": "3.0.0",
+    "stream-http": "3.2.0",
+    "tty-browserify": "0.0.1",
     "url": "0.11.0",
-    "@kkt/plugin-less": "^3.1.1",
-    "@kkt/ssr": "^3.1.1",
-    "kkt": "~7.1.5",
-    "mocker-api": "1.6.6"
+    "util": "0.12.4"
   },
   "browserslist": {
     "production": [
