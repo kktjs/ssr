@@ -1,6 +1,6 @@
 {
   "name": "@kkt/ssr",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "",
   "license": "MIT",
   "main": "lib/index.js",
@@ -26,11 +26,11 @@
     "@types/webpack-node-externals": "^2.5.3"
   },
   "dependencies": {
-    "mini-css-extract-plugin": "2.6.0",
     "kkt": "~7.1.5",
-    "webpack-node-externals": "^3.0.0",
-    "webpackbar": "^5.0.2",
+    "mini-css-extract-plugin": "2.6.0",
     "react-scripts": "^5.0.0",
-    "webpack-manifest-plugin": "^5.0.0"
+    "webpack-manifest-plugin": "^5.0.0",
+    "webpack-node-externals": "^3.0.0",
+    "webpackbar": "^5.0.2"
   }
 }
