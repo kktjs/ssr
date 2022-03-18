@@ -15,6 +15,7 @@ export default async (options: RenderProps) => {
   const Doc = Document || DefaultDoc;
 
   const { match, data } = await loadInitialProps(routes, url.parse(req.url).pathname, { req, res, store, ...rest });
+
   if (!match) {
     res.status(404);
     return;
@@ -57,6 +58,7 @@ export default async (options: RenderProps) => {
   if (/^(300|301|302|303|304|305|306|307)/.test(`${res.statusCode}`)) {
     return;
   }
+
   docProps.preloadAssets = { css: [], js: [] };
   if (reactRouterMatch && reactRouterMatch.pathname && routes) {
     const chunk = routes.find(item => item.path === reactRouterMatch.pathname);
