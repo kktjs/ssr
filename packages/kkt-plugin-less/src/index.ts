@@ -60,7 +60,7 @@ export default (conf: WebpackConfiguration, options: LessOptions): WebpackConfig
     sourceMap: shouldUseSourceMap,
     modules: {
       mode: 'icss',
-      ...modulesLocals
+      ...modulesLocals,
     },
   };
 
@@ -89,7 +89,7 @@ export default (conf: WebpackConfiguration, options: LessOptions): WebpackConfig
       }
     ]
     if (isWeb && isEnvProduction) {
-      rules.push({
+      rules.unshift({
         loader: MiniCssExtractPlugin.loader,
         // css is located in `static/css`, use '../../' to locate index.html folder
         // in production `paths.publicUrlOrPath` can be a relative path
@@ -99,7 +99,7 @@ export default (conf: WebpackConfiguration, options: LessOptions): WebpackConfig
       })
     }
     if (isWeb && IS_DEV) {
-      rules.push({ loader: require.resolve('style-loader') })
+      rules.unshift({ loader: require.resolve('style-loader') })
     }
     return rules.filter(Boolean)
   }
@@ -113,7 +113,7 @@ export default (conf: WebpackConfiguration, options: LessOptions): WebpackConfig
   // Note: this yields the exact same CSS config as create-react-app.
   const lessRules: WebpackConfiguration["module"]["rules"] = [
     {
-      test: /\.less$/i,
+      test: /\.less$/,
       exclude: [/\.module\.less$/],
       // Don't consider CSS imports dead code even if the
       // containing package claims to have no side effects.
@@ -127,7 +127,8 @@ export default (conf: WebpackConfiguration, options: LessOptions): WebpackConfig
     // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
     // using the extension .module.css
     {
-      test: /\.module\.less$/i,
+      test: /\.module\.less$/,
+      sideEffects: true,
       use: [
         ...getStyleLoader({
           ...cssModuleOption,
@@ -152,6 +153,7 @@ export default (conf: WebpackConfiguration, options: LessOptions): WebpackConfig
     }
     return item
   }) as WebpackConfiguration["module"]["rules"]
+
   return {
     ...conf,
     module: {

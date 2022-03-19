@@ -26,6 +26,7 @@
     "@types/webpack-node-externals": "^2.5.3"
   },
   "dependencies": {
+    "css-loader": "^6.7.1",
     "kkt": "~7.1.5",
     "mini-css-extract-plugin": "2.6.0",
     "react-scripts": "^5.0.0",

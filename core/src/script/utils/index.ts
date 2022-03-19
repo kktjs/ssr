@@ -4,11 +4,17 @@ import webpackNodeExternals from "webpack-node-externals"
 import webpack from "webpack"
 import { OptionsProps } from "../../interface"
 import fs from 'fs';
-import { restDevModuleRuleCss } from "./../../overrides/utils"
 
 import { loaderConf, OverridesProps } from "./../../overrides"
 
-import { getWbpackBarPlugins, restOutPut, restWebpackManifestPlugin, clearHtmlTemp, addMiniCssExtractPlugin } from "../../overrides/utils"
+import {
+  getWbpackBarPlugins,
+  restOutPut,
+  restWebpackManifestPlugin,
+  clearHtmlTemp,
+  addMiniCssExtractPlugin,
+  restDevModuleRuleCss
+} from "../../overrides/utils"
 
 // 引入环境变量
 require(`${reactScripts}/config/env`);

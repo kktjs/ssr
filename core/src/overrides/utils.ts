@@ -122,7 +122,7 @@ export const addMiniCssExtractPlugin = (conf: WebpackConfiguration): WebpackConf
   }
 }
 
-// 开发模式下 把 css 进行处理
+// node 环境  把 css 进行处理
 export const restDevModuleRuleCss = (conf: WebpackConfiguration,): WebpackConfiguration => {
   return {
     ...conf,
@@ -135,19 +135,35 @@ export const restDevModuleRuleCss = (conf: WebpackConfiguration,): WebpackConfig
 }
 
 /**
- * 1. 去除  style-loader|mini-css-extract-plugin|postcss-loader 
+ * 1. 去除  style-loader|mini-css-extract-plugin
  * */
-export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[],) => {
+export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[], shouldUseSourceMap: boolean = false) => {
   const newRules: any = [];
+
+  const cssModuleOption = (mode: "icss" | "local") => ({
+    importLoaders: 3,
+    sourceMap: shouldUseSourceMap,
+    modules: {
+      mode,
+      exportOnlyLocals: true
+    },
+  });
+
+
   rules.forEach((rule) => {
     if (typeof rule === 'string') {
       newRules.push(rule);
       return;
     }
+
     if (/(style-loader|mini-css-extract-plugin)/.test(rule.loader)) {
-      // newRules.push({
-      //   loader: MiniCssExtractPlugin.loader,
-      // });
+
+    } else if (rule && typeof rule === 'object' && rule.test && /css-loader/.test(rule.loader) && !/postcss-loader/.test(rule.loader)) {
+      const isModule = [getToString(cssModuleRegex), getToString(sassModuleRegex), getToString(lessModuleRegex),].includes(rule.test.toString())
+      newRules.push({
+        loader: require.resolve("css-loader"),
+        options: cssModuleOption(isModule ? "local" : "icss")
+      })
     } else if (rule.oneOf) {
       const newOneOf = rule.oneOf.map((item) => {
         if (
@@ -161,27 +177,31 @@ export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[],) => {
             getToString(lessRegex),
           ].includes(item.test.toString())
         ) {
+          const isModule = [getToString(cssModuleRegex), getToString(sassModuleRegex), getToString(lessModuleRegex),].includes(item.test.toString())
           let newUse;
           if (Array.isArray(item.use)) {
             newUse = item.use.map((ite) => {
-              // if (typeof ite === 'string' && /(style-loader)/.test(ite)) {
               if (typeof ite === 'string' && /(style-loader|mini-css-extract-plugin)/.test(ite)) {
                 return false
-                // return {
-                //   loader: MiniCssExtractPlugin.loader,
-                // };
+              } else if (typeof ite === 'string' && /css-loader/.test(ite) && !/postcss-loader/.test(ite)) {
+                return {
+                  loader: require.resolve("css-loader"),
+                  options: cssModuleOption(isModule ? "local" : "icss")
+                }
               } else if (typeof ite === 'object' && /(style-loader|mini-css-extract-plugin)/.test(ite.loader)) {
                 return false
-                // return {
-                //   loader: MiniCssExtractPlugin.loader,
-                // };
+              } else if (typeof ite === 'object' && /css-loader/.test(ite.loader) && !/postcss-loader/.test(ite.loader)) {
+                return {
+                  loader: require.resolve("css-loader"),
+                  options: cssModuleOption(isModule ? "local" : "icss")
+                }
               }
               return ite;
             }).filter(Boolean);
           }
           return {
             ...item,
-            use: newUse || item.use,
+            use: newUse || [],
           };
         }
         return item;
