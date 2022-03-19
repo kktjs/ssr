@@ -4,7 +4,6 @@ import Helmet from 'react-helmet';
 import styles from './index.module.less';
 
 export default function NotMatch() {
-  console.log(styles)
   return (
     <div className={styles.wrapper} style={{ background: "red" }} >
       <Helmet>

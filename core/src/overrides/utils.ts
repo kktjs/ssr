@@ -135,7 +135,7 @@ export const restDevModuleRuleCss = (conf: WebpackConfiguration,): WebpackConfig
 }
 
 /**
- * 1. 开发模式下，去除  style-loader  改成  MiniCssExtractPlugin.lader，让他生成 css 文件
+ * 1. 去除  style-loader|mini-css-extract-plugin|postcss-loader 
  * */
 export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[],) => {
   const newRules: any = [];
