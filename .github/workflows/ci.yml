@@ -20,6 +20,8 @@ jobs:
 
     - run: npm install
     - run: npm run hoist
+    # - run: yarn
+    # - run: yarn run build
     - run: npm run build
     
     - run: mkdir -p build
