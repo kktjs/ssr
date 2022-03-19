@@ -5,7 +5,7 @@ import path from "path"
 import { Paths } from "./pathUtils"
 import webpack from "webpack"
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
+const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 
 // style files regexes
 const cssRegex = /\.css$/;
@@ -145,6 +145,7 @@ export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[], should
     sourceMap: shouldUseSourceMap,
     modules: {
       mode,
+      getLocalIdent: getCSSModuleLocalIdent,
       exportOnlyLocals: true
     },
   });
