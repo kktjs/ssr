@@ -2,10 +2,14 @@
 
 import fs from 'fs';
 import { resolveModule, resolveApp, Paths } from "./pathUtils"
+
 import webpack from "webpack"
 import { restENV } from "./env"
 import paths from "./path"
 import { overridePaths } from 'kkt/lib/overrides/paths';
+import { Application } from 'express';
+
+import { MockerOption } from "mocker-api"
 
 const tsOptions = {
   compilerOptions: {
@@ -52,7 +56,11 @@ export interface OverridesProps {
   /** 输出文件地址 */
   output_path?: string;
   /**  watch 配置 */
-  watchOptions?: webpack.Configuration["watchOptions"]
+  watchOptions?: webpack.Configuration["watchOptions"];
+  proxySetup?: (app: Application) => {
+    path: string | string[],
+    options?: MockerOption
+  }
 }
 
 let overrides: OverridesProps = {
@@ -65,12 +73,16 @@ let overrides: OverridesProps = {
 
   // paths 地址
   paths: {},
-  // 最终自定义配置设置
+  // 自定义 client 配置设置
   overridesClientWebpack: undefined,
+  // 自定义 server 配置设置
   overridesServerWebpack: undefined,
+  // 最终自定义配置设置
   overridesWebpack: undefined,
-  watchOptions: {}
-
+  // 监听配置
+  watchOptions: {},
+  // 代理配置 
+  proxySetup: undefined
 };
 
 export async function loaderConf(): Promise<OverridesProps> {
@@ -94,12 +106,17 @@ export async function loaderConf(): Promise<OverridesProps> {
 
     // 重写环境变量
     restENV(overrides)
+
     // 重写 paths 值
     const path = paths(overrides)
+    if (!fs.existsSync(path.appIndexJs)) {
+      path.appIndexJs = overrides.client_path
+    }
     overrides.paths = path
     // 覆盖配置 里面的地址
-    overridePaths(undefined, { ...(path as unknown as Record<string, string>) });
-
+    overridePaths(undefined, {
+      ...(path as unknown as Record<string, string>)
+    });
     return overrides;
   } catch (error) {
     const message = error && error.message ? error.message : '';

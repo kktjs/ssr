@@ -13,6 +13,11 @@ const assetsMainifest = new Function(`return ${FS.readFileSync(`${OUTPUT_PUBLIC_
 const appDirectory = FS.realpathSync(process.cwd());
 const resolveApp = (relativePath) => Path.resolve(appDirectory, relativePath);
 
+const isDev = process.env.NODE_ENV === "development"
+
+// const target = `http://${process.env.HOST}:${process.env.PORT}`
+const target = `http://${process.env.HOST}:${process.env.PORT}`
+
 const routes = getRouterData();
 const server = express();
 
@@ -20,12 +25,15 @@ server.disable('x-powered-by');
 // API request to pass cookies
 // `getInitialProps` gets the required value via `req.cookies.token`
 server.use(cookieParser());
-server.use(express.static(resolveApp('dist')));
+server.use(express.static(isDev ? target : resolveApp('dist')));
 server.use('/api', proxy({
-  target: `http://${process.env.HOST}:3724`,
+  target,
   changeOrigin: true,
 }));
 server.get('/*', async (req, res) => {
+  if (req.url === "/favicon.ico/") {
+    return;
+  }
   try {
     const store = await createStore();
     const html = await render({

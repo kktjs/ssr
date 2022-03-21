@@ -73,7 +73,7 @@ export default (conf: WebpackConfiguration, options: LessOptions): WebpackConfig
           ...cssModuleOption
         },
       },
-      isWeb && postcssLoader,
+      postcssLoader,
       {
         loader: require.resolve('resolve-url-loader'),
         options: {

@@ -7,7 +7,6 @@ export default async function ensureReady(routes: RouteNewObject[], pathname: st
     routes.map((route) => {
       const match = matchPath(route.path as string, pathname || window.location.pathname);
       if (match && route && route.element && route.element.load) {
-        console.log(1212121212, match)
         return route.element.load();
       }
       return undefined;

@@ -7,11 +7,11 @@ const server = http.createServer(app);
 let currentApp = app;
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, (error) => {
+server.listen(PORT + 1, (error) => {
   if (error) {
     logs(error);
   }
-  logs('🚀 started!', `PORT: http://localhost:${PORT}`);
+  logs('🚀 started!', `PORT: http://localhost:${PORT + 1}`);
 });
 
 if (module.hot) {
