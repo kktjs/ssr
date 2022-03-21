@@ -1,5 +1,5 @@
 // 根据 kkt 写法 重置 create-react-app 中的 react-script配置
-import { reactScripts } from "../../overrides/pathUtils"
+import { reactScripts, webpackConfigPath } from "../../overrides/pathUtils"
 import webpackNodeExternals from "webpack-node-externals"
 import webpack from "webpack"
 import { OptionsProps } from "../../interface"
@@ -30,7 +30,7 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   }
 
   if (type === "server") {
-    out.library = { type: "commonjs" }
+    out.library = { type: "commonjs2" }
   }
 
   newConfig = restOutPut(newConfig, out)
@@ -40,6 +40,8 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   newConfig.plugins.push(
     new webpack.DefinePlugin({
       OUTPUT_PUBLIC_PATH: JSON.stringify(overrides.output_path),
+      HOST: JSON.stringify(process.env.HOST || 'localhost'),
+      PORT: JSON.stringify(process.env.PORT || 3000)
     }),
   )
 
@@ -53,12 +55,12 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   return newConfig
 }
 
-export default async (env: "development" | "production", options: OptionsProps) => {
+export default async (env: "development" | "production", options: OptionsProps, isCreate: boolean = true) => {
   const overrides = await loaderConf()
 
   const { overridesClientWebpack, overridesServerWebpack, overridesWebpack, ...rest } = overrides
 
-  const configFactory = require(`${reactScripts}/config/webpack.config`);
+  const configFactory = require(`${webpackConfigPath}`);
 
   let configArr: webpack.Configuration[] = []
 
@@ -91,9 +93,8 @@ export default async (env: "development" | "production", options: OptionsProps) 
     configArr = overridesWebpack(configArr, env, { ...rest, env }) as webpack.Configuration[]
   }
 
-  const compiler = webpack(configArr);
   return {
-    compiler,
+    compiler: isCreate ? webpack(configArr) : undefined,
     config: configArr,
     overrides
   }

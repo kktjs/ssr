@@ -3,13 +3,12 @@ process.env.FAST_REFRESH = 'false';
 process.env.BUILD_PATH = "dist"
 
 
-
 import minimist from 'minimist';
 import { BuildArgs } from 'kkt';
 
 function help() {
   const { version } = require('../package.json');
-  console.log('\n  Usage: \x1b[34;1mkkt-ssr\x1b[0m [build|watch] [--help|h]');
+  console.log('\n  Usage: \x1b[34;1mkkt-ssr\x1b[0m [build|watch|start] [--help|h]');
   console.log('\n  Displays help information.');
   console.log('\n  Options:\n');
   console.log('   --version, -v        ', 'Show version number');
@@ -23,6 +22,7 @@ function help() {
   console.log('\n  Example:\n');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m build');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch');
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m start');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m build --s-ne');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch --s-ne');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m build --s-st');
@@ -97,6 +97,17 @@ interface SSRNCCArgs extends BuildArgs {
 
       const watch = await import("./script/watch")
       await watch.default({
+        clientNodeExternals,
+        serverNodeExternals,
+        clientIsChunk,
+        serverIsChunk
+      })
+    } else if (scriptName === 'start') {
+      process.env.BABEL_ENV = 'development';
+      process.env.NODE_ENV = 'development';
+
+      const start = await import("./script/start")
+      await start.default({
         clientNodeExternals,
         serverNodeExternals,
         clientIsChunk,

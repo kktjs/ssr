@@ -198,6 +198,21 @@ export default {
 }
 ```
 
+**proxySetup**
+
+Reference [mocker-api](https://github.com/jaywcjlove/mocker-api) 
+
+```js
+export default {
+  proxySetup: (app) => ({
+    path: "./mocker/index.js",
+    options:{
+      changeHost: true,
+    }
+  }),
+}
+```
+
 **Rewrite watchOptions**
 
 ```js

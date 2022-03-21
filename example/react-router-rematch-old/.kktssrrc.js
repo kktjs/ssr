@@ -1,5 +1,9 @@
 import pluginLess from "@kkt/plugin-less"
+
 export default {
+  proxySetup: (app) => ({
+    path: "./mocker/index.js",
+  }),
   overridesWebpack: (confArr, env, options) => {
     const arr = []
     confArr.forEach((conf,) => {
@@ -15,7 +19,7 @@ export default {
         },
         resolve: {
           ...newConfig.resolve,
-          fallback: newConfig.target !== "node" && {
+          fallback: !/node/.test(newConfig.target) && {
             "util": require.resolve("util/"),
             "crypto": require.resolve("crypto-browserify"),
             "stream": require.resolve("stream-browserify"),

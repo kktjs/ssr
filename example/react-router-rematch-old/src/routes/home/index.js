@@ -37,7 +37,7 @@ class Home extends React.Component {
         </div>
         <ul className={styles.resources}>
           <li>
-            <Link to="/about/">About</Link>
+            <Link to="/about">About</Link>
           </li>
           <li>
             <a href="https://github.com/kktjs/ssr">Docs</a>
