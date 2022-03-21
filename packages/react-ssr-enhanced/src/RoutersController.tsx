@@ -27,7 +27,7 @@ export interface ControllerProps {
 const ChildRoutes = (props: ControllerProps) => {
   const deepRoutes = (routes: RouteNewObject[]) => {
     return routes.map((route, ind) => {
-      const routeItem = route
+      const routeItem = { ...route }
       if (Array.isArray(routeItem.children) && routeItem.children.length) {
         routeItem.children = deepRoutes(routeItem.children) as RouteNewObject[]
       }
@@ -39,6 +39,7 @@ const ChildRoutes = (props: ControllerProps) => {
         }
       }
       if (routeItem.index) {
+        // @ts-ignore
         routeItem.element = <Navigate to={routeItem.path} />
       }
       return <Route key={ind}  {...routeItem} />
@@ -58,6 +59,7 @@ class Controller extends React.PureComponent<ControllerProps, { data: any }> {
   UNSAFE_componentWillReceiveProps(nextProps: Readonly<ControllerProps>, nextContext: any): void {
     // eslint-disable-next-line
     const navigated = nextProps.location !== this.props.location;
+    console.log(3221223)
     if (navigated) {
       window.scrollTo(0, 0);
       // save the location so we can render the old screen
@@ -73,6 +75,7 @@ class Controller extends React.PureComponent<ControllerProps, { data: any }> {
         history: nextProps.history,
         ...rest,
       }).then(({ data: newData, match: currentMatch }) => {
+        // @ts-ignore
         const ismatch = matchPath(currentMatch.path, window.location.pathname);
         // @ts-ignore
         if (currentMatch && ismatch) {

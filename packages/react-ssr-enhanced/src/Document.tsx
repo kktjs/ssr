@@ -2,7 +2,7 @@ import React from "react"
 import serialize from 'serialize-javascript';
 import { HelmetData } from 'react-helmet';
 import { RematchStore, Models } from "@rematch/core"
-
+// @ts-ignore
 export function InitData({ data, objectName }) {
   if (!data) return null;
   try {
@@ -60,7 +60,7 @@ const Document = (props: DocumentProps) => {
     </html>
   );
 }
-
+// @ts-ignore
 Document.getInitialProps = async ({ assets, data, extractor, renderPage, store }) => {
   // https://reacttraining.com/react-router/web/example/static-router
   // This example renders a route within a StaticRouter and populates its

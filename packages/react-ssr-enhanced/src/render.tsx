@@ -14,6 +14,7 @@ export default async (options: RenderProps) => {
   const { req, res, routes, assets, document: Document, customRenderer, renderStatic, store, ...rest } = options;
   const Doc = Document || DefaultDoc;
 
+  // @ts-ignore
   const { match, data } = await loadInitialProps(routes, url.parse(req.url).pathname, { req, res, store, ...rest });
 
   if (!match) {
@@ -28,7 +29,7 @@ export default async (options: RenderProps) => {
   }
   const renderPage = async () => {
     // By default, we keep ReactDOMServer synchronous renderToString function
-    const defaultRenderer = element => ({ html: ReactDOMServer.renderToString(element) });
+    const defaultRenderer = (element: React.ReactElement<any, string | React.JSXElementConstructor<any>>) => ({ html: ReactDOMServer.renderToString(element) });
     const renderer = customRenderer || defaultRenderer;
     // 改路由V6
     const asyncOrSyncRender = renderer(
@@ -42,7 +43,8 @@ export default async (options: RenderProps) => {
     const helmet = await Helmet.renderStatic();
     return { helmet, ...renderedContent };
   };
-  const reactRouterMatch = matchPath(req.url, match.path);
+  // @ts-ignore
+  const reactRouterMatch = matchPath(match.path, req.url);
   const { html, ...docProps } = await Doc.getInitialProps({
     req,
     res,
@@ -65,6 +67,7 @@ export default async (options: RenderProps) => {
     if (chunk && chunk.name) {
       const chunkAssets = Object.keys(assets).find(item => item === chunk.name);
       Object.keys(assets).forEach((name) => {
+        // @ts-ignore
         if (name.indexOf(chunkAssets) > -1) {
           if (assets[name] && assets[name].css) {
             docProps.preloadAssets.css.push(assets[name].css);
