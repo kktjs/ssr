@@ -26,6 +26,7 @@
     "@types/webpack-node-externals": "^2.5.3"
   },
   "dependencies": {
+    "nodemon-webpack-plugin": "^4.7.1",
     "@babel/core": "^7.17.8",
     "@babel/runtime": "^7.17.8",
     "css-loader": "^6.7.1",
