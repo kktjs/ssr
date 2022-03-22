@@ -14,7 +14,8 @@ import {
   restOutPut,
   restWebpackManifestPlugin,
   clearHtmlTemp,
-  restDevModuleRuleCss
+  restDevModuleRuleCss,
+
 } from "../../overrides/utils"
 const { choosePort } = require('react-dev-utils/WebpackDevServerUtils');
 // 引入环境变量
@@ -70,9 +71,7 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
 
   newConfig = restWebpackManifestPlugin(newConfig, overrides.paths, type, isCreateAsset, httpPath)
 
-  if (!isWebpackDevServer) {
-    newConfig = clearHtmlTemp(newConfig)
-  }
+  newConfig = clearHtmlTemp(newConfig)
 
   newConfig.module.exprContextCritical = false;
   newConfig.plugins.push(
@@ -85,10 +84,6 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
       "process.env.HOST": JSON.stringify(HOST || "localhost")
     }),
   )
-
-  if (isWebpackDevServer) {
-    // newConfig.output.publicPath = `http://${HOST}:${PORT}/`
-  }
 
   if (!split) {
     newConfig.plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }))
