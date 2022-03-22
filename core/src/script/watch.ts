@@ -8,6 +8,7 @@ import { webpackConfigPath } from "./../overrides/pathUtils"
 const today = () => new Date().toISOString().split('.')[0].replace('T', ' ');
 
 export default async (options: OptionsProps) => {
+  // 修复 运行 start 停止之后，再次运行 watch 报错
   delete require.cache[require.resolve(webpackConfigPath)];
 
   const { compiler, overrides } = await createCompiler("development", options)

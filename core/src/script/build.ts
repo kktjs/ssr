@@ -20,7 +20,7 @@ export interface OpaqueFileSizes {
 }
 
 const build = async (options: OptionsProps) => {
-
+  // 修复 运行 start 停止之后，再次运行 watch 报错
   delete require.cache[require.resolve(webpackConfigPath)];
 
   const { compiler, overrides } = await createCompiler("production", options)
