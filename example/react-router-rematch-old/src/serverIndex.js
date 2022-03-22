@@ -7,8 +7,14 @@ import Path from 'path';
 import FS from 'fs';
 import { createStore } from './store';
 
+const assetPath = `${OUTPUT_PUBLIC_PATH}/asset-client-manifest.json`
+
+
 // require 方式 打包报错
-const assetsMainifest = new Function(`return ${FS.readFileSync(`${OUTPUT_PUBLIC_PATH}/asset-client-manifest.json`, "utf-8")}`)()
+let assetsMainifest = {}
+if (FS.existsSync(assetPath)) {
+  assetsMainifest = new Function(`return ${FS.readFileSync(`${assetPath}`, "utf-8")}`)()
+}
 
 const appDirectory = FS.realpathSync(process.cwd());
 const resolveApp = (relativePath) => Path.resolve(appDirectory, relativePath);

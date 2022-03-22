@@ -5,15 +5,16 @@ import webpack from "webpack"
 import { OptionsProps } from "../../interface"
 import fs from 'fs';
 import nodemonWebpackPlugin from "nodemon-webpack-plugin"
-
 import { loaderConf, OverridesProps } from "./../../overrides"
+
+import DevServerPlugins from "./devServer"
 
 import {
   getWbpackBarPlugins,
   restOutPut,
   restWebpackManifestPlugin,
   clearHtmlTemp,
-  addMiniCssExtractPlugin,
+  // addMiniCssExtractPlugin,
   restDevModuleRuleCss
 } from "../../overrides/utils"
 
@@ -37,8 +38,32 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   const HOST = process.env.HOST || 'localhost'
   const PORT = process.env.PORT || 3000
 
+  const httpPath = `http://${HOST}:${PORT}`
+
   newConfig = restOutPut(newConfig, out)
-  newConfig = restWebpackManifestPlugin(newConfig, overrides.paths, type)
+
+  if (isWebpackDevServer && env === "development") {
+    newConfig.output.publicPath = `${httpPath}/`
+  }
+
+  let isCreateAsset = false;
+  if (isWebpackDevServer && type === "client" && env === "development") {
+    isCreateAsset = true
+  }
+  if (isWebpackDevServer && type === "server" && env === "development") {
+    newConfig.plugins.push(
+      // new nodemonWebpackPlugin({
+      //   script: `${out.path}/${out.filename}`,
+      //   watch: [`${out.path}`]
+      // }),
+      new DevServerPlugins({
+        filename: `${out.filename}`,
+        outputPath: out.path
+      }),
+    )
+  }
+
+  newConfig = restWebpackManifestPlugin(newConfig, overrides.paths, type, isCreateAsset, httpPath)
   newConfig = clearHtmlTemp(newConfig)
   newConfig.module.exprContextCritical = false;
   newConfig.plugins.push(
@@ -48,18 +73,6 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
       PORT: JSON.stringify(PORT)
     }),
   )
-  if (isWebpackDevServer && type === "server") {
-    newConfig.plugins.push(
-      new nodemonWebpackPlugin({
-        script: `${out.path}/${out.filename}`,
-        watch: [`${out.path}`]
-      })
-    )
-  }
-
-  if (isWebpackDevServer) {
-    newConfig.output.publicPath = `http://${HOST}:${PORT}/`
-  }
 
   if (!split) {
     newConfig.plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }))
@@ -84,7 +97,7 @@ export default async (env: "development" | "production", options: OptionsProps, 
   if (fs.existsSync(overrides.client_path)) {
     const configClient = configFactory(env);
     let newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk, env, isWebpackDevServer)
-    newConfigClient = addMiniCssExtractPlugin(newConfigClient)
+    // newConfigClient = addMiniCssExtractPlugin(newConfigClient)
     if (overridesClientWebpack) {
       newConfigClient = overridesClientWebpack(newConfigClient, env, { ...rest, env })
     }

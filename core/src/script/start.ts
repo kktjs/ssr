@@ -18,11 +18,6 @@ export default async (options: OptionsProps) => {
 
   try {
     const { overrides, config } = await createCompiler("development", options, true)
-    const openBrowserPath = `${reactDevUtils}/openBrowser`;
-
-    require(openBrowserPath);
-    // override config in memory
-    require.cache[require.resolve(openBrowserPath)].exports = () => { };
 
     require.cache[require.resolve(webpackConfigPath)].exports = (env: string) => config;
 
