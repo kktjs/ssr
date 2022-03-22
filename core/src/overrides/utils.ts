@@ -56,7 +56,10 @@ export const restWebpackManifestPlugin = (
 
           const getPahts = (name: string) => {
             if (!isCreateAsset || /^http/.test(name)) {
-              return name
+              if (/^\//.test(name)) {
+                return name
+              }
+              return "/" + name
             }
             if (/^\//.test(name)) {
               return httpPath + name

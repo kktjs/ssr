@@ -47,6 +47,8 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
 
   if (isWebpackDevServer && env === "development") {
     newConfig.output.publicPath = `${httpPath}/`
+  } else {
+    newConfig.output.publicPath = `/`
   }
 
   let isCreateAsset = false;
