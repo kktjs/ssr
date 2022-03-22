@@ -36,8 +36,7 @@
   "dependencies": {
     "@babel/runtime": "^7.17.7",
     "react-helmet": "^6.1.0",
-    "serialize-javascript": "^6.0.0",
-    "url": "0.11.0"
+    "serialize-javascript": "^6.0.0"
   },
   "devDependencies": {
     "@rematch/core": "2.2.0",

@@ -14,13 +14,13 @@ server.listen(PORT + 1, (error) => {
   logs('🚀 started!', `PORT: http://localhost:${PORT + 1}`);
 });
 
-if (module.hot) {
-  logs('✅  Server-side HMR Enabled!');
-  module.hot.accept('./server', () => {
-    logs('🔁  HMR Reloading `./server`...');
-    server.removeListener('request', currentApp);
-    const newApp = require('./server').default; // eslint-disable-line
-    server.on('request', newApp);
-    currentApp = newApp;
-  });
-}
+// if (module.hot) {
+//   logs('✅  Server-side HMR Enabled!');
+//   module.hot.accept('./server', () => {
+//     logs('🔁  HMR Reloading `./server`...');
+//     server.removeListener('request', currentApp);
+//     const newApp = require('./server').default; // eslint-disable-line
+//     server.on('request', newApp);
+//     currentApp = newApp;
+//   });
+// }

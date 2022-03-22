@@ -26,11 +26,12 @@
     "@types/webpack-node-externals": "^2.5.3"
   },
   "dependencies": {
+    "razzle-start-server-webpack-plugin": "^4.2.16",
     "nodemon-webpack-plugin": "^4.7.1",
     "@babel/core": "^7.17.8",
     "@babel/runtime": "^7.17.8",
     "css-loader": "^6.7.1",
-    "kkt": "~7.1.5",
+    "kkt": "^7.1.5",
     "mini-css-extract-plugin": "2.6.0",
     "mocker-api": "^2.9.5",
     "react-scripts": "^5.0.0",

@@ -34,7 +34,7 @@ const ChildRoutes = (props: ControllerProps) => {
       if (routeItem.element) {
         if (React.isValidElement(routeItem.element)) {
           routeItem.element = React.cloneElement(routeItem.element, { ...props })
-        } else if (!React.isValidElement(routeItem.element) && routeItem.element && routeItem.element.name === "AsyncRouteComponent") {
+        } else if (!React.isValidElement(routeItem.element) && routeItem.element && typeof routeItem.element.getInitialProps === "function") {
           routeItem.element = React.createElement(routeItem.element as any, { ...props })
         }
       }
@@ -59,7 +59,6 @@ class Controller extends React.PureComponent<ControllerProps, { data: any }> {
   UNSAFE_componentWillReceiveProps(nextProps: Readonly<ControllerProps>, nextContext: any): void {
     // eslint-disable-next-line
     const navigated = nextProps.location !== this.props.location;
-    console.log(3221223)
     if (navigated) {
       window.scrollTo(0, 0);
       // save the location so we can render the old screen
