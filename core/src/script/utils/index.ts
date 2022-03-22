@@ -5,6 +5,7 @@ import webpack from "webpack"
 import { OptionsProps } from "../../interface"
 import fs from 'fs';
 import nodemonWebpackPlugin from "nodemon-webpack-plugin"
+
 import { loaderConf, OverridesProps } from "./../../overrides"
 
 import DevServerPlugins from "./devServer"
@@ -14,12 +15,15 @@ import {
   restOutPut,
   restWebpackManifestPlugin,
   clearHtmlTemp,
-  // addMiniCssExtractPlugin,
   restDevModuleRuleCss
 } from "../../overrides/utils"
-
+const { choosePort } = require('react-dev-utils/WebpackDevServerUtils');
 // 引入环境变量
 require(`${reactScripts}/config/env`);
+
+// Tools like Cloud9 rely on this.
+const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
+const HOST = process.env.HOST || 'localhost';
 
 const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "client", overrides: OverridesProps, nodeExternals: boolean, split: boolean, env: "development" | "production", isWebpackDevServer: boolean) => {
   newConfig.entry = overrides[`${type}_path`]
@@ -52,38 +56,33 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   }
   if (isWebpackDevServer && type === "server" && env === "development") {
     newConfig.plugins.push(
-      // new nodemonWebpackPlugin({
-      //   script: `${out.path}/${out.filename}`,
-      //   watch: [`${out.path}`]
-      // }),
       new DevServerPlugins({
         filename: `${out.filename}`,
         outputPath: out.path
+      }),
+      new nodemonWebpackPlugin({
+        script: `${out.path}/${out.filename}`,
+        watch: [`${out.path}`]
       }),
     )
   }
 
   newConfig = restWebpackManifestPlugin(newConfig, overrides.paths, type, isCreateAsset, httpPath)
-  newConfig = clearHtmlTemp(newConfig)
+  if (!isWebpackDevServer) {
+    newConfig = clearHtmlTemp(newConfig)
+  }
   newConfig.module.exprContextCritical = false;
   newConfig.plugins.push(
     new webpack.DefinePlugin({
       OUTPUT_PUBLIC_PATH: JSON.stringify(overrides.output_path),
       HOST: JSON.stringify(HOST),
-      PORT: JSON.stringify(PORT)
+      PORT: JSON.stringify(PORT),
+      Dev_Server: JSON.stringify(isWebpackDevServer),
     }),
   )
-  if (isWebpackDevServer && type === "server") {
-    newConfig.plugins.push(
-      new nodemonWebpackPlugin({
-        script: `${out.path}/${out.filename}`,
-        watch: [`${out.path}`]
-      })
-    )
-  }
 
   if (isWebpackDevServer) {
-    newConfig.output.publicPath = `http://${HOST}:${PORT}/`
+    // newConfig.output.publicPath = `http://${HOST}:${PORT}/`
   }
 
   if (!split) {
@@ -93,11 +92,22 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
     newConfig.externals = [webpackNodeExternals()]
   }
 
+  if (type === "server") {
+    newConfig.optimization.minimize = false
+    newConfig.optimization.minimizer = []
+  }
   return newConfig
 }
 
 export default async (env: "development" | "production", options: OptionsProps, isWebpackDevServer: boolean = false) => {
+
+  const PORT = await choosePort(HOST, DEFAULT_PORT);
+
   const overrides = await loaderConf()
+
+  process.env.PORT = PORT || "3000"
+  process.env.HOST = HOST || "localhost";
+
 
   const { overridesClientWebpack, overridesServerWebpack, overridesWebpack, ...rest } = overrides
 
@@ -109,7 +119,6 @@ export default async (env: "development" | "production", options: OptionsProps, 
   if (fs.existsSync(overrides.client_path)) {
     const configClient = configFactory(env);
     let newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk, env, isWebpackDevServer)
-    // newConfigClient = addMiniCssExtractPlugin(newConfigClient)
     if (overridesClientWebpack) {
       newConfigClient = overridesClientWebpack(newConfigClient, env, { ...rest, env })
     }

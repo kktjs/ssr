@@ -2,19 +2,11 @@
 
 import createCompiler from "./utils"
 import { OptionsProps } from "../interface"
-import { webpackConfigPath, reactScripts, reactDevUtils } from "./../overrides/pathUtils"
+import { webpackConfigPath, reactScripts, } from "./../overrides/pathUtils"
 import overridesDevServer from "./utils/overridesDevServer"
-const { choosePort } = require('react-dev-utils/WebpackDevServerUtils');
-
-// Tools like Cloud9 rely on this.
-const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
-const HOST = process.env.HOST || 'localhost';
 
 export default async (options: OptionsProps) => {
-
-  const PORT = await choosePort(HOST, DEFAULT_PORT);
-  process.env.PORT = PORT
-  process.env.HOST = HOST;
+  delete require.cache[require.resolve(webpackConfigPath)];
 
   try {
     const { overrides, config } = await createCompiler("development", options, true)

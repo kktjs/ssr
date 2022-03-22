@@ -3,11 +3,15 @@
 import createCompiler from "./utils"
 import clearConsole from 'react-dev-utils/clearConsole';
 import { OptionsProps } from "../interface"
+import { webpackConfigPath } from "./../overrides/pathUtils"
 
 const today = () => new Date().toISOString().split('.')[0].replace('T', ' ');
 
 export default async (options: OptionsProps) => {
+  delete require.cache[require.resolve(webpackConfigPath)];
+
   const { compiler, overrides } = await createCompiler("development", options)
+
   compiler.watch({
     ...(overrides.watchOptions || {}),
   }, (err, stats) => {
