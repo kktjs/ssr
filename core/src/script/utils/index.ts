@@ -5,7 +5,6 @@ import webpack from "webpack"
 import { OptionsProps } from "../../interface"
 import fs from 'fs';
 import nodemonWebpackPlugin from "nodemon-webpack-plugin"
-
 import { loaderConf, OverridesProps } from "./../../overrides"
 
 import DevServerPlugins from "./devServer"
