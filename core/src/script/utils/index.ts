@@ -85,7 +85,7 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   )
 
   if (isWebpackDevServer) {
-    newConfig.output.publicPath = `http://${HOST}:${PORT}/`
+    // newConfig.output.publicPath = `http://${HOST}:${PORT}/`
   }
 
   if (!split) {
@@ -99,7 +99,6 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
     newConfig.optimization.minimize = false
     newConfig.optimization.minimizer = []
   }
-
   return newConfig
 }
 
