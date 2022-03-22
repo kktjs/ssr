@@ -59,6 +59,7 @@ class Controller extends React.PureComponent<ControllerProps, { data: any }> {
   UNSAFE_componentWillReceiveProps(nextProps: Readonly<ControllerProps>, nextContext: any): void {
     // eslint-disable-next-line
     const navigated = nextProps.location !== this.props.location;
+    console.log(3221223)
     if (navigated) {
       window.scrollTo(0, 0);
       // save the location so we can render the old screen

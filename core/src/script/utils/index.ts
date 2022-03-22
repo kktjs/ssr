@@ -73,6 +73,18 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
       PORT: JSON.stringify(PORT)
     }),
   )
+  if (isWebpackDevServer && type === "server") {
+    newConfig.plugins.push(
+      new nodemonWebpackPlugin({
+        script: `${out.path}/${out.filename}`,
+        watch: [`${out.path}`]
+      })
+    )
+  }
+
+  if (isWebpackDevServer) {
+    newConfig.output.publicPath = `http://${HOST}:${PORT}/`
+  }
 
   if (!split) {
     newConfig.plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }))
