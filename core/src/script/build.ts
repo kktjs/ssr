@@ -2,7 +2,7 @@
 import createCompiler from "./utils"
 import fs from "fs-extra";
 import FileSizeReporter from "react-dev-utils/FileSizeReporter";
-import { Paths } from "./../overrides/pathUtils"
+import { Paths, webpackConfigPath } from "./../overrides/pathUtils"
 import { OptionsProps } from "../interface"
 const { checkBrowsers } = require('react-dev-utils/browsersHelper');
 
@@ -20,6 +20,9 @@ export interface OpaqueFileSizes {
 }
 
 const build = async (options: OptionsProps) => {
+  // 修复 运行 start 停止之后，再次运行 watch 报错
+  delete require.cache[require.resolve(webpackConfigPath)];
+
   const { compiler, overrides } = await createCompiler("production", options)
 
   checkBrowsers(overrides.paths.appPath, isInteractive).then(() => {
