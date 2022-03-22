@@ -16,7 +16,6 @@ export default async (options: RenderProps) => {
 
   // @ts-ignore
   const { match, data } = await loadInitialProps(routes, url.parse(req.url).pathname, { req, res, store, ...rest });
-
   if (!match) {
     res.status(404);
     return;
