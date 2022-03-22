@@ -67,9 +67,11 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   }
 
   newConfig = restWebpackManifestPlugin(newConfig, overrides.paths, type, isCreateAsset, httpPath)
+
   if (!isWebpackDevServer) {
     newConfig = clearHtmlTemp(newConfig)
   }
+
   newConfig.module.exprContextCritical = false;
   newConfig.plugins.push(
     new webpack.DefinePlugin({
@@ -77,11 +79,13 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
       HOST: JSON.stringify(HOST),
       PORT: JSON.stringify(PORT),
       Dev_Server: JSON.stringify(isWebpackDevServer),
+      "process.env.PORT": JSON.stringify(PORT || 3000),
+      "process.env.HOST": JSON.stringify(HOST || "localhost")
     }),
   )
 
   if (isWebpackDevServer) {
-    // newConfig.output.publicPath = `http://${HOST}:${PORT}/`
+    newConfig.output.publicPath = `http://${HOST}:${PORT}/`
   }
 
   if (!split) {
@@ -95,6 +99,7 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
     newConfig.optimization.minimize = false
     newConfig.optimization.minimizer = []
   }
+
   return newConfig
 }
 

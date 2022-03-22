@@ -16,7 +16,8 @@ const routes = getRouterData();
     // Warning: render(): Calling ReactDOM.render() to hydrate server-rendered markup will stop working in React v17.
     // Replace the ReactDOM.render() call with ReactDOM.hydrate() if you want React to attach to the server HTML.
     // const renderMethod = module.hot ? ReactDOM.render : ReactDOM.hydrate; // eslint-disable-line
-    const renderMethod = !!module.hot ? ReactDOM.render : ReactDOM.hydrate; // eslint-disable-line
+    // const renderMethod = !!module.hot ? ReactDOM.render : ReactDOM.hydrate; // eslint-disable-line
+    const renderMethod = ReactDOM.hydrate; // eslint-disable-line
     // The server renders an error and is mounted on the Window object.
     // The object exists only on the client side.
     window._history = history;

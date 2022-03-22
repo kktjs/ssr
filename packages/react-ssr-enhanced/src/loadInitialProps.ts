@@ -9,10 +9,13 @@ export const loadInitialProps = async (routes: RouteNewObject[], pathname: strin
     const match = matchPath(route.path as string, pathname);
     const component = route.element;
     if (route.path && match && component) {
+      // console.log(component)
       if (component.getInitialProps && typeof component.getInitialProps === "function") {
         // @ts-ignore
         const resule = component.load ? component.load().then(() => component.getInitialProps({ match, ...ctx })) : component.getInitialProps({ match, ...ctx })
         promises.push(resule);
+      } else if (route.load && typeof route.load === "function") {
+        promises.push(route.load({ match, ...ctx }));
       }
     }
     return !!match;

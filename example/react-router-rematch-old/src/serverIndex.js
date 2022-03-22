@@ -19,10 +19,10 @@ if (FS.existsSync(assetPath)) {
 const appDirectory = FS.realpathSync(process.cwd());
 const resolveApp = (relativePath) => Path.resolve(appDirectory, relativePath);
 
-const isDev = process.env.NODE_ENV === "development"
+const isDev = process.env.NODE_ENV === "development" && Dev_Server
 
 // const target = `http://${process.env.HOST}:${process.env.PORT}`
-const target = `http://${process.env.HOST}:${process.env.PORT}`
+const target = `http://${process.env.HOST || "localhost"}:${process.env.PORT || 3000}`
 
 const routes = getRouterData();
 const server = express();
@@ -37,9 +37,6 @@ server.use('/api', proxy({
   changeOrigin: true,
 }));
 server.get('/*', async (req, res) => {
-  if (req.url === "/favicon.ico/") {
-    return;
-  }
   try {
     const store = await createStore();
     const html = await render({

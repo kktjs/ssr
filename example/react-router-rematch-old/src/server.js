@@ -6,7 +6,8 @@ const logs = console.log; // eslint-disable-line
 const server = http.createServer(app);
 let currentApp = app;
 
-const PORT = process.env.PORT || 3000;
+const PORT = parseInt(process.env.PORT || 3000);
+
 server.listen(PORT + 1, (error) => {
   if (error) {
     logs(error);
