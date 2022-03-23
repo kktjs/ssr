@@ -101,6 +101,7 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
 }
 
 export default async (env: "development" | "production", options: OptionsProps, isWebpackDevServer: boolean = false) => {
+  console.log(111)
 
   const PORT = await choosePort(HOST, DEFAULT_PORT);
 
@@ -116,12 +117,16 @@ export default async (env: "development" | "production", options: OptionsProps, 
 
   let configArr: webpack.Configuration[] = []
 
+
   /**------------------------  client    ---------------------    */
   if (fs.existsSync(overrides.client_path)) {
     const configClient = configFactory(env);
-
-    let newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk, env, isWebpackDevServer)
-    if (isWebpackDevServer) {
+    let newConfigClient = configClient
+    // 控制 client 是否使用 ssr，默认情况下使用
+    if (!options.original) {
+      newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk, env, isWebpackDevServer)
+    }
+    if (isWebpackDevServer && !options.original) {
       // 去除 source-map-loader
       newConfigClient = removeSourceMapLoader(newConfigClient)
     }

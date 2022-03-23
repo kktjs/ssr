@@ -112,12 +112,10 @@ export async function loaderConf(): Promise<OverridesProps> {
     if (!fs.existsSync(path.appIndexJs)) {
       path.appIndexJs = overrides.client_path
     }
-
     overrides.paths = path
     // 覆盖配置 里面的地址
     overridePaths(undefined, {
-      ...(path as unknown as Record<string, string>),
-      appBuild: overrides.output_path
+      ...(path as unknown as Record<string, string>)
     });
     return overrides;
   } catch (error) {
