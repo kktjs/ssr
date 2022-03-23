@@ -129,7 +129,7 @@ Add `.kktssrrc.js` to the root directory of your project
 
 ```js
 export default {
-  overridesClientWebpack:(conf,env)=>{
+  overridesClientWebpack:(conf,env,options)=>{
     return conf
   }
 }
@@ -141,7 +141,7 @@ export default {
 
 ```js
 export default {
-  overridesServerWebpack:(conf,env)=>{
+  overridesServerWebpack:(conf,env,options)=>{
     return conf
   }
 }
@@ -151,7 +151,7 @@ export default {
 
 ```js
 export default {
-  overridesWebpack:(conf,env)=>{
+  overridesWebpack:(conf,env,options)=>{
     return conf
   }
 }
