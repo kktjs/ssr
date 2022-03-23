@@ -45,8 +45,7 @@ Support multiple webpack configurations to execute together.
 npx create-kkt-ssr my-app
 cd my-app
 npm install
-npm run watch
-npm run server
+npm run start
 ```
 
 You can also initialize a project from one of the examples. Example from [kktjs/ssr](./example) example-path. 
@@ -75,8 +74,7 @@ npm run server # Start service
 Runs the project in development mode.  
 
 ```bash
-npm run watch 
-npm run server
+npm run start
 ```
 
 **production**
@@ -208,6 +206,9 @@ export default {
     path: "./mocker/index.js",
     options:{
       changeHost: true,
+      proxy:{
+
+      }
     }
   }),
 }
