@@ -830,13 +830,11 @@ color: #0a53c1;
       <pre class="language-bash"><code class="language-bash">npx create-kkt-ssr my-app
 <span class="token builtin class-name">cd</span> my-app
 <span class="token function">npm</span> <span class="token function">install</span>
-<span class="token function">npm</span> run <span class="token function">watch</span>
-<span class="token function">npm</span> run server
+<span class="token function">npm</span> run start
 </code><div onclick="copied(this)" data-code="npx create-kkt-ssr my-app
 cd my-app
 npm install
-npm run watch
-npm run server
+npm run start
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
       <p>You can also initialize a project from one of the examples. Example from <a href="./example">kktjs/ssr</a> example-path.</p>
       <pre class="language-bash"><code class="language-bash"><span class="token comment"># Using the template method</span>
@@ -865,10 +863,8 @@ npm run server # Start service
       </blockquote>
       <p><strong>development</strong></p>
       <p>Runs the project in development mode.</p>
-      <pre class="language-bash"><code class="language-bash"><span class="token function">npm</span> run <span class="token function">watch</span> 
-<span class="token function">npm</span> run server
-</code><div onclick="copied(this)" data-code="npm run watch 
-npm run server
+      <pre class="language-bash"><code class="language-bash"><span class="token function">npm</span> run start
+</code><div onclick="copied(this)" data-code="npm run start
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
       <p><strong>production</strong></p>
       <p>Builds the app for production to the build folder.</p>
@@ -923,12 +919,12 @@ export default (conf, evn) => {
       <p>Add <code>.kktssrrc.js</code> to the root directory of your project</p>
       <p><strong>Rewrite Client Config</strong></p>
       <pre class="language-js"><code class="language-js"><span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">{</span>
-  <span class="token function-variable function">overridesClientWebpack</span><span class="token operator">:</span><span class="token punctuation">(</span><span class="token parameter">conf<span class="token punctuation">,</span>env</span><span class="token punctuation">)</span><span class="token arrow operator">=></span><span class="token punctuation">{</span>
+  <span class="token function-variable function">overridesClientWebpack</span><span class="token operator">:</span><span class="token punctuation">(</span><span class="token parameter">conf<span class="token punctuation">,</span>env<span class="token punctuation">,</span>options</span><span class="token punctuation">)</span><span class="token arrow operator">=></span><span class="token punctuation">{</span>
     <span class="token keyword control-flow">return</span> conf
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code><div onclick="copied(this)" data-code="export default {
-  overridesClientWebpack:(conf,env)=>{
+  overridesClientWebpack:(conf,env,options)=>{
     return conf
   }
 }
@@ -938,24 +934,24 @@ export default (conf, evn) => {
         <p>Default devtool value <code>false</code>, Default target value <code>node</code>, Default output.library.type value <code>commonjs</code>,</p>
       </blockquote>
       <pre class="language-js"><code class="language-js"><span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">{</span>
-  <span class="token function-variable function">overridesServerWebpack</span><span class="token operator">:</span><span class="token punctuation">(</span><span class="token parameter">conf<span class="token punctuation">,</span>env</span><span class="token punctuation">)</span><span class="token arrow operator">=></span><span class="token punctuation">{</span>
+  <span class="token function-variable function">overridesServerWebpack</span><span class="token operator">:</span><span class="token punctuation">(</span><span class="token parameter">conf<span class="token punctuation">,</span>env<span class="token punctuation">,</span>options</span><span class="token punctuation">)</span><span class="token arrow operator">=></span><span class="token punctuation">{</span>
     <span class="token keyword control-flow">return</span> conf
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code><div onclick="copied(this)" data-code="export default {
-  overridesServerWebpack:(conf,env)=>{
+  overridesServerWebpack:(conf,env,options)=>{
     return conf
   }
 }
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
       <p><strong>More Webpack Config</strong></p>
       <pre class="language-js"><code class="language-js"><span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">{</span>
-  <span class="token function-variable function">overridesWebpack</span><span class="token operator">:</span><span class="token punctuation">(</span><span class="token parameter">conf<span class="token punctuation">,</span>env</span><span class="token punctuation">)</span><span class="token arrow operator">=></span><span class="token punctuation">{</span>
+  <span class="token function-variable function">overridesWebpack</span><span class="token operator">:</span><span class="token punctuation">(</span><span class="token parameter">conf<span class="token punctuation">,</span>env<span class="token punctuation">,</span>options</span><span class="token punctuation">)</span><span class="token arrow operator">=></span><span class="token punctuation">{</span>
     <span class="token keyword control-flow">return</span> conf
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code><div onclick="copied(this)" data-code="export default {
-  overridesWebpack:(conf,env)=>{
+  overridesWebpack:(conf,env,options)=>{
     return conf
   }
 }
@@ -1020,6 +1016,9 @@ export default (conf, evn) => {
     <span class="token literal-property property">path</span><span class="token operator">:</span> <span class="token string">"./mocker/index.js"</span><span class="token punctuation">,</span>
     <span class="token literal-property property">options</span><span class="token operator">:</span><span class="token punctuation">{</span>
       <span class="token literal-property property">changeHost</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">proxy</span><span class="token operator">:</span><span class="token punctuation">{</span>
+
+      <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span>
@@ -1028,6 +1027,9 @@ export default (conf, evn) => {
     path: &#x22;./mocker/index.js&#x22;,
     options:{
       changeHost: true,
+      proxy:{
+
+      }
     }
   }),
 }
