@@ -34,7 +34,6 @@
     "mini-css-extract-plugin": "2.6.0",
     "mocker-api": "^2.9.5",
     "nodemon-webpack-plugin": "^4.7.1",
-    "razzle-start-server-webpack-plugin": "^4.2.16",
     "react-scripts": "^5.0.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.2",
