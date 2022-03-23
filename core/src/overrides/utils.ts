@@ -56,7 +56,7 @@ export const restWebpackManifestPlugin = (
 
           const getPahts = (name: string) => {
             if (!isCreateAsset || /^http/.test(name)) {
-              if (/^\//.test(name)) {
+              if (/^\//.test(name) || /^http/.test(name)) {
                 return name
               }
               return "/" + name
@@ -151,6 +151,19 @@ export const addMiniCssExtractPlugin = (conf: WebpackConfiguration): WebpackConf
     ]),
   }
 }
+
+// loader source-map-loader
+
+export const removeSourceMapLoader = (conf: WebpackConfiguration): WebpackConfiguration => {
+  return {
+    ...conf,
+    module: {
+      ...conf.module,
+      rules: conf.module.rules.filter((rule) => !(rule !== "..." && /source-map-loader/.test(rule.loader) && /\.(js|mjs|jsx|ts|tsx|css)$/.toString() === rule.test.toString()))
+    }
+  }
+}
+
 
 // node 环境  把 css 进行处理
 export const restDevModuleRuleCss = (conf: WebpackConfiguration,): WebpackConfiguration => {

@@ -15,7 +15,7 @@ import {
   restWebpackManifestPlugin,
   clearHtmlTemp,
   restDevModuleRuleCss,
-
+  removeSourceMapLoader
 } from "../../overrides/utils"
 const { choosePort } = require('react-dev-utils/WebpackDevServerUtils');
 // 引入环境变量
@@ -56,6 +56,7 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   if (isWebpackDevServer && type === "client" && env === "development") {
     isCreateAsset = true
   }
+
   if (isWebpackDevServer && type === "server" && env === "development") {
     newConfig.plugins.push(
       new DevServerPlugins({
@@ -118,7 +119,12 @@ export default async (env: "development" | "production", options: OptionsProps, 
   /**------------------------  client    ---------------------    */
   if (fs.existsSync(overrides.client_path)) {
     const configClient = configFactory(env);
+
     let newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk, env, isWebpackDevServer)
+    if (isWebpackDevServer) {
+      // 去除 source-map-loader
+      newConfigClient = removeSourceMapLoader(newConfigClient)
+    }
     if (overridesClientWebpack) {
       newConfigClient = overridesClientWebpack(newConfigClient, env, { ...rest, env })
     }
@@ -132,6 +138,8 @@ export default async (env: "development" | "production", options: OptionsProps, 
     newConfigServer.devtool = false
     newConfigServer.target = "node14"
     newConfigServer = restDevModuleRuleCss(newConfigServer)
+    // 去除 source-map-loader
+    newConfigServer = removeSourceMapLoader(newConfigServer)
     if (overridesServerWebpack) {
       newConfigServer = overridesServerWebpack(newConfigServer, env, { ...rest, env })
     }
