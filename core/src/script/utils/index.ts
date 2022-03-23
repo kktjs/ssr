@@ -82,8 +82,7 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
       PORT: JSON.stringify(PORT),
       Dev_Server: JSON.stringify(isWebpackDevServer),
       "process.env.PORT": JSON.stringify(PORT || 3000),
-      "process.env.HOST": JSON.stringify(HOST || "localhost"),
-      "process.env.PUBLIC_URL": JSON.stringify(process.env.PUBLIC_URL || overrides.output_path || "")
+      "process.env.HOST": JSON.stringify(HOST || "localhost")
     }),
   )
 
