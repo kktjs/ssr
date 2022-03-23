@@ -82,7 +82,8 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
       PORT: JSON.stringify(PORT),
       Dev_Server: JSON.stringify(isWebpackDevServer),
       "process.env.PORT": JSON.stringify(PORT || 3000),
-      "process.env.HOST": JSON.stringify(HOST || "localhost")
+      "process.env.HOST": JSON.stringify(HOST || "localhost"),
+      "process.env.PUBLIC_URL": JSON.stringify(process.env.PUBLIC_URL || overrides.output_path || "")
     }),
   )
 
@@ -101,7 +102,6 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
 }
 
 export default async (env: "development" | "production", options: OptionsProps, isWebpackDevServer: boolean = false) => {
-  console.log(111)
 
   const PORT = await choosePort(HOST, DEFAULT_PORT);
 
@@ -117,10 +117,10 @@ export default async (env: "development" | "production", options: OptionsProps, 
 
   let configArr: webpack.Configuration[] = []
 
-
   /**------------------------  client    ---------------------    */
   if (fs.existsSync(overrides.client_path)) {
     const configClient = configFactory(env);
+
     let newConfigClient = configClient
     // 控制 client 是否使用 ssr，默认情况下使用
     if (!options.original) {

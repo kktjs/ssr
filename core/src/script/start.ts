@@ -2,19 +2,19 @@
 
 import createCompiler from "./utils"
 import { OptionsProps } from "../interface"
-import { webpackConfigPath, reactScripts, } from "./../overrides/pathUtils"
+import { webpackConfigPath, reactScripts, reactDevUtils } from "./../overrides/pathUtils"
 import overridesDevServer from "./utils/overridesDevServer"
-
 export default async (options: OptionsProps) => {
   // 修复 运行 start 停止之后，再次运行 watch 报错
   delete require.cache[require.resolve(webpackConfigPath)];
+  delete require.cache[require.resolve(`${reactDevUtils}/openBrowser`)];
 
   try {
     const { overrides, config } = await createCompiler("development", options, true)
 
     require.cache[require.resolve(webpackConfigPath)].exports = (env: string) => config;
 
-    await overridesDevServer(overrides)
+    await overridesDevServer(overrides, options.original)
 
     require(`${reactScripts}/scripts/start`);
 

@@ -81,6 +81,7 @@ interface SSRNCCArgs extends BuildArgs {
     const clientIsChunk = argvs["c-st"] || argvs['c-split']
     const serverIsChunk = argvs["s-st"] || argvs['s-split']
 
+    // 使用原始 react-scripts 
     const original = argvs["o"] || argvs["original"]
 
     const options = {
@@ -89,6 +90,12 @@ interface SSRNCCArgs extends BuildArgs {
       clientIsChunk,
       serverIsChunk,
       original
+    }
+    // 解决 原始情况下 PUBLIC_URL 报错
+    if (argvs["PUBLIC_URL"]) {
+      process.env.PUBLIC_URL = argvs["PUBLIC_URL"];
+    } else {
+      process.env.PUBLIC_URL = '';
     }
 
     if (scriptName === 'build') {
