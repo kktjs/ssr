@@ -3,4 +3,5 @@ export interface OptionsProps {
   serverNodeExternals: boolean;
   serverIsChunk: boolean;
   clientIsChunk: boolean;
+  original: boolean
 }

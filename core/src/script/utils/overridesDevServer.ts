@@ -9,14 +9,17 @@ const evalSourceMapMiddleware = require('react-dev-utils/evalSourceMapMiddleware
 const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMiddleware');
 const redirectServedPath = require('react-dev-utils/redirectServedPathMiddleware');
 
-export default async (overrides: OverridesProps) => {
+export default async (overrides: OverridesProps, original: boolean) => {
 
-  const openBrowserPath = `${reactDevUtils}/openBrowser`;
+  if (!original) {
 
-  require(openBrowserPath);
+    const openBrowserPath = `${reactDevUtils}/openBrowser`;
 
-  // override config in memory
-  require.cache[require.resolve(openBrowserPath)].exports = () => { };
+    require(openBrowserPath);
+
+    // override config in memory
+    require.cache[require.resolve(openBrowserPath)].exports = () => { };
+  }
 
 
   const webpackdDevServerConfigPath = require(`${devServerConfigPath}`)

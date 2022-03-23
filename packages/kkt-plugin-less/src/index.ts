@@ -61,6 +61,7 @@ export default (conf: WebpackConfiguration, options: LessOptions): WebpackConfig
     modules: {
       mode: 'icss',
       ...modulesLocals,
+      getLocalIdent: getCSSModuleLocalIdent,
     },
   };
 

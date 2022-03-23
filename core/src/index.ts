@@ -17,7 +17,7 @@ function help() {
   console.log('   --c-ne, --c-nodeExternals         ', 'client use webpack-node-external .');
   console.log('   --s-st, --s-split         ', 'server Split code .');
   console.log('   --c-st, --c-split         ', 'client Split code .');
-
+  console.log('   -o, --original         ', 'Use original react-scripts .');
 
   console.log('\n  Example:\n');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m build');
@@ -27,6 +27,7 @@ function help() {
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch --s-ne');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m build --s-st');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch --s-st');
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m start -o');
   console.log(`\n  \x1b[34;1m@kkt/ssr\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
 }
 
@@ -39,6 +40,8 @@ interface SSRNCCArgs extends BuildArgs {
   "c-nodeExternals"?: boolean,
   "c-st"?: boolean,
   "c-split"?: boolean,
+  "o"?: boolean,
+  "original"?: boolean,
 }
 
 (async () => {
@@ -78,41 +81,42 @@ interface SSRNCCArgs extends BuildArgs {
     const clientIsChunk = argvs["c-st"] || argvs['c-split']
     const serverIsChunk = argvs["s-st"] || argvs['s-split']
 
+    // 使用原始 react-scripts 
+    const original = argvs["o"] || argvs["original"]
+
+    const options = {
+      clientNodeExternals,
+      serverNodeExternals,
+      clientIsChunk,
+      serverIsChunk,
+      original
+    }
+    // 解决 原始情况下 PUBLIC_URL 报错
+    if (argvs["PUBLIC_URL"]) {
+      process.env.PUBLIC_URL = argvs["PUBLIC_URL"];
+    } else {
+      process.env.PUBLIC_URL = '';
+    }
 
     if (scriptName === 'build') {
       process.env.BABEL_ENV = 'production';
       process.env.NODE_ENV = 'production';
 
       const build = await import("./script/build")
-      await build.default({
-        clientNodeExternals,
-        serverNodeExternals,
-        clientIsChunk,
-        serverIsChunk
-      })
+      await build.default(options)
     } else if (scriptName === 'watch') {
 
       process.env.BABEL_ENV = 'development';
       process.env.NODE_ENV = 'development';
 
       const watch = await import("./script/watch")
-      await watch.default({
-        clientNodeExternals,
-        serverNodeExternals,
-        clientIsChunk,
-        serverIsChunk
-      })
+      await watch.default(options)
     } else if (scriptName === 'start') {
       process.env.BABEL_ENV = 'development';
       process.env.NODE_ENV = 'development';
 
       const start = await import("./script/start")
-      await start.default({
-        clientNodeExternals,
-        serverNodeExternals,
-        clientIsChunk,
-        serverIsChunk
-      })
+      await start.default(options)
     }
   } catch (error) {
     console.log('\x1b[31m KKT:SSR:ERROR:\x1b[0m', error);
