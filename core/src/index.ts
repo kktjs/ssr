@@ -91,7 +91,7 @@ interface SSRNCCArgs extends BuildArgs {
       serverIsChunk,
       original
     }
-    // 解决 原始情况下 PUBLIC_URL 报错
+    // 解决 使用 react-scripts 原始情况下 PUBLIC_URL 报错
     if (argvs["PUBLIC_URL"]) {
       process.env.PUBLIC_URL = argvs["PUBLIC_URL"];
     } else {

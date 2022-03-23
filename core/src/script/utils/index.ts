@@ -26,16 +26,19 @@ const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
 const HOST = process.env.HOST || 'localhost';
 
 const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "client", overrides: OverridesProps, nodeExternals: boolean, split: boolean, env: "development" | "production", isWebpackDevServer: boolean) => {
+  /** 入口 */
   newConfig.entry = overrides[`${type}_path`]
+  /** 加载 进度条 plugin */
   newConfig = getWbpackBarPlugins(newConfig, {
     name: type,
   })
+  /** 输出配置 */
   const out: webpack.Configuration["output"] = {
     filename: `${type}.js`,
     path: overrides.output_path,
   }
-
   if (type === "server") {
+    /** 输出 类型 */
     out.library = { type: "commonjs2" }
   }
 
@@ -44,19 +47,21 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
 
   const httpPath = `http://${HOST}:${PORT}`
 
-  newConfig = restOutPut(newConfig, out)
-
+  /** start 命令时候 配置前缀 为 devServer 端口  */
   if (isWebpackDevServer && env === "development") {
-    newConfig.output.publicPath = `${httpPath}/`
+    out.publicPath = `${httpPath}/`
   } else {
-    newConfig.output.publicPath = `/`
+    out.publicPath = `/`
   }
+
+  /** 重置 输入配置 */
+  newConfig = restOutPut(newConfig, out)
 
   let isCreateAsset = false;
   if (isWebpackDevServer && type === "client" && env === "development") {
     isCreateAsset = true
   }
-
+  /** start 命令下  生成 server.js文件和 自动启动 server.js 服务  */
   if (isWebpackDevServer && type === "server" && env === "development") {
     newConfig.plugins.push(
       new DevServerPlugins({
@@ -69,12 +74,13 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
       }),
     )
   }
-
+  /**  重置 asset-manifest.json 文件内容 */
   newConfig = restWebpackManifestPlugin(newConfig, overrides.paths, type, isCreateAsset, httpPath)
-
+  /** 清除 html 模板方面的 plugin  **/
   newConfig = clearHtmlTemp(newConfig)
 
   newConfig.module.exprContextCritical = false;
+
   newConfig.plugins.push(
     new webpack.DefinePlugin({
       OUTPUT_PUBLIC_PATH: JSON.stringify(overrides.output_path),
@@ -90,10 +96,15 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
     newConfig.plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }))
   }
   if (nodeExternals) {
+    /** 
+     * https://www.npmjs.com/package/webpack-node-externals
+     * 这个库扫描node_modules文件夹中的所有 node_modules 名称，并构建一个外部函数，告诉 Webpack 不要捆绑这些模块或它们的任何子模块 
+     * */
     newConfig.externals = [webpackNodeExternals()]
   }
 
   if (type === "server") {
+    /** server 端 去除代码压缩 */
     newConfig.optimization.minimize = false
     newConfig.optimization.minimizer = []
   }
@@ -101,14 +112,13 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
 }
 
 export default async (env: "development" | "production", options: OptionsProps, isWebpackDevServer: boolean = false) => {
-
+  /**  端口处理 */
   const PORT = await choosePort(HOST, DEFAULT_PORT);
-
+  /** 加载自定义配置 */
   const overrides = await loaderConf()
 
   process.env.PORT = PORT || "3000"
   process.env.HOST = HOST || "localhost";
-
 
   const { overridesClientWebpack, overridesServerWebpack, overridesWebpack, ...rest } = overrides
 
@@ -116,7 +126,7 @@ export default async (env: "development" | "production", options: OptionsProps, 
 
   let configArr: webpack.Configuration[] = []
 
-  /**------------------------  client    ---------------------    */
+  /**------------------------  client  配置  ---------------------    */
   if (fs.existsSync(overrides.client_path)) {
     const configClient = configFactory(env);
 
@@ -135,14 +145,15 @@ export default async (env: "development" | "production", options: OptionsProps, 
     configArr.push(newConfigClient)
   }
 
-  /**------------------------  server    ---------------------    */
+  /**------------------------  server    配置 ---------------------    */
   if (fs.existsSync(overrides.server_path)) {
     const configServer = configFactory(env);
     let newConfigServer = getWebpackConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk, env, isWebpackDevServer)
     newConfigServer.devtool = false
     newConfigServer.target = "node14"
+    /** server 处理 css   */
     newConfigServer = restDevModuleRuleCss(newConfigServer)
-    // 去除 source-map-loader
+    /** 去除 source-map-loader */
     newConfigServer = removeSourceMapLoader(newConfigServer)
     if (overridesServerWebpack) {
       newConfigServer = overridesServerWebpack(newConfigServer, env, { ...rest, env })
