@@ -102,7 +102,7 @@ const WithRouters = (props: any) => {
   const location = useLocation()
   const navigate = useNavigate()
   const params = useParams()
-  return <Controller location={location} navigate={navigate} params={params} {...props} />
+  return <Controller location={location} navigate={navigate} params={params} {...props} match={{ params, location }} />
 }
 
 export default WithRouters
