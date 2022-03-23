@@ -1,6 +1,6 @@
 {
   "name": "@examples/basic-routes",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "description": "",
   "private": true,
   "scripts": {
@@ -18,7 +18,7 @@
     "react-router-dom": "^6.2.2"
   },
   "devDependencies": {
-    "@kkt/ssr": "3.1.5",
+    "@kkt/ssr": "3.1.6",
     "kkt": "~7.1.5"
   },
   "browserslist": {
