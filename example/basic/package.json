@@ -7,7 +7,7 @@
     "server": "node dist/server.js",
     "build": "kkt-ssr build",
     "watch": "kkt-ssr watch",
-    "start": "kkt-ssr start"
+    "start": "NODES=123121 kkt-ssr start"
   },
   "keywords": [],
   "dependencies": {

@@ -35,10 +35,11 @@ export type GetWebpackConfig = (
   split: boolean,
   env: "development" | "production",
   isWebpackDevServer: boolean,
+  options: OptionsProps
 ) => webpack.Configuration
 
 
-const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExternals, split, env, isWebpackDevServer) => {
+const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExternals, split, env, isWebpackDevServer, options) => {
   /** 入口 */
   newConfig.entry = overrides[`${type}_path`]
   /** 加载 进度条 plugin */
@@ -97,11 +98,12 @@ const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExte
   newConfig.plugins.push(
     new webpack.DefinePlugin({
       OUTPUT_PUBLIC_PATH: JSON.stringify(overrides.output_path),
+      KKT_PUBLIC_DIR: JSON.stringify(process.env.KKT_PUBLIC_DIR || overrides.output_path),
       HOST: JSON.stringify(HOST),
       PORT: JSON.stringify(PORT),
       Dev_Server: JSON.stringify(isWebpackDevServer),
-      "process.env.PORT": JSON.stringify(PORT || 3000),
-      "process.env.HOST": JSON.stringify(HOST || "localhost")
+      "process.env.PORT": JSON.stringify(PORT),
+      "process.env.HOST": JSON.stringify(HOST)
     }),
   )
 
@@ -116,6 +118,18 @@ const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExte
      * 这个库扫描node_modules文件夹中的所有 node_modules 名称，并构建一个外部函数，告诉 Webpack 不要捆绑这些模块或它们的任何子模块 
      * */
     newConfig.externals = [webpackNodeExternals()]
+  }
+
+  if (options.miniServer && type === "server") {
+    /** server 端 去除代码压缩 */
+    newConfig.optimization.minimize = false
+    newConfig.optimization.minimizer = []
+  }
+
+  if (options.miniClient && type === "client") {
+    /** client 端 去除代码压缩 */
+    newConfig.optimization.minimize = false
+    newConfig.optimization.minimizer = []
   }
 
   return newConfig
@@ -145,7 +159,7 @@ export default async (env: "development" | "production", options: OptionsProps, 
     // 控制 client 是否使用 ssr，默认情况下使用
     if (!options.original) {
 
-      newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk, env, isWebpackDevServer)
+      newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk, env, isWebpackDevServer, options)
     }
     if (isWebpackDevServer && !options.original) {
       // 去除 source-map-loader
@@ -165,7 +179,7 @@ export default async (env: "development" | "production", options: OptionsProps, 
 
     const configServer = configFactory(env);
 
-    let newConfigServer = getWebpackConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk, env, isWebpackDevServer)
+    let newConfigServer = getWebpackConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk, env, isWebpackDevServer, options)
 
     newConfigServer.devtool = false
     newConfigServer.target = "node14"
