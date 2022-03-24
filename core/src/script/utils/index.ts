@@ -95,16 +95,25 @@ const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExte
 
   newConfig.module.exprContextCritical = false;
 
+  const define = {
+    OUTPUT_PUBLIC_PATH: JSON.stringify(overrides.output_path),
+    KKT_PUBLIC_DIR: JSON.stringify(process.env.KKT_PUBLIC_DIR || overrides.output_path),
+    HOST: JSON.stringify(HOST),
+    PORT: JSON.stringify(PORT),
+    Dev_Server: JSON.stringify(isWebpackDevServer),
+    HOSTAPI: JSON.stringify(undefined),
+    "process.env.PORT": JSON.stringify(PORT),
+    "process.env.HOSTAPI": JSON.stringify(undefined),
+    "process.env.HOST": JSON.stringify(HOST)
+  }
+
+  if (isWebpackDevServer) {
+    // 代理 服务的 ip 地址
+    define.HOSTAPI = `http://${HOST}:${PORT}`
+  }
+
   newConfig.plugins.push(
-    new webpack.DefinePlugin({
-      OUTPUT_PUBLIC_PATH: JSON.stringify(overrides.output_path),
-      KKT_PUBLIC_DIR: JSON.stringify(process.env.KKT_PUBLIC_DIR || overrides.output_path),
-      HOST: JSON.stringify(HOST),
-      PORT: JSON.stringify(PORT),
-      Dev_Server: JSON.stringify(isWebpackDevServer),
-      "process.env.PORT": JSON.stringify(PORT),
-      "process.env.HOST": JSON.stringify(HOST)
-    }),
+    new webpack.DefinePlugin(define),
   )
 
   if (!split) {
