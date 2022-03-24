@@ -46,6 +46,8 @@ export interface OverridesProps {
   overridesClientWebpack?: (conf: webpack.Configuration, env: "development" | "production", options: any) => webpack.Configuration,
   /** 服务端配置  */
   overridesServerWebpack?: (conf: webpack.Configuration, env: "development" | "production", options: any) => webpack.Configuration;
+  /** 公共覆盖配置 */
+  overridesCommonWebpack?: (conf: webpack.Configuration, env: "development" | "production", options: any) => webpack.Configuration;
   // 最终的配置
   overridesWebpack?: WebpackConfigFunction
 
@@ -77,6 +79,8 @@ let overrides: OverridesProps = {
   overridesClientWebpack: undefined,
   // 自定义 server 配置设置
   overridesServerWebpack: undefined,
+  /** 公共覆盖配置 */
+  overridesCommonWebpack: undefined,
   // 最终自定义配置设置
   overridesWebpack: undefined,
   // 监听配置

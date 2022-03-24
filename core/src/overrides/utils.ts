@@ -137,23 +137,8 @@ export const restOutPut = (conf: WebpackConfiguration, options: WebpackConfigura
   };
 };
 
-export const addMiniCssExtractPlugin = (conf: WebpackConfiguration): WebpackConfiguration => {
-  return {
-    ...conf,
-    plugins: conf.plugins.concat([
-      // 开发状态下没有这个 plugin 
-      new MiniCssExtractPlugin({
-        // Options similar to the same options in webpackOptions.output
-        // both options are optional
-        filename: 'static/css/[name].[contenthash:8].css',
-        chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
-      })
-    ]),
-  }
-}
 
 // loader source-map-loader
-
 export const removeSourceMapLoader = (conf: WebpackConfiguration): WebpackConfiguration => {
   return {
     ...conf,
@@ -163,7 +148,6 @@ export const removeSourceMapLoader = (conf: WebpackConfiguration): WebpackConfig
     }
   }
 }
-
 
 // node 环境  把 css 进行处理
 export const restDevModuleRuleCss = (conf: WebpackConfiguration,): WebpackConfiguration => {
@@ -179,6 +163,7 @@ export const restDevModuleRuleCss = (conf: WebpackConfiguration,): WebpackConfig
 
 /**
  * 1. 去除  style-loader|mini-css-extract-plugin
+ * 2. 修改 css-loader 配置
  * */
 export const getModuleCSSRules = (rules: (webpack.RuleSetRule | '...')[], shouldUseSourceMap: boolean = false) => {
   const newRules: any = [];

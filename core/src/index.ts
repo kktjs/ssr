@@ -2,9 +2,9 @@
 process.env.FAST_REFRESH = 'false';
 process.env.BUILD_PATH = "dist"
 
-
 import minimist from 'minimist';
 import { BuildArgs } from 'kkt';
+import { OptionsProps } from "./interface"
 
 function help() {
   const { version } = require('../package.json');
@@ -18,6 +18,9 @@ function help() {
   console.log('   --s-st, --s-split         ', 'server Split code .');
   console.log('   --c-st, --c-split         ', 'client Split code .');
   console.log('   -o, --original         ', 'Use original react-scripts .');
+  console.log('   -m, --minify         ', 'All Minify output.');
+  console.log('   --s-m, --s-minify         ', 'server Minify output.');
+  console.log('   --c-m, --c-minify         ', 'clinet Minify output.');
 
   console.log('\n  Example:\n');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m build');
@@ -33,6 +36,8 @@ function help() {
 
 interface SSRNCCArgs extends BuildArgs {
   "s-ne"?: boolean;
+  "s-m"?: boolean;
+  "s-minify"?: boolean;
   "s-nodeExternals"?: boolean,
   "s-st"?: boolean,
   "s-split"?: boolean,
@@ -40,8 +45,12 @@ interface SSRNCCArgs extends BuildArgs {
   "c-nodeExternals"?: boolean,
   "c-st"?: boolean,
   "c-split"?: boolean,
+  "c-m"?: boolean;
+  "c-minify"?: boolean;
   "o"?: boolean,
   "original"?: boolean,
+  "m"?: boolean;
+  "minify"?: boolean,
 }
 
 (async () => {
@@ -84,17 +93,24 @@ interface SSRNCCArgs extends BuildArgs {
     // 使用原始 react-scripts 
     const original = argvs["o"] || argvs["original"]
 
-    const options = {
+    const mini = argvs["m"] || argvs["minify"]
+
+    const miniServer = mini || argvs["s-m"] || argvs["s-minify"]
+    const miniClient = mini || argvs["c-m"] || argvs["c-minify"]
+
+    const options: OptionsProps = {
       clientNodeExternals,
       serverNodeExternals,
       clientIsChunk,
       serverIsChunk,
-      original
+      original,
+      mini,
+      miniServer,
+      miniClient
     }
-    // 解决 原始情况下 PUBLIC_URL 报错
-    if (argvs["PUBLIC_URL"]) {
-      process.env.PUBLIC_URL = argvs["PUBLIC_URL"];
-    } else {
+
+    // 解决 使用 react-scripts 原始情况下 PUBLIC_URL 报错
+    if (!Reflect.has(process.env || {}, "PUBLIC_URL")) {
       process.env.PUBLIC_URL = '';
     }
 

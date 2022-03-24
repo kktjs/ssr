@@ -1,6 +1,6 @@
 {
   "name": "@kkt/plugin-less",
-  "version": "3.1.6",
+  "version": "3.1.7",
   "description": "Support less.",
   "main": "lib/index.js",
   "module": "esm/index.js",
