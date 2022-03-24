@@ -109,7 +109,8 @@ const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExte
 
   if (isWebpackDevServer) {
     // 代理 服务的 ip 地址
-    define.HOSTAPI = `http://${HOST}:${PORT}`
+    define.HOSTAPI = JSON.stringify(`http://${HOST}:${PORT}`)
+    define["process.env.HOSTAPI"] = JSON.stringify(`http://${HOST}:${PORT}`)
   }
 
   newConfig.plugins.push(
