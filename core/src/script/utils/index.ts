@@ -17,6 +17,7 @@ import {
   restDevModuleRuleCss,
   removeSourceMapLoader
 } from "../../overrides/utils"
+
 const { choosePort } = require('react-dev-utils/WebpackDevServerUtils');
 // 引入环境变量
 require(`${reactScripts}/config/env`);
@@ -25,7 +26,19 @@ require(`${reactScripts}/config/env`);
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
 const HOST = process.env.HOST || 'localhost';
 
-const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "client", overrides: OverridesProps, nodeExternals: boolean, split: boolean, env: "development" | "production", isWebpackDevServer: boolean) => {
+
+export type GetWebpackConfig = (
+  newConfig: webpack.Configuration,
+  type: "server" | "client",
+  overrides: OverridesProps,
+  nodeExternals: boolean,
+  split: boolean,
+  env: "development" | "production",
+  isWebpackDevServer: boolean,
+) => webpack.Configuration
+
+
+const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExternals, split, env, isWebpackDevServer) => {
   /** 入口 */
   newConfig.entry = overrides[`${type}_path`]
   /** 加载 进度条 plugin */
@@ -93,8 +106,10 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
   )
 
   if (!split) {
+    // 代码是否进行分割
     newConfig.plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }))
   }
+
   if (nodeExternals) {
     /** 
      * https://www.npmjs.com/package/webpack-node-externals
@@ -103,11 +118,6 @@ const getWebpackConfig = (newConfig: webpack.Configuration, type: "server" | "cl
     newConfig.externals = [webpackNodeExternals()]
   }
 
-  if (type === "server") {
-    /** server 端 去除代码压缩 */
-    newConfig.optimization.minimize = false
-    newConfig.optimization.minimizer = []
-  }
   return newConfig
 }
 
@@ -120,7 +130,7 @@ export default async (env: "development" | "production", options: OptionsProps, 
   process.env.PORT = PORT || "3000"
   process.env.HOST = HOST || "localhost";
 
-  const { overridesClientWebpack, overridesServerWebpack, overridesWebpack, ...rest } = overrides
+  const { overridesClientWebpack, overridesServerWebpack, overridesWebpack, overridesCommonWebpack, ...rest } = overrides
 
   const configFactory = require(`${webpackConfigPath}`);
 
@@ -131,13 +141,18 @@ export default async (env: "development" | "production", options: OptionsProps, 
     const configClient = configFactory(env);
 
     let newConfigClient = configClient
+
     // 控制 client 是否使用 ssr，默认情况下使用
     if (!options.original) {
+
       newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk, env, isWebpackDevServer)
     }
     if (isWebpackDevServer && !options.original) {
       // 去除 source-map-loader
       newConfigClient = removeSourceMapLoader(newConfigClient)
+    }
+    if (overridesCommonWebpack) {
+      newConfigClient = overridesCommonWebpack(newConfigClient, env, { ...rest, env })
     }
     if (overridesClientWebpack) {
       newConfigClient = overridesClientWebpack(newConfigClient, env, { ...rest, env })
@@ -147,23 +162,39 @@ export default async (env: "development" | "production", options: OptionsProps, 
 
   /**------------------------  server    配置 ---------------------    */
   if (fs.existsSync(overrides.server_path)) {
+
     const configServer = configFactory(env);
+
     let newConfigServer = getWebpackConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk, env, isWebpackDevServer)
+
     newConfigServer.devtool = false
     newConfigServer.target = "node14"
+
     /** server 处理 css   */
     newConfigServer = restDevModuleRuleCss(newConfigServer)
     /** 去除 source-map-loader */
     newConfigServer = removeSourceMapLoader(newConfigServer)
-    if (overridesServerWebpack) {
-      newConfigServer = overridesServerWebpack(newConfigServer, env, { ...rest, env })
+
+    if (overridesCommonWebpack) {
+
+      newConfigServer = overridesCommonWebpack(newConfigServer, env, { ...rest, env })
+
     }
+
+    if (overridesServerWebpack) {
+
+      newConfigServer = overridesServerWebpack(newConfigServer, env, { ...rest, env })
+
+    }
+
     configArr.push(newConfigServer)
   }
 
   /**------------------------  other    ---------------------    */
   if (overridesWebpack && typeof overridesWebpack === "function") {
+
     configArr = overridesWebpack(configArr, env, { ...rest, env }) as webpack.Configuration[]
+
   }
 
   return {
