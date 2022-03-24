@@ -1,6 +1,6 @@
 {
   "name": "@kkt/ssr",
-  "version": "3.1.6",
+  "version": "3.1.7",
   "description": "",
   "license": "MIT",
   "main": "lib/index.js",
@@ -27,8 +27,8 @@
   },
   "dependencies": {
     "@babel/core": "^7.17.8",
-    "@babel/runtime": "^7.17.8",
     "@babel/register": "^7.17.7",
+    "@babel/runtime": "^7.17.8",
     "babel-preset-react-app": "^10.0.1",
     "css-loader": "^6.7.1",
     "kkt": "^7.1.5",
