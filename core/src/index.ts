@@ -114,9 +114,6 @@ interface SSRNCCArgs extends BuildArgs {
       process.env.PUBLIC_URL = '';
     }
 
-    console.log(options)
-    process.exit(1)
-
     if (scriptName === 'build') {
       process.env.BABEL_ENV = 'production';
       process.env.NODE_ENV = 'production';
