@@ -100,20 +100,19 @@ To debug the node server, you can use `react-ssr start --inspect-brk`. This will
 You can use plug-ins, taking KKT as an example
 Add `.kktrc.js` to the root directory of your project
 
-**use SSRWebpackRunPlugin**
 
 ```js
-import { restWebpackManifestPlugin, getRemoveHtmlTemp, SSRWebpackRunPlugin } from '@kkt/ssr/lib/plugins';
+import pluginLess from "@kkt/plugin-less"
 
-export default (conf, evn) => {
-   // client ，
-  if (!options.bundle) {
-    conf.plugins.push(new SSRWebpackRunPlugin());
-    conf.plugins = getRemoveHtmlTemp(conf.plugins)
-    conf = restWebpackManifestPlugin(conf);
-  }
-  conf.module.exprContextCritical = false;
-  return conf;
+export default {
+  overridesCommonWebpack: (conf, env, options) => {
+    const newConfig = pluginLess(conf, {
+      target: conf.target==="node14"?"node":"web",
+      env,
+      paths: options.paths
+    })
+    return newConfig
+  },
 };
 
 ```

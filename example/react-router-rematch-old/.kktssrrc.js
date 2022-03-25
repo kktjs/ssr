@@ -28,7 +28,7 @@ export default {
   },
   overridesCommonWebpack: (conf, env, options) => {
     const newConfig = pluginLess(conf, {
-      target: conf.target,
+      target: conf.target === "node14" ? "node" : "web",
       env,
       paths: options.paths
     })
