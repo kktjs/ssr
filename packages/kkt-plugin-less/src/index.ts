@@ -75,13 +75,13 @@ export default (conf: WebpackConfiguration, options: LessOptions): WebpackConfig
         },
       },
       postcssLoader,
-      {
-        loader: require.resolve('resolve-url-loader'),
-        options: {
-          sourceMap: shouldUseSourceMap,
-          root: options.paths.appSrc,
-        },
-      },
+      // {
+      //   loader: require.resolve('resolve-url-loader'),
+      //   options: {
+      //     sourceMap: shouldUseSourceMap,
+      //     root: options.paths.appSrc,
+      //   },
+      // },
       {
         loader: require.resolve('less-loader'),
         options: {
