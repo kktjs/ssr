@@ -4,12 +4,12 @@ import webpack from "webpack"
 import FS from 'fs-extra';
 
 
-class DevServerPlugins {
+class CreateTemporaryAsset {
 
   filename = "server.js"
   outputPath = ""
 
-  constructor(props: { filename: string, outputPath: string }) {
+  constructor(props: { filename: string, outputPath: string, }) {
     this.filename = props.filename
     this.outputPath = props.outputPath
   }
@@ -27,4 +27,4 @@ class DevServerPlugins {
   }
 }
 
-export default DevServerPlugins
+export default CreateTemporaryAsset

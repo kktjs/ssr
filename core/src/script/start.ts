@@ -1,9 +1,9 @@
 
 
-import createCompiler from "./utils"
+import createCompiler from "../utils"
 import { OptionsProps } from "../interface"
 import { webpackConfigPath, reactScripts, reactDevUtils } from "./../overrides/pathUtils"
-import overridesDevServer from "./utils/overridesDevServer"
+import overridesDevServer from "../overrides/overridesDevServer"
 export default async (options: OptionsProps) => {
   // 修复 运行 start 停止之后，再次运行 watch 报错
   delete require.cache[require.resolve(webpackConfigPath)];

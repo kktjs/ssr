@@ -1,6 +1,6 @@
 
 
-import createCompiler from "./utils"
+import createCompiler from "../utils"
 import clearConsole from 'react-dev-utils/clearConsole';
 import { OptionsProps } from "../interface"
 import { webpackConfigPath } from "./../overrides/pathUtils"
