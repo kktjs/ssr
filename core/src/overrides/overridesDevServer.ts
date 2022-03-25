@@ -1,7 +1,7 @@
 
 
-import { devServerConfigPath, reactDevUtils } from "../../overrides/pathUtils"
-import { OverridesProps } from "../../overrides"
+import { devServerConfigPath, reactDevUtils } from "./pathUtils"
+import { OverridesProps } from "."
 import webpackDevServer from "webpack-dev-server"
 import MockerApi from "mocker-api"
 

@@ -8,7 +8,7 @@ import {
   Params,
   useRoutes,
   createRoutesFromChildren,
-  Navigate
+  Navigate,
 } from 'react-router-dom';
 import { loadInitialProps } from './loadInitialProps';
 import { RematchStore, Models } from "@rematch/core"
@@ -102,7 +102,7 @@ const WithRouters = (props: any) => {
   const location = useLocation()
   const navigate = useNavigate()
   const params = useParams()
-  return <Controller location={location} navigate={navigate} params={params} {...props} match={{ params, location }} />
+  return <Controller location={location} navigate={navigate} params={params} {...props} />
 }
 
 export default WithRouters

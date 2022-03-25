@@ -1,13 +1,15 @@
 // 根据 kkt 写法 重置 create-react-app 中的 react-script配置
-import { reactScripts, webpackConfigPath } from "../../overrides/pathUtils"
+import { reactScripts, webpackConfigPath } from "../overrides/pathUtils"
 import webpackNodeExternals from "webpack-node-externals"
 import webpack from "webpack"
-import { OptionsProps } from "../../interface"
+import { OptionsProps } from "../interface"
 import fs from 'fs';
 import nodemonWebpackPlugin from "nodemon-webpack-plugin"
-import { loaderConf, OverridesProps } from "./../../overrides"
+import { loaderConf, OverridesProps } from "../overrides"
 
-import DevServerPlugins from "./devServer"
+import DevServerPlugins from "./plugins/devServer"
+
+import CreateTemporaryAsset from "./plugins/CreateTemporaryAsset"
 
 import {
   getWbpackBarPlugins,
@@ -16,7 +18,7 @@ import {
   clearHtmlTemp,
   restDevModuleRuleCss,
   removeSourceMapLoader
-} from "../../overrides/utils"
+} from "../overrides/utils"
 
 const { choosePort } = require('react-dev-utils/WebpackDevServerUtils');
 // 引入环境变量
@@ -71,17 +73,21 @@ const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExte
   /** 重置 输入配置 */
   newConfig = restOutPut(newConfig, out)
 
+  /** start 命令下 生成 client 端 asset 文件 **/
   let isCreateAsset = false;
+
   if (isWebpackDevServer && type === "client" && env === "development") {
     isCreateAsset = true
   }
   /** start 命令下  生成 server.js文件和 自动启动 server.js 服务  */
   if (isWebpackDevServer && type === "server" && env === "development") {
     newConfig.plugins.push(
+      /**  生成 server.js 文件  */
       new DevServerPlugins({
         filename: `${out.filename}`,
         outputPath: out.path
       }),
+      /** 自动启动 server.js 文件服务 */
       new nodemonWebpackPlugin({
         script: `${out.path}/${out.filename}`,
         watch: [`${out.path}`]
@@ -115,6 +121,7 @@ const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExte
 
   newConfig.plugins.push(
     new webpack.DefinePlugin(define),
+    new CreateTemporaryAsset(`${overrides.output_path}/asset-${type}-manifest.json`)
   )
 
   if (!split) {

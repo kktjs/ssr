@@ -1,5 +1,5 @@
 
-import createCompiler from "./utils"
+import createCompiler from "../utils"
 import fs from "fs-extra";
 import FileSizeReporter from "react-dev-utils/FileSizeReporter";
 import { Paths, webpackConfigPath } from "./../overrides/pathUtils"
