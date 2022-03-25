@@ -4,7 +4,8 @@
     "core/",
     "packages/create-kkt-ssr",
     "packages/react-ssr-enhanced",
-    "packages/kkt-plugin-less"
+    "packages/kkt-plugin-less",
+    "packages/kkt-plugin-ssr"
   ],
   "version": "3.1.8",
   "command": {

@@ -13,6 +13,9 @@
 		"-----build:kkt-plugin-less-----": "----------",
 		"build:less": "lerna exec --scope @kkt/plugin-less -- npm run build",
 		"watch:less": "lerna exec --scope @kkt/plugin-less -- npm run watch",
+		"-----build:kkt-plugin-ssr-----": "----------",
+		"build:plugin-ssr": "lerna exec --scope @kkt/plugin-ssr -- npm run build",
+		"watch:plugin-ssr": "lerna exec --scope @kkt/plugin-ssr -- npm run watch",
 		"-------------": "-------------------",
 		"hoist": "lerna bootstrap --hoist",
 		"bootstrap": "lerna bootstrap",
@@ -61,7 +64,8 @@
 			"core/",
 			"packages/create-kkt-ssr",
 			"packages/react-ssr-enhanced",
-			"packages/kkt-plugin-less"
+			"packages/kkt-plugin-less",
+			"packages/kkt-plugin-ssr"
 		],
 		"nohoist": []
 	}

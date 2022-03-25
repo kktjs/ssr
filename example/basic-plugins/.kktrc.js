@@ -1,8 +1,11 @@
-import { SSRWebpackRunPlugin, getRemoveHtmlTemp } from '@kkt/ssr/lib/plugins';
-process.env.FAST_REFRESH = 'false';
-export default (conf, evn) => {
-  conf.plugins.push(new SSRWebpackRunPlugin());
-  conf.plugins = getRemoveHtmlTemp(conf.plugins)
+
+import WebpackPluginSSRProps, { clearHtmlTemp, createNewWebpackManifestPlugin } from '@kkt/plugin-ssr';
+
+export default (conf, env) => {
+  const paths = require("react-scripts/config/paths")
+  conf.plugins.push(new WebpackPluginSSRProps());
+  conf.plugins.push(createNewWebpackManifestPlugin(paths, "client", env === "development"));
+  conf = clearHtmlTemp(conf)
   conf.module.exprContextCritical = false;
   return conf;
 };
