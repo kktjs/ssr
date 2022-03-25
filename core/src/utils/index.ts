@@ -79,7 +79,6 @@ const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExte
   if (isWebpackDevServer && type === "client" && env === "development") {
     isCreateAsset = true
   }
-
   /** start 命令下  生成 server.js文件和 自动启动 server.js 服务  */
   if (isWebpackDevServer && type === "server" && env === "development") {
     newConfig.plugins.push(
