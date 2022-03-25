@@ -153,8 +153,13 @@ const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExte
 }
 
 export default async (env: "development" | "production", options: OptionsProps, isWebpackDevServer: boolean = false) => {
+
   /**  端口处理 */
-  const PORT = await choosePort(HOST, DEFAULT_PORT);
+  let PORT;
+  if (env === "development") {
+    PORT = await choosePort(HOST, DEFAULT_PORT)
+  }
+
   /** 加载自定义配置 */
   const overrides = await loaderConf()
 
