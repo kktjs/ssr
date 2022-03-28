@@ -1,10 +1,16 @@
 import pluginLess from "@kkt/plugin-less"
-
+import webpack from "webpack"
 export default {
   GENERATE_SOURCEMAP: JSON.stringify(false),
   proxySetup: (app) => ({
     path: "./mocker/index.js",
   }),
+  overridesServerWebpack:(conf)=>{
+    conf.plugins.push( new webpack.DefinePlugin({
+        window:JSON.stringify(undefined)
+      }))    
+    return conf
+  },
   overridesClientWebpack: (conf, env, options) => {
     return {
       ...conf,
