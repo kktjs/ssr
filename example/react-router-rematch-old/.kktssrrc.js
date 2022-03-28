@@ -1,6 +1,7 @@
 import pluginLess from "@kkt/plugin-less"
 
 export default {
+  GENERATE_SOURCEMAP: JSON.stringify(false),
   proxySetup: (app) => ({
     path: "./mocker/index.js",
   }),

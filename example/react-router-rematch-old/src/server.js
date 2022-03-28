@@ -12,15 +12,16 @@ server.listen(PORT, (error) => {
   if (error) {
     logs(error);
   }
+  console.log(process.env.GENERATE_SOURCEMAP)
   logs('🚀 started!', `PORT: http://localhost:${PORT}`);
 });
 
 // if (module.hot) {
 //   logs('✅  Server-side HMR Enabled!');
-//   module.hot.accept('./server', () => {
-//     logs('🔁  HMR Reloading `./server`...');
+//   module.hot.accept('./serverIndex', () => {
+//     logs('🔁  HMR Reloading `./serverIndex`...');
 //     server.removeListener('request', currentApp);
-//     const newApp = require('./server').default; // eslint-disable-line
+//     const newApp = require('./serverIndex').default; // eslint-disable-line
 //     server.on('request', newApp);
 //     currentApp = newApp;
 //   });

@@ -7,6 +7,7 @@ import path from "path"
 import { Paths } from "../../overrides/pathUtils"
 import FS from 'fs-extra';
 import WebpackBar from 'webpackbar';
+import { OverridesProps } from "../../overrides"
 
 // plugin 根据 client  server
 /** 加 进度条，  */
@@ -124,6 +125,42 @@ export const addServerPlugins = (conf: WebpackConfiguration, out: webpack.Config
       script: `${out.path}/${out.filename}`,
       watch: [`${out.path}`]
     }),
+  )
+  return conf
+}
+
+// 添加 DefinePlugin 
+export const AddDefinePlugin = (conf: WebpackConfiguration, overrides: OverridesProps, isWebpackDevServer: boolean,) => {
+
+  const HOST = process.env.HOST || 'localhost'
+  const PORT = process.env.PORT || 3000
+
+  const define = {
+    /** 输出文件地址 */
+    OUTPUT_PUBLIC_PATH: JSON.stringify(overrides.output_path),
+    /** server 端获取 asset-client-mainifest.json 文件的最终输出位置  */
+    KKT_PUBLIC_DIR: JSON.stringify(process.env.KKT_PUBLIC_DIR || overrides.output_path),
+    /** 当前ip地址 **/
+    HOST: JSON.stringify(HOST),
+    /** 当前端口 **/
+    PORT: JSON.stringify(PORT),
+    /** 是否是 start 模式 **/
+    Dev_Server: JSON.stringify(isWebpackDevServer),
+    /** start 模式下 文件获取地址 */
+    HOSTAPI: JSON.stringify(undefined),
+    "process.env.PORT": JSON.stringify(PORT),
+    "process.env.HOSTAPI": JSON.stringify(undefined),
+    "process.env.HOST": JSON.stringify(HOST)
+  }
+
+  if (isWebpackDevServer) {
+    // 代理 服务的 ip 地址
+    define.HOSTAPI = JSON.stringify(`http://${HOST}:${PORT}`)
+    define["process.env.HOSTAPI"] = JSON.stringify(`http://${HOST}:${PORT}`)
+  }
+
+  conf.plugins.push(
+    new webpack.DefinePlugin(define)
   )
   return conf
 }
