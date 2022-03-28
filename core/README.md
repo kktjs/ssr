@@ -181,11 +181,15 @@ export default {
 
 ```js
 export default {
-   /** 环境变变量/Environmental variable */
-  GENERATE_SOURCEMAP: "false",
-  INLINE_RUNTIME_CHUNK: "false",
-  ESLINT_NO_DEV_ERRORS: "false",
-  DISABLE_ESLINT_PLUGIN: "false",
+  
+  /** 环境变变量/Environmental variable */
+  env:{
+    GENERATE_SOURCEMAP: "false",
+    INLINE_RUNTIME_CHUNK: "false",
+    ESLINT_NO_DEV_ERRORS: "false",
+    DISABLE_ESLINT_PLUGIN: "false",
+  },
+ 
 }
 ```
 

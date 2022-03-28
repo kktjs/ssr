@@ -37,11 +37,13 @@ export type Options = Omit<OverridesProps,"overridesClientWebpack"|"overridesSer
 export type WebpackConfigFunction = (conf: webpack.Configuration[] | webpack.Configuration, env: "development" | "production", options: Options) => webpack.Configuration[] | webpack.Configuration;
 
 export interface OverridesProps {
-  /** 环境变变量 */
-  GENERATE_SOURCEMAP?: string,
-  INLINE_RUNTIME_CHUNK?: string,
-  ESLINT_NO_DEV_ERRORS?: string,
-  DISABLE_ESLINT_PLUGIN?: string,
+  env?:{
+    /** 环境变变量 */
+    GENERATE_SOURCEMAP?: string,
+    INLINE_RUNTIME_CHUNK?: string,
+    ESLINT_NO_DEV_ERRORS?: string,
+    DISABLE_ESLINT_PLUGIN?: string,
+  },
   /** paths 脚本中webpack配置 使用的地址  */
   paths?: Partial<Paths>;
 
@@ -63,6 +65,7 @@ export interface OverridesProps {
   output_path?: string;
   /**  watch 配置 */
   watchOptions?: webpack.Configuration["watchOptions"];
+  /** 代理 */ 
   proxySetup?: (app: Application) => {
     path: string | string[],
     options?: MockerOption
@@ -70,6 +73,7 @@ export interface OverridesProps {
 }
 
 let overrides: OverridesProps = {
+  env:{},
   // 服务端打包入口
   server_path: resolveModule(resolveApp, 'src/server'),
   // 客户端打包入口
