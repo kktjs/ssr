@@ -1,6 +1,6 @@
 
 
-import createCompiler from "../utils"
+import createCompiler from "../utils/getWebpackConfig"
 import { OptionsProps } from "../interface"
 import { webpackConfigPath, reactScripts, reactDevUtils } from "./../overrides/pathUtils"
 import overridesDevServer from "../overrides/overridesDevServer"

@@ -54,22 +54,6 @@ interface SSRNCCArgs extends BuildArgs {
 }
 
 (async () => {
-  /**
-   *   --- 目标
-   * 1. 入口文件
-   * 2. 出口文件
-   * 3. 输出文件夹
-   * 4. ts 还是 js
-   * 5. sourceMap = false
-   * 6. 进行 全量打包 还是使用 require 引入
-   * css 文件抽离不需要打包到 server.js 中 ,或者使用 [isomorphic-style-loader](https://www.npmjs.com/package/isomorphic-style-loader) 进行转换
-   * */
-
-  /** 二次改造
-   * 1. 支持多配置一起执行
-   * 2. 只保留 build 和 watch 功能，
-   * 3. 简化代码 和 配置
-   * **/
 
   try {
     const args = process.argv.slice(2);
@@ -114,25 +98,29 @@ interface SSRNCCArgs extends BuildArgs {
       process.env.PUBLIC_URL = '';
     }
 
+    const setEnv = (NODE_ENV: "production" | "development") => {
+      process.env.BABEL_ENV = NODE_ENV;
+      process.env.NODE_ENV = NODE_ENV;
+    }
+
     if (scriptName === 'build') {
-      process.env.BABEL_ENV = 'production';
-      process.env.NODE_ENV = 'production';
+      setEnv("production")
 
       const build = await import("./script/build")
       await build.default(options)
+
     } else if (scriptName === 'watch') {
 
-      process.env.BABEL_ENV = 'development';
-      process.env.NODE_ENV = 'development';
-
+      setEnv("development")
       const watch = await import("./script/watch")
       await watch.default(options)
-    } else if (scriptName === 'start') {
-      process.env.BABEL_ENV = 'development';
-      process.env.NODE_ENV = 'development';
 
+    } else if (scriptName === 'start') {
+
+      setEnv("development")
       const start = await import("./script/start")
       await start.default(options)
+
     }
   } catch (error) {
     console.log('\x1b[31m KKT:SSR:ERROR:\x1b[0m', error);

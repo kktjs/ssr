@@ -1,6 +1,7 @@
 import pluginLess from "@kkt/plugin-less"
 
 export default {
+  GENERATE_SOURCEMAP: JSON.stringify(false),
   proxySetup: (app) => ({
     path: "./mocker/index.js",
   }),
@@ -28,7 +29,7 @@ export default {
   },
   overridesCommonWebpack: (conf, env, options) => {
     const newConfig = pluginLess(conf, {
-      target: conf.target,
+      target: conf.target === "node14" ? "node" : "web",
       env,
       paths: options.paths
     })
