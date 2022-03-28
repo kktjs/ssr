@@ -30,7 +30,11 @@ const tsOptions = {
 
 const confPath = resolveModule(resolveApp, '.kktssrrc');
 
-export type WebpackConfigFunction = (conf: webpack.Configuration[] | webpack.Configuration, env: "development" | "production", options: any) => webpack.Configuration[] | webpack.Configuration;
+export type Options = Omit<OverridesProps,"overridesClientWebpack"|"overridesServerWebpack"|"overridesCommonWebpack"|"overridesWebpack"> & {
+  env:"development" | "production"
+}
+
+export type WebpackConfigFunction = (conf: webpack.Configuration[] | webpack.Configuration, env: "development" | "production", options: Options) => webpack.Configuration[] | webpack.Configuration;
 
 export interface OverridesProps {
   /** 环境变变量 */
@@ -43,11 +47,11 @@ export interface OverridesProps {
 
   /** 最终覆写 webpack  配置 **/
   /** 客户端配置  */
-  overridesClientWebpack?: (conf: webpack.Configuration, env: "development" | "production", options: any) => webpack.Configuration,
+  overridesClientWebpack?: (conf: webpack.Configuration, env: "development" | "production", options: Options) => webpack.Configuration,
   /** 服务端配置  */
-  overridesServerWebpack?: (conf: webpack.Configuration, env: "development" | "production", options: any) => webpack.Configuration;
+  overridesServerWebpack?: (conf: webpack.Configuration, env: "development" | "production", options: Options) => webpack.Configuration;
   /** 公共覆盖配置 */
-  overridesCommonWebpack?: (conf: webpack.Configuration, env: "development" | "production", options: any) => webpack.Configuration;
+  overridesCommonWebpack?: (conf: webpack.Configuration, env: "development" | "production", options: Options) => webpack.Configuration;
   // 最终的配置
   overridesWebpack?: WebpackConfigFunction
 

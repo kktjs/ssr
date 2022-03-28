@@ -93,32 +93,33 @@ Your app is ready to be deployed!
 npm run server
 ```
 
-To debug the node server, you can use `react-ssr start --inspect-brk`. This will start the node server, enable the inspector agent and Break before user code starts. For more information, see [this](https://nodejs.org/en/docs/inspector/).
-
 ### Using Plugins
 
 You can use plug-ins, taking KKT as an example
 Add `.kktrc.js` to the root directory of your project
 
-
-```js
+```ts
 import pluginLess from "@kkt/plugin-less"
+import { Options } from "@kkt/ssr/lib/overrides"
 
 export default {
-  overridesCommonWebpack: (conf, env, options) => {
+
+  overridesCommonWebpack: (conf:webpack.Configuration,env:"development" | "production",options:Options) => {
+
     const newConfig = pluginLess(conf, {
       target: conf.target==="node14"?"node":"web",
       env,
       paths: options.paths
     })
+
     return newConfig
   },
+
 };
 
 ```
 
 [See All Plugins](https://www.npmjs.com/search?q=kkt-plugin)
-
 
 ### Rewrite Config
 
@@ -126,33 +127,53 @@ Add `.kktssrrc.js` to the root directory of your project
 
 **Rewrite Client Config**
 
-```js
+```ts
+import { Options } from "@kkt/ssr/lib/overrides"
+
 export default {
-  overridesClientWebpack:(conf,env,options)=>{
+
+  overridesClientWebpack:(conf:webpack.Configuration,env:"development" | "production",options:Options)=>{
+
     return conf
+
   }
+
 }
 ```
 
 **Rewrite Server Config**
 
-> Default devtool value `false`, Default target value `node`, Default output.library.type value `commonjs`,
+1. `devtool`: The default is `false`,
+2. `target`: The default is `node`,
+3. `output.library.type`: The default is `commonjs`,
 
-```js
+```ts
+import { Options } from "@kkt/ssr/lib/overrides"
+
 export default {
-  overridesServerWebpack:(conf,env,options)=>{
+
+  overridesServerWebpack:(conf:webpack.Configuration,env:"development" | "production",options:Options)=>{
+
     return conf
+
   }
+
 }
 ```
 
 **More Webpack Config**
 
-```js
+```ts
+import { Options } from "@kkt/ssr/lib/overrides"
+
 export default {
-  overridesWebpack:(conf,env,options)=>{
+
+  overridesWebpack:(conf:webpack.Configuration[],env:"development" | "production",options:Options)=>{
+
     return conf
+
   }
+
 }
 ```
 
@@ -160,7 +181,7 @@ export default {
 
 ```js
 export default {
-   /** 环境变变量 */
+   /** 环境变变量/Environmental variable */
   GENERATE_SOURCEMAP: "false",
   INLINE_RUNTIME_CHUNK: "false",
   ESLINT_NO_DEV_ERRORS: "false",
@@ -172,27 +193,36 @@ export default {
 
 ```js
 export default {
+
   paths:{
+
     appBuild: path.join(process.cwd(),"dist")
+
   }
+
 }
 ```
+[other paths](https://github.com/kktjs/ssr/blob/d13656cfad29d2baa857d339ae5e70434f43f9d3/core/src/overrides/pathUtils.ts#L5-L29)
 
 **Rewrite build output path**
 
-> server_path: Default value `src/server.js`.
-> client_path: Default value `src/client.js`.
-> output_path: Default value `dist`.
+1. server_path: The default is `src/server.js`.
+2. client_path: The default is `src/client.js`.
+3. output_path: The default is `dist`.
 
-```js
+```ts
+
 export default {
-    /** 服务端打包入口 */
+
+  /** 服务端打包入口/Server packaging entry  */
   server_path: path.join(process.cwd(),"src/server.js"),
-  /** 客户端打包入口 */
+  /** 客户端打包入口/Client packaging entry */
   client_path: path.join(process.cwd(),"src/client.js"),
-  /** 输出文件地址 */
+  /** 输出文件地址/Output address */
   output_path: path.join(process.cwd(),"dist");
+
 }
+
 ```
 
 **proxySetup**
@@ -200,7 +230,9 @@ export default {
 Reference [mocker-api](https://github.com/jaywcjlove/mocker-api) 
 
 ```js
+
 export default {
+
   proxySetup: (app) => ({
     path: "./mocker/index.js",
     options:{
@@ -210,20 +242,36 @@ export default {
       }
     }
   }),
+
 }
+
 ```
 
 **Rewrite watchOptions**
 
-```js
+[watchOptions 参数](https://webpack.docschina.org/configuration/watch/#watchoptions)
+
+```ts
+
 export default {
-  watchOptions:{}
+
+  watchOptions:{ }
+
 }
+
 ```
 
 ### DefinePlugin 
 
-OUTPUT_PUBLIC_PATH：Default value `path.join(process.cwd(),"dist")`
+1. OUTPUT_PUBLIC_PATH: The default is `path.join(process.cwd(),"dist")` 
+2. KKT_PUBLIC_DIR: The default is `process.env.KKT_PUBLIC_DIR` or `OUTPUT_PUBLIC_PATH` 
+3. HOST: The default is `process.env.HOST` or `localhost`
+4. PORT: The default is `process.env.PORT` or `3000`
+5. Dev_Server: The default is `undefined`
+6. HOSTAPI: The default is `undefined`
+7. process.env.PORT: 默认值 `3000`
+8. process.env.HOSTAPI: The default is `undefined` ， 当运行`start`命令时值为`http://${HOST}:${PORT}`
+9. process.env.HOST: The default is `localhost`
 
 ## KKTSSR Config
 
