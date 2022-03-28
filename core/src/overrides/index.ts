@@ -1,12 +1,11 @@
 // 获取 根目录下 自己定义的配置
 
 import fs from 'fs';
-import { resolveModule, resolveApp, Paths } from "./pathUtils"
+import { resolveModule, resolveApp, Paths,paths } from "./pathUtils"
 
 import webpack from "webpack"
 import { restENV } from "./env"
-import paths from "./path"
-import { overridePaths } from 'kkt/lib/overrides/paths';
+import { overridePaths ,} from 'kkt/lib/overrides/paths';
 import { Application } from 'express';
 
 import { MockerOption } from "mocker-api"
@@ -99,6 +98,7 @@ let overrides: OverridesProps = {
 
 export async function loaderConf(): Promise<OverridesProps> {
   let kktssrrc: OverridesProps = {};
+  
   try {
     if (fs.existsSync(confPath) && /.ts$/.test(confPath)) {
       require('ts-node').register(tsOptions);
@@ -111,6 +111,7 @@ export async function loaderConf(): Promise<OverridesProps> {
       const config = await import(confPath);
       kktssrrc = config.default || kktssrrc
     }
+
     overrides = {
       ...overrides,
       ...kktssrrc,
@@ -120,7 +121,11 @@ export async function loaderConf(): Promise<OverridesProps> {
     restENV(overrides)
 
     // 重写 paths 值
-    const path = paths(overrides)
+    const path = {
+      ...paths,
+      ...overrides.paths,
+      appBuild: overrides.output_path
+    }
     if (!fs.existsSync(path.appIndexJs)) {
       path.appIndexJs = overrides.client_path
     }
