@@ -272,7 +272,7 @@ export default {
 3. HOST: The default is `process.env.HOST` or `localhost`
 4. PORT: The default is `process.env.PORT` or `3000`
 5. Dev_Server: The default is `undefined`
-6. HOSTAPI: The default is `undefined`
+6. HOSTAPI: The default is `undefined` ， 当运行`start`命令时值为`http://${HOST}:${PORT}`
 7. process.env.PORT: 默认值 `3000`
 8. process.env.HOSTAPI: The default is `undefined` ， 当运行`start`命令时值为`http://${HOST}:${PORT}`
 9. process.env.HOST: The default is `localhost`
