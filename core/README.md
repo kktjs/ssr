@@ -195,6 +195,8 @@ export default {
 
 **Rewrite Paths**
 
+[other paths](https://github.com/kktjs/ssr/blob/d13656cfad29d2baa857d339ae5e70434f43f9d3/core/src/overrides/pathUtils.ts#L5-L29)
+
 ```js
 export default {
 
@@ -206,7 +208,6 @@ export default {
 
 }
 ```
-[other paths](https://github.com/kktjs/ssr/blob/d13656cfad29d2baa857d339ae5e70434f43f9d3/core/src/overrides/pathUtils.ts#L5-L29)
 
 **Rewrite build output path**
 
