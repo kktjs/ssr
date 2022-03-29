@@ -1,11 +1,10 @@
 // 获取 根目录下 自己定义的配置
-
 import fs from 'fs';
-import { resolveModule, resolveApp, paths } from "./pathUtils"
-
+import { resolveModule, resolveApp, } from "./pathUtils"
 import { restENV } from "./env"
-import { overridePaths, } from 'kkt/lib/overrides/paths';
 import { OverridesProps } from "./../interface"
+import paths from "./path"
+
 
 const tsOptions = {
   compilerOptions: {
@@ -79,19 +78,8 @@ export async function loaderConf(): Promise<OverridesProps> {
     restENV(overrides)
 
     // 重写 paths 值
-    const path = {
-      ...paths,
-      ...overrides.paths,
-      appBuild: overrides.output_path
-    }
-    if (!fs.existsSync(path.appIndexJs)) {
-      path.appIndexJs = overrides.client_path
-    }
+    const path = paths(overrides)
     overrides.paths = path
-    // 覆盖配置 里面的地址
-    overridePaths(undefined, {
-      ...(path as unknown as Record<string, string>)
-    });
     return overrides;
   } catch (error) {
     const message = error && error.message ? error.message : '';

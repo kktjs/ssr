@@ -1,5 +1,4 @@
 //  重置 create-react-app 中的 react-script配置
-import { reactScripts, webpackConfigPath } from "../overrides/pathUtils"
 import webpackNodeExternals from "webpack-node-externals"
 import webpack from "webpack"
 import { OptionsProps, OverridesProps } from "../interface"
@@ -87,13 +86,13 @@ const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExte
     newConfig.externals = [webpackNodeExternals()]
   }
 
-  if (options.miniServer && type === "server") {
+  if (!options.miniServer && type === "server") {
     /** server 端 去除代码压缩 */
     newConfig.optimization.minimize = false
     newConfig.optimization.minimizer = []
   }
 
-  if (options.miniClient && type === "client") {
+  if (!options.miniClient && type === "client") {
     /** client 端 去除代码压缩 */
     newConfig.optimization.minimize = false
     newConfig.optimization.minimizer = []

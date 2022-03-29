@@ -114,9 +114,6 @@ interface SSRNCCArgs extends BuildArgs {
       miniServer,
       miniClient
     }
-    console.log(options)
-    process.exit(1)
-
     // 解决 使用 react-scripts 原始情况下 PUBLIC_URL 报错
     if (!Reflect.has(process.env || {}, "PUBLIC_URL")) {
       process.env.PUBLIC_URL = '';
