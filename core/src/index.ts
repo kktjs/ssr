@@ -66,21 +66,33 @@ interface SSRNCCArgs extends BuildArgs {
       console.log(`\n \x1b[34;1m@kkt/ssr\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
       return;
     }
+
+    const getBoolean = (value: boolean | "true" | "false" | undefined, defaultValue: boolean = false) => {
+      if (typeof value === "boolean") {
+        return value
+      } else if (typeof value === "string" && value === "true") {
+        return true
+      } else if (typeof value === "string" && value === "false") {
+        return false
+      }
+      return defaultValue
+    }
+
     const scriptName = argvs._[0];
 
-    const clientNodeExternals = argvs["c-ne"] || argvs['c-nodeExternals']
-    const serverNodeExternals = argvs["s-ne"] || argvs['s-nodeExternals']
+    const clientNodeExternals = getBoolean(argvs["c-ne"] || argvs['c-nodeExternals'])
+    const serverNodeExternals = getBoolean(argvs["s-ne"] || argvs['s-nodeExternals'])
 
-    const clientIsChunk = argvs["c-st"] || argvs['c-split']
-    const serverIsChunk = argvs["s-st"] || argvs['s-split']
+    const clientIsChunk = getBoolean(argvs["c-st"] || argvs['c-split'])
+    const serverIsChunk = getBoolean(argvs["s-st"] || argvs['s-split'])
 
     // 使用原始 react-scripts 
-    const original = argvs["o"] || argvs["original"]
+    const original = getBoolean(argvs["o"] || argvs["original"])
 
-    const mini = argvs["m"] || argvs["minify"]
+    const mini = getBoolean(argvs["m"] || argvs["minify"])
 
-    const miniServer = mini || argvs["s-m"] || argvs["s-minify"]
-    const miniClient = mini || argvs["c-m"] || argvs["c-minify"]
+    const miniServer = getBoolean(mini || argvs["s-m"] || argvs["s-minify"], true)
+    const miniClient = getBoolean(mini || argvs["c-m"] || argvs["c-minify"], true)
 
     const options: OptionsProps = {
       clientNodeExternals,
