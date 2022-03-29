@@ -100,7 +100,7 @@ Add `.kktrc.js` to the root directory of your project
 
 ```ts
 import pluginLess from "@kkt/plugin-less"
-import { Options } from "@kkt/ssr/lib/overrides"
+import { Options } from "@kkt/ssr/lib/interface"
 
 export default {
 
@@ -128,7 +128,7 @@ Add `.kktssrrc.js` to the root directory of your project
 **Rewrite Client Config**
 
 ```ts
-import { Options } from "@kkt/ssr/lib/overrides"
+import { Options } from "@kkt/ssr/lib/interface"
 
 export default {
 
@@ -148,7 +148,7 @@ export default {
 3. `output.library.type`: The default is `commonjs`,
 
 ```ts
-import { Options } from "@kkt/ssr/lib/overrides"
+import { Options } from "@kkt/ssr/lib/interface"
 
 export default {
 
@@ -164,7 +164,7 @@ export default {
 **More Webpack Config**
 
 ```ts
-import { Options } from "@kkt/ssr/lib/overrides"
+import { Options } from "@kkt/ssr/lib/interface"
 
 export default {
 
@@ -281,6 +281,22 @@ export default {
 ## KKTSSR Config
 
 The root directory creates the `.kktssrrc.js` file.
+
+| 参数                   | 类型                                                                                                                                       | 默认值          | 说明                                                                                                                                                    |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| overridesClientWebpack | `(conf: webpack.Configuration, env: "development" \| "production", options: Options) => webpack.Configuration`                             | `undefined`     | 覆写客户端配置                                                                                                                                          |
+| overridesServerWebpack | `(conf: webpack.Configuration, env: "development" \| "production", options: Options) => webpack.Configuration`                             | `undefined`     | 覆写服务端配置                                                                                                                                          |
+| overridesCommonWebpack | `(conf: webpack.Configuration, env: "development" \| "production", options: Options) => webpack.Configuration`                             | `undefined`     | 公共覆盖配置                                                                                                                                            |
+| overridesWebpack       | `(conf: webpack.Configuration[], env: "development" \| "production", options: Options) => webpack.Configuration[] | webpack.Configuration` | `{}`            | 最终的配置                                                                                                                                              |
+| server_path            | `string`                                                                                                                                   | `src/server.js` | 服务端打包入口                                                                                                                                          |
+| client_path            | `string`                                                                                                                                   | `src/client.js` | 客户端打包入口                                                                                                                                          |
+| output_path            | `string`                                                                                                                                   | `dist`          | 输出文件地址                                                                                                                                            |
+| isUseOriginalConfig    | `boolean`                                                                                                                                  | `false`         | 是否使用原始 react-script 下的配置                                                                                                                      |
+| isUseServerConfig      | `boolean`                                                                                                                                  | `true`          | 是否需要 server 配置                                                                                                                                    |
+| paths                  | `Partial<Paths>`                                                                                                                           | `{}`            | [paths 脚本中webpack配置 使用的地址](https://github.com/kktjs/ssr/blob/d13656cfad29d2baa857d339ae5e70434f43f9d3/core/src/overrides/pathUtils.ts#L5-L29) |
+| watchOptions           | `webpack.Configuration["watchOptions"]`                                                                                                    | `{}`            | watch 配置                                                                                                                                              |
+| proxySetup             | `(app:Application)=>({path:stirng\|string[],options:MockerOption})`                                                                        | `undefined`     | [mock 代理配置](https://github.com/jaywcjlove/mocker-api)                                                                                               |
+
 
 ```js
  // Modify the webpack config
