@@ -1,32 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-
-
-export type Paths = {
-  dotenv: string;
-  appPath: string;
-  appBuild: string;
-  appPublic: string;
-  appHtml: string;
-  appIndexJs: string;
-  appPackageJson: string;
-  /** App Root Path */
-  appSrc: string;
-  appTsConfig: string;
-  appJsConfig: string;
-  yarnLockFile: string;
-  testsSetup: string;
-  proxySetup: string;
-  appNodeModules: string;
-  swSrc: string;
-  publicUrlOrPath: string;
-  // These properties only exist before ejecting:
-  ownPath: string;
-  ownNodeModules: string;
-  appTypeDeclarations: string;
-  ownTypeDeclarations: string;
-  moduleFileExtensions?: string[]
-};
+import { Paths } from "./../interface"
 
 export const appDirectory = fs.realpathSync(process.cwd());
 

@@ -17,7 +17,7 @@ function help() {
   console.log('   --c-ne, --c-nodeExternals         ', 'client use webpack-node-external .');
   console.log('   --s-st, --s-split         ', 'server Split code .');
   console.log('   --c-st, --c-split         ', 'client Split code .');
-  console.log('   -o, --original         ', 'Use original react-scripts .');
+  console.log('   -o, --original         ', 'Use original react-scripts config .');
   console.log('   -m, --minify         ', 'All Minify output.');
   console.log('   --s-m, --s-minify         ', 'server Minify output.');
   console.log('   --c-m, --c-minify         ', 'clinet Minify output.');
