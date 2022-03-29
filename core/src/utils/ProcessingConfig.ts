@@ -1,5 +1,4 @@
 //  重置 create-react-app 中的 react-script配置
-import { reactScripts, webpackConfigPath } from "../overrides/pathUtils"
 import webpackNodeExternals from "webpack-node-externals"
 import webpack from "webpack"
 import { OptionsProps, OverridesProps } from "../interface"
