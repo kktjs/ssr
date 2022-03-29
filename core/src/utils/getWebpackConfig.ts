@@ -43,25 +43,25 @@ export default async (env: "development" | "production", options: OptionsProps, 
     let newConfigClient = configClient
 
     // 控制 client 是否使用 ssr，默认情况下使用
-    if (!options.original) {
+    if (!options.original || overrides.isUseOriginalConfig) {
 
       newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk, env, isWebpackDevServer, options)
     }
-    if (isWebpackDevServer && !options.original) {
+    if (isWebpackDevServer && (!options.original || !overrides.isUseOriginalConfig)) {
       // 去除 source-map-loader
       newConfigClient = removeSourceMapLoader(newConfigClient)
     }
     if (overridesCommonWebpack) {
-      newConfigClient = overridesCommonWebpack(newConfigClient, env, { ...rest, env })
+      newConfigClient = overridesCommonWebpack(newConfigClient, env, { ...rest, ...options })
     }
     if (overridesClientWebpack) {
-      newConfigClient = overridesClientWebpack(newConfigClient, env, { ...rest, env })
+      newConfigClient = overridesClientWebpack(newConfigClient, env, { ...rest, ...options })
     }
     configArr.push(newConfigClient)
   }
 
   /**------------------------  server    配置 ---------------------    */
-  if (fs.existsSync(overrides.server_path)) {
+  if (fs.existsSync(overrides.server_path) && overrides.isUseServerConfig) {
 
     const configServer = configFactory(env);
 
@@ -77,13 +77,13 @@ export default async (env: "development" | "production", options: OptionsProps, 
 
     if (overridesCommonWebpack) {
 
-      newConfigServer = overridesCommonWebpack(newConfigServer, env, { ...rest, env })
+      newConfigServer = overridesCommonWebpack(newConfigServer, env, { ...rest, ...options })
 
     }
 
     if (overridesServerWebpack) {
 
-      newConfigServer = overridesServerWebpack(newConfigServer, env, { ...rest, env })
+      newConfigServer = overridesServerWebpack(newConfigServer, env, { ...rest, ...options })
 
     }
 
@@ -93,7 +93,7 @@ export default async (env: "development" | "production", options: OptionsProps, 
   /**------------------------  other    ---------------------    */
   if (overridesWebpack && typeof overridesWebpack === "function") {
 
-    configArr = overridesWebpack(configArr, env, { ...rest, env }) as webpack.Configuration[]
+    configArr = overridesWebpack(configArr, env, { ...rest, ...options }) as webpack.Configuration[]
 
   }
 

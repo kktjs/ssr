@@ -9,10 +9,10 @@ This is an enhancement to [@kkt/ssr](https://github.com/kktjs/ssr), used with [r
 
 ## Quick Start
 
-> ⚠️ A perfect example [`react-router+rematch`](https://github.com/kktjs/ssr/tree/master/example/react-router+rematch) is recommended for production environments.
+> ⚠️ A perfect example [`react-router-rematch`](https://github.com/kktjs/ssr/tree/master/example/react-router-rematch-old) is recommended for production environments.
 
 ```bash
-npx create-kkt-app my-app -e react-router+rematch
+npx create-kkt-app my-app -e react-router-rematch
 cd my-app
 npm start
 ```
@@ -22,20 +22,22 @@ npm start
 Within `getInitialProps`, you have access to all you need to fetch data on both the client and the server:
 
 ```js
-class Home extends React.Component {
-  static async getInitialProps({ req, res, match, store, history, location, ...ctx }) {
-    store.dispatch.global.verify();
-    return { whatever: 'Home stuff' };
-  }
-  render() {
-    return (
+
+const Home =(props)=> {
+
+  return (
       <div>
         <h1>Home</h1>
-        {this.props.whatever ? this.props.whatever : 'Loading...'}
+        {props.whatever ? this.props.whatever : 'Loading...'}
       </div>
     );
-  }
 }
+
+Home.getInitialProps= async ({ req, res, match, store, history, location, ...ctx }) =>{
+  store.dispatch.global.verify();
+  return { whatever: 'Home stuff' };
+}
+
 ```
 
 Within getInitialProps, you have access to all you need to fetch data on both the client and the server:
@@ -43,9 +45,7 @@ Within getInitialProps, you have access to all you need to fetch data on both th
 - `req?: Request`: (server-only) A [`Express`](https://expressjs.com/) request object
 - `res?: Request`: (server-only) An [`Express`](https://expressjs.com/) response object
 - `store`: A [`Rematch`](https://github.com/rematch/rematch) store request object
-- `match`: React Router 4's `match` object.
-- `history`: React Router 4's `history` object.
-- `location`: (client-only) React Router 4's `location` object.
+- `match`: React Router 6's `match` object.
 
 ## Contributors
 

@@ -4,10 +4,9 @@ import { WebpackConfiguration } from 'kkt';
 import nodemonWebpackPlugin from "nodemon-webpack-plugin"
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import path from "path"
-import { Paths } from "../../overrides/pathUtils"
+import { Paths, OverridesProps } from "./../../interface"
 import FS from 'fs-extra';
 import WebpackBar from 'webpackbar';
-import { OverridesProps } from "../../overrides"
 
 // plugin 根据 client  server
 /** 加 进度条，  */

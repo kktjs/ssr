@@ -29,7 +29,7 @@ it('version test case.', async () => {
   await run();
   // @ts-ignore
   expect(mockExit).toHaveBeenCalledWith(
-    `\n create-uiw-admin v${pkg.version}\n`,
+    `\n create-kkt-ssr v${pkg.version}\n`,
   );
   mockExit.mockRestore();
   mockExit.mockClear();

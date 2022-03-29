@@ -8,15 +8,16 @@ import styles from './home.module.css';
 
 class Home extends React.Component {
 
-  static getInitialProps = async ({ req, res, match, store, history, location }) => {
+  static getInitialProps = async (ctx) => {
+    const {req, res, match, store, history, location } =ctx
     let token = null;
     // // only on the server side
     if (req && store.dispatch.global && store.dispatch.global.verify && req.cookies) {
       token = req.cookies.token;
     }
-    // if (window && typeof window !== 'undefined') {
-    //   token = cookie.get('token');
-    // }
+    if (window && typeof window !== 'undefined') {
+      token = cookie.get('token');
+    }
     await store.dispatch.global.verify({ token: 2121 })
     return Promise.resolve({
       whatever: 'Home stuff', isServer: true

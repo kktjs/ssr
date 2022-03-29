@@ -2,8 +2,8 @@
 import createCompiler from "../utils/getWebpackConfig"
 import fs from "fs-extra";
 import FileSizeReporter from "react-dev-utils/FileSizeReporter";
-import { Paths, webpackConfigPath } from "./../overrides/pathUtils"
-import { OptionsProps } from "../interface"
+import { webpackConfigPath } from "./../overrides/pathUtils"
+import { OptionsProps, Paths, } from "../interface"
 const { checkBrowsers } = require('react-dev-utils/browsersHelper');
 
 const chalk = require('react-dev-utils/chalk');

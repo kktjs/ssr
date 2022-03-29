@@ -1,15 +1,11 @@
 // 获取 根目录下 自己定义的配置
 
 import fs from 'fs';
-import { resolveModule, resolveApp, Paths } from "./pathUtils"
+import { resolveModule, resolveApp, paths } from "./pathUtils"
 
-import webpack from "webpack"
 import { restENV } from "./env"
-import paths from "./path"
-import { overridePaths } from 'kkt/lib/overrides/paths';
-import { Application } from 'express';
-
-import { MockerOption } from "mocker-api"
+import { overridePaths, } from 'kkt/lib/overrides/paths';
+import { OverridesProps } from "./../interface"
 
 const tsOptions = {
   compilerOptions: {
@@ -30,49 +26,18 @@ const tsOptions = {
 
 const confPath = resolveModule(resolveApp, '.kktssrrc');
 
-export type WebpackConfigFunction = (conf: webpack.Configuration[] | webpack.Configuration, env: "development" | "production", options: any) => webpack.Configuration[] | webpack.Configuration;
-
-export interface OverridesProps {
-  /** 环境变变量 */
-  GENERATE_SOURCEMAP?: string,
-  INLINE_RUNTIME_CHUNK?: string,
-  ESLINT_NO_DEV_ERRORS?: string,
-  DISABLE_ESLINT_PLUGIN?: string,
-  /** paths 脚本中webpack配置 使用的地址  */
-  paths?: Partial<Paths>;
-
-  /** 最终覆写 webpack  配置 **/
-  /** 客户端配置  */
-  overridesClientWebpack?: (conf: webpack.Configuration, env: "development" | "production", options: any) => webpack.Configuration,
-  /** 服务端配置  */
-  overridesServerWebpack?: (conf: webpack.Configuration, env: "development" | "production", options: any) => webpack.Configuration;
-  /** 公共覆盖配置 */
-  overridesCommonWebpack?: (conf: webpack.Configuration, env: "development" | "production", options: any) => webpack.Configuration;
-  // 最终的配置
-  overridesWebpack?: WebpackConfigFunction
-
-  /** 服务端打包入口 */
-  server_path?: string,
-  /** 客户端打包入口 */
-  client_path?: string,
-  /** 输出文件地址 */
-  output_path?: string;
-  /**  watch 配置 */
-  watchOptions?: webpack.Configuration["watchOptions"];
-  proxySetup?: (app: Application) => {
-    path: string | string[],
-    options?: MockerOption
-  }
-}
-
 let overrides: OverridesProps = {
+  env: {},
   // 服务端打包入口
   server_path: resolveModule(resolveApp, 'src/server'),
   // 客户端打包入口
   client_path: resolveModule(resolveApp, 'src/client'),
   /** 输出文件地址 */
   output_path: resolveApp("dist"),
-
+  /** 是否使用原始 react-script 下的配置, 📢注意：这个不控制 server 配置， **/
+  isUseOriginalConfig: false,
+  /** 是否使用 server 配置 **/
+  isUseServerConfig: true,
   // paths 地址
   paths: {},
   // 自定义 client 配置设置
@@ -91,6 +56,7 @@ let overrides: OverridesProps = {
 
 export async function loaderConf(): Promise<OverridesProps> {
   let kktssrrc: OverridesProps = {};
+
   try {
     if (fs.existsSync(confPath) && /.ts$/.test(confPath)) {
       require('ts-node').register(tsOptions);
@@ -103,6 +69,7 @@ export async function loaderConf(): Promise<OverridesProps> {
       const config = await import(confPath);
       kktssrrc = config.default || kktssrrc
     }
+
     overrides = {
       ...overrides,
       ...kktssrrc,
@@ -112,7 +79,11 @@ export async function loaderConf(): Promise<OverridesProps> {
     restENV(overrides)
 
     // 重写 paths 值
-    const path = paths(overrides)
+    const path = {
+      ...paths,
+      ...overrides.paths,
+      appBuild: overrides.output_path
+    }
     if (!fs.existsSync(path.appIndexJs)) {
       path.appIndexJs = overrides.client_path
     }
