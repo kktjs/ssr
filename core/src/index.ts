@@ -67,32 +67,42 @@ interface SSRNCCArgs extends BuildArgs {
       return;
     }
 
-    const getBoolean = (value: boolean | "true" | "false" | undefined, defaultValue: boolean = false) => {
-      if (typeof value === "boolean") {
-        return value
-      } else if (typeof value === "string" && value === "true") {
-        return true
-      } else if (typeof value === "string" && value === "false") {
-        return false
+    type BoolenValue = boolean | undefined | "false" | "true"
+
+    const getBoolean = (one: BoolenValue, two: BoolenValue, defaultValue: boolean = false) => {
+      let value = defaultValue
+      if (typeof one === "boolean") {
+        value = one
+      } else if (typeof two === "boolean") {
+        value = two
       }
-      return defaultValue
+
+      if ((typeof one === "string" && one === "true") || (typeof two === "string" && two === "true")) {
+        value = true
+      }
+
+      if ((typeof one === "string" && one === "false") || (typeof two === "string" && two === "false")) {
+        value = false
+      }
+
+      return value
     }
 
     const scriptName = argvs._[0];
 
-    const clientNodeExternals = getBoolean(argvs["c-ne"] || argvs['c-nodeExternals'])
-    const serverNodeExternals = getBoolean(argvs["s-ne"] || argvs['s-nodeExternals'])
+    const clientNodeExternals = getBoolean(argvs["c-ne"], argvs['c-nodeExternals'])
+    const serverNodeExternals = getBoolean(argvs["s-ne"], argvs['s-nodeExternals'])
 
-    const clientIsChunk = getBoolean(argvs["c-st"] || argvs['c-split'])
-    const serverIsChunk = getBoolean(argvs["s-st"] || argvs['s-split'])
+    const clientIsChunk = getBoolean(argvs["c-st"], argvs['c-split'])
+    const serverIsChunk = getBoolean(argvs["s-st"], argvs['s-split'])
 
     // 使用原始 react-scripts 
-    const original = getBoolean(argvs["o"] || argvs["original"])
+    const original = getBoolean(argvs["o"], argvs["original"])
 
-    const mini = getBoolean(argvs["m"] || argvs["minify"])
+    const mini = getBoolean(argvs["m"], argvs["minify"], true)
 
-    const miniServer = getBoolean(mini || argvs["s-m"] || argvs["s-minify"], true)
-    const miniClient = getBoolean(mini || argvs["c-m"] || argvs["c-minify"], true)
+    const miniServer = getBoolean(argvs["s-m"], argvs["s-minify"], mini)
+    const miniClient = getBoolean(argvs["c-m"], argvs["c-minify"], mini)
 
     const options: OptionsProps = {
       clientNodeExternals,
@@ -104,6 +114,8 @@ interface SSRNCCArgs extends BuildArgs {
       miniServer,
       miniClient
     }
+    console.log(options)
+    process.exit(1)
 
     // 解决 使用 react-scripts 原始情况下 PUBLIC_URL 报错
     if (!Reflect.has(process.env || {}, "PUBLIC_URL")) {

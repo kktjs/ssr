@@ -78,7 +78,7 @@ export interface OptionsProps {
   clientIsChunk: boolean;
   /** 是否使用原始 react-script 下的配置  **/
   original: boolean,
-  /** 是否压缩代码  mini > miniServer/miniClient  **/
+  /** 是否压缩代码  mini < miniServer/miniClient  **/
   mini: boolean
   /** server 是否压缩代码 **/
   miniServer: boolean
