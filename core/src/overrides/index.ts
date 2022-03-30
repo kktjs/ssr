@@ -47,8 +47,6 @@ let overrides: OverridesProps = {
   overridesCommonWebpack: undefined,
   // 最终自定义配置设置
   overridesWebpack: undefined,
-  // 监听配置
-  watchOptions: {},
   // 代理配置 
   proxySetup: undefined
 };

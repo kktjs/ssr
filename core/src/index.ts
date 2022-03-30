@@ -8,7 +8,7 @@ import { OptionsProps } from "./interface"
 
 function help() {
   const { version } = require('../package.json');
-  console.log('\n  Usage: \x1b[34;1mkkt-ssr\x1b[0m [build|watch|start] [--help|h]');
+  console.log('\n  Usage: \x1b[34;1mkkt-ssr\x1b[0m [build|start] [--help|h]');
   console.log('\n  Displays help information.');
   console.log('\n  Options:\n');
   console.log('   --version, -v        ', 'Show version number');
@@ -24,12 +24,11 @@ function help() {
 
   console.log('\n  Example:\n');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m build');
-  console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m start');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m build --s-ne');
-  console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch --s-ne');
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m start --s-ne');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m build --s-st');
-  console.log('   $ \x1b[35mkkt-ssr\x1b[0m watch --s-st');
+  console.log('   $ \x1b[35mkkt-ssr\x1b[0m start --s-st');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m start -o');
   console.log(`\n  \x1b[34;1m@kkt/ssr\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
 }
@@ -129,12 +128,6 @@ interface SSRNCCArgs extends BuildArgs {
 
       const build = await import("./script/build")
       await build.default(options)
-
-    } else if (scriptName === 'watch') {
-
-      setEnv("development")
-      const watch = await import("./script/watch")
-      await watch.default(options)
 
     } else if (scriptName === 'start') {
 

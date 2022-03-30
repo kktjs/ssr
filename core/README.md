@@ -63,8 +63,8 @@ npm install -g create-kkt-ssr
 # Create project, Using the template method
 create-kkt-ssr my-app -e react-router-rematch
 cd my-app # Enter the directory
-npm run watch # Watch file
-npm run server # Start service
+npm install # Watch file
+npm run start # Start service
 ```
 
 > ⚠️ A perfect example [`react-router-rematch`](example/react-router-rematch) is recommended for production environments, This example is similar to [`Next.js`](https://github.com/zeit/next.js).
@@ -252,31 +252,16 @@ export default {
 
 ```
 
-**Rewrite watchOptions**
-
-[watchOptions 参数](https://webpack.docschina.org/configuration/watch/#watchoptions)
-
-```ts
-
-export default {
-
-  watchOptions:{ }
-
-}
-
-```
-
 ### DefinePlugin 
 
 1. OUTPUT_PUBLIC_PATH: The default is `path.join(process.cwd(),"dist")` 
 2. KKT_PUBLIC_DIR: The default is `process.env.KKT_PUBLIC_DIR` or `OUTPUT_PUBLIC_PATH` 
 3. HOST: The default is `process.env.HOST` or `localhost`
 4. PORT: The default is `process.env.PORT` or `3000`
-5. Dev_Server: The default is `undefined`
-6. HOSTAPI: The default is `undefined` ， 当运行`start`命令时值为`http://${HOST}:${PORT}`
-7. process.env.PORT: 默认值 `3000`
-8. process.env.HOSTAPI: The default is `undefined` ， 当运行`start`命令时值为`http://${HOST}:${PORT}`
-9. process.env.HOST: The default is `localhost`
+5. HOSTAPI: The default is `undefined` ， 当运行`start`命令时值为`http://${HOST}:${PORT}`
+6. process.env.PORT: 默认值 `3000`
+7. process.env.HOSTAPI: The default is `undefined` ， 当运行`start`命令时值为`http://${HOST}:${PORT}`
+8. process.env.HOST: The default is `localhost`
 
 ## KKTSSR Config
 
@@ -294,7 +279,6 @@ The root directory creates the `.kktssrrc.js` file.
 | isUseOriginalConfig| `boolean` | `false` | 是否使用原始 react-script 下的配置    |
 | isUseServerConfig | `boolean` | `true` | 是否需要 server 配置 |
 | paths | `Partial<Paths>` | `{}` | [paths 脚本中webpack配置 使用的地址](https://github.com/kktjs/ssr/blob/4376baf1b5c365709addb313c4dd3ee314734baa/core/src/interface.ts#L6-L30) |
-| watchOptions| `webpack.Configuration["watchOptions"]`| `{}`| watch 配置  |
 | proxySetup | `(app:Application)=>({path:stirng\|string[],options:MockerOption})` | `undefined`| [mock 代理配置](https://github.com/jaywcjlove/mocker-api) |
 
 ```js
