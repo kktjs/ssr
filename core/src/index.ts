@@ -5,6 +5,7 @@ process.env.BUILD_PATH = "dist"
 import minimist from 'minimist';
 import { BuildArgs } from 'kkt';
 import { OptionsProps } from "./interface"
+import { getBoolean } from "./utils"
 
 function help() {
   const { version } = require('../package.json');
@@ -64,27 +65,6 @@ interface SSRNCCArgs extends BuildArgs {
       const { version } = require('../package.json');
       console.log(`\n \x1b[34;1m@kkt/ssr\x1b[0m \x1b[32;1mv${version || ''}\x1b[0m\n`);
       return;
-    }
-
-    type BoolenValue = boolean | undefined | "false" | "true"
-
-    const getBoolean = (one: BoolenValue, two: BoolenValue, defaultValue: boolean = false) => {
-      let value = defaultValue
-      if (typeof one === "boolean") {
-        value = one
-      } else if (typeof two === "boolean") {
-        value = two
-      }
-
-      if ((typeof one === "string" && one === "true") || (typeof two === "string" && two === "true")) {
-        value = true
-      }
-
-      if ((typeof one === "string" && one === "false") || (typeof two === "string" && two === "false")) {
-        value = false
-      }
-
-      return value
     }
 
     const scriptName = argvs._[0];
