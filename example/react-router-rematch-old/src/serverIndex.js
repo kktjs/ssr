@@ -9,16 +9,12 @@ import { createStore } from './store';
 
 const assetPath = `${OUTPUT_PUBLIC_PATH}/asset-client-manifest.json`
 
-// require 方式 打包报错
-let assetsMainifest = {}
-// if (FS.existsSync(assetPath)) {
-assetsMainifest = new Function(`return ${FS.readFileSync(`${assetPath}`, "utf-8")}`)()
-// }
+const assetsMainifest = new Function(`return ${FS.readFileSync(`${assetPath}`, "utf-8")}`)()
 
 const appDirectory = FS.realpathSync(process.cwd());
 const resolveApp = (relativePath) => Path.resolve(appDirectory, relativePath);
 
-const isDev = process.env.NODE_ENV === "development" && Dev_Server
+const isDev = process.env.NODE_ENV === "development"
 
 // const target = `http://${process.env.HOST}:${process.env.PORT}`
 const target = `http://${process.env.HOST || "localhost"}:${process.env.PORT || 3000}`

@@ -144,7 +144,6 @@ export const AddDefinePlugin = (conf: WebpackConfiguration, overrides: Overrides
     /** 当前端口 **/
     PORT: JSON.stringify(PORT),
     /** 是否是 start 模式 **/
-    Dev_Server: JSON.stringify(isWebpackDevServer),
     /** start 模式下 文件获取地址 */
     HOSTAPI: JSON.stringify(undefined),
     "process.env.PORT": JSON.stringify(PORT),

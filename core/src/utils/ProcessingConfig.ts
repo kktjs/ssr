@@ -12,13 +12,12 @@ export type GetWebpackConfig = (
   overrides: OverridesProps,
   nodeExternals: boolean,
   split: boolean,
-  env: "development" | "production",
-  isWebpackDevServer: boolean,
   options: OptionsProps
 ) => webpack.Configuration
 
 
-const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExternals, split, env, isWebpackDevServer, options) => {
+const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExternals, split, options) => {
+  const isDev = process.env.NODE_ENV === "development"
   /** 入口 */
   newConfig.entry = overrides[`${type}_path`]
   /** 加载 进度条 plugin */
@@ -41,7 +40,7 @@ const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExte
   const httpPath = `http://${HOST}:${PORT}`
 
   /** start 命令时候 配置前缀 为 devServer 端口  */
-  if (isWebpackDevServer && env === "development") {
+  if (isDev) {
     out.publicPath = `${httpPath}/`
   } else {
     out.publicPath = `/`
@@ -53,11 +52,11 @@ const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExte
   /** start 命令下 生成 client 端 asset 文件 **/
   let isCreateAsset = false;
 
-  if (isWebpackDevServer && type === "client" && env === "development") {
+  if (type === "client" && isDev) {
     isCreateAsset = true
   }
   /** start 命令下  生成 server.js文件和 自动启动 server.js 服务  */
-  if (isWebpackDevServer && type === "server" && env === "development") {
+  if (type === "server" && isDev) {
     newConfig = addServerPlugins(newConfig, out)
   }
   /**  重置 asset-manifest.json 文件内容 */
@@ -67,7 +66,7 @@ const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExte
 
   newConfig.module.exprContextCritical = false;
   // 添加 define plugin
-  newConfig = AddDefinePlugin(newConfig, overrides, isWebpackDevServer)
+  newConfig = AddDefinePlugin(newConfig, overrides, isDev)
 
   newConfig.plugins.push(
     new CreateTemporaryAsset(`${overrides.output_path}/asset-${type}-manifest.json`)
