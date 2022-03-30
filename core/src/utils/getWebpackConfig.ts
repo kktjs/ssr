@@ -31,6 +31,8 @@ export default async (env: "development" | "production", options: OptionsProps,)
 
   process.env.PORT = PORT || "3000"
   process.env.HOST = HOST || "localhost";
+  /** 是否使用原始 react-script 下的配置, 📢注意：这个不控制 server 配置， **/
+  const original = options.original || overrides.isUseOriginalConfig
 
   const { overridesClientWebpack, overridesServerWebpack, overridesWebpack, overridesCommonWebpack, ...rest } = overrides
 
@@ -45,11 +47,11 @@ export default async (env: "development" | "production", options: OptionsProps,)
     let newConfigClient = configClient
 
     // 控制 client 是否使用 ssr，默认情况下使用
-    if (!options.original || overrides.isUseOriginalConfig) {
+    if (!original) {
 
       newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk, options)
     }
-    if ((!options.original || !overrides.isUseOriginalConfig)) {
+    if (!original) {
       // 去除 source-map-loader
       newConfigClient = removeSourceMapLoader(newConfigClient)
     }
