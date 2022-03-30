@@ -849,14 +849,14 @@ npx create-kkt-ssr my-app -e react-router-rematch
 <span class="token comment"># Create project, Using the template method</span>
 create-kkt-ssr my-app -e react-router-rematch
 <span class="token builtin class-name">cd</span> my-app <span class="token comment"># Enter the directory</span>
-<span class="token function">npm</span> run <span class="token function">watch</span> <span class="token comment"># Watch file</span>
-<span class="token function">npm</span> run server <span class="token comment"># Start service</span>
+<span class="token function">npm</span> <span class="token function">install</span> <span class="token comment"># Watch file</span>
+<span class="token function">npm</span> run start <span class="token comment"># Start service</span>
 </code><div onclick="copied(this)" data-code="npm install -g create-kkt-ssr
 # Create project, Using the template method
 create-kkt-ssr my-app -e react-router-rematch
 cd my-app # Enter the directory
-npm run watch # Watch file
-npm run server # Start service
+npm install # Watch file
+npm run start # Start service
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
       <blockquote>
         <p>⚠️ A perfect example <a href="example/react-router-rematch"><code>react-router-rematch</code></a> is recommended for production environments, This example is similar to <a href="https://github.com/zeit/next.js"><code>Next.js</code></a>.</p>
@@ -1111,30 +1111,12 @@ export default {
 }
 
 " class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
-      <p><strong>Rewrite watchOptions</strong></p>
-      <p><a href="https://webpack.docschina.org/configuration/watch/#watchoptions">watchOptions 参数</a></p>
-      <pre class="language-ts"><code class="language-ts">
-<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token punctuation">{</span>
-
-  watchOptions<span class="token operator">:</span><span class="token punctuation">{</span> <span class="token punctuation">}</span>
-
-<span class="token punctuation">}</span>
-
-</code><div onclick="copied(this)" data-code="
-export default {
-
-  watchOptions:{ }
-
-}
-
-" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
       <h3 id="defineplugin"><a class="anchor" aria-hidden="true" tabindex="-1" href="#defineplugin"><span class="octicon octicon-link"></span></a>DefinePlugin</h3>
       <ol>
         <li>OUTPUT_PUBLIC_PATH: The default is <code>path.join(process.cwd(),"dist")</code></li>
         <li>KKT_PUBLIC_DIR: The default is <code>process.env.KKT_PUBLIC_DIR</code> or <code>OUTPUT_PUBLIC_PATH</code></li>
         <li>HOST: The default is <code>process.env.HOST</code> or <code>localhost</code></li>
         <li>PORT: The default is <code>process.env.PORT</code> or <code>3000</code></li>
-        <li>Dev_Server: The default is <code>undefined</code></li>
         <li>HOSTAPI: The default is <code>undefined</code> ， 当运行<code>start</code>命令时值为<code>http://${HOST}:${PORT}</code></li>
         <li>process.env.PORT: 默认值 <code>3000</code></li>
         <li>process.env.HOSTAPI: The default is <code>undefined</code> ， 当运行<code>start</code>命令时值为<code>http://${HOST}:${PORT}</code></li>
@@ -1211,12 +1193,6 @@ export default {
             <td><code>Partial&#x3C;Paths></code></td>
             <td><code>{}</code></td>
             <td><a href="https://github.com/kktjs/ssr/blob/4376baf1b5c365709addb313c4dd3ee314734baa/core/src/interface.ts#L6-L30">paths 脚本中webpack配置 使用的地址</a></td>
-          </tr>
-          <tr>
-            <td>watchOptions</td>
-            <td><code>webpack.Configuration["watchOptions"]</code></td>
-            <td><code>{}</code></td>
-            <td>watch 配置</td>
           </tr>
           <tr>
             <td>proxySetup</td>
