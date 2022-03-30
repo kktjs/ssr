@@ -6,7 +6,6 @@
   "scripts": {
     "server": "node build/server.js",
     "build": "kkt-ssr build",
-    "watch": "kkt-ssr watch",
     "start": "kkt-ssr start"
   },
   "keywords": [],

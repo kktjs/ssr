@@ -6,10 +6,8 @@
   "scripts": {
     "server": "NODE_ENV=production nodemon dist/server.js",
     "build": "kkt-ssr build --s-ne",
-    "watch": "kkt-ssr watch",
     "start": "kkt-ssr start",
-    "build:s": "kkt-ssr build --s-st",
-    "watch:s": "kkt-ssr watch --s-st"
+    "build:s": "kkt-ssr build --s-st"
   },
   "keywords": [],
   "author": "Kenny Wong <wowohoo@qq.com>",
