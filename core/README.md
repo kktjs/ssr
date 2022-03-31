@@ -95,8 +95,7 @@ npm run server
 
 ### Using Plugins
 
-You can use plug-ins, taking KKT as an example
-Add `.kktrc.js` to the root directory of your project
+Add `.kktssrrc.js` to the root directory of your project
 
 ```ts
 import pluginLess from "@kkt/plugin-less"
