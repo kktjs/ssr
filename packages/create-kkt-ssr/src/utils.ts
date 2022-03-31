@@ -48,7 +48,7 @@ export const helpCli: string = `
     --version, -v   Show version number
     --help, -h      Displays help information.
     --output, -o    Output directory.
-    --example, -e   Example from: \x1b[34mhttps://kktjs.github.io/ssr/zip/\x1b[0m, default: "kkt-ssr-ts"
+    --example, -e   Example from: \x1b[34mhttps://kktjs.github.io/ssr/zip/\x1b[0m, default: "basic"
     --path, -p      Specify the download target git address.
                       default: "\x1b[34mhttps://kktjs.github.io/ssr/zip/\x1b[0m"
   
