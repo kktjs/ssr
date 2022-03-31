@@ -10,7 +10,7 @@ export default async (options: OptionsProps) => {
   delete require.cache[require.resolve(`${reactDevUtils}/openBrowser`)];
 
   try {
-    const { overrides, config } = await createCompiler("development", options, true)
+    const { overrides, config } = await createCompiler("development", options)
 
     require.cache[require.resolve(webpackConfigPath)].exports = (env: string) => config;
 

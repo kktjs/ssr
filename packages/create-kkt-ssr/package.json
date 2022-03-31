@@ -1,6 +1,6 @@
 {
   "name": "create-kkt-ssr",
-  "version": "3.1.9",
+  "version": "3.1.10",
   "description": "CLI tool to bootstrap KKT applications with no configuration",
   "main": "lib/index.js",
   "bin": {
