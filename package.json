@@ -3,7 +3,7 @@
 	"private": true,
 	"description": "A baseline for server side rendering for your React application.",
 	"scripts": {
-		"build": "npm run build:ssr && npm run build:enhanced && npm run build:less",
+		"build": "npm run build:ssr && npm run build:enhanced && npm run build:less && npm run build:create-kkt-ssr",
 		"-----build:ssr-----": "----------",
 		"build:ssr": "lerna exec --scope @kkt/ssr -- npm run build",
 		"watch:ssr": "lerna exec --scope @kkt/ssr -- npm run watch",
@@ -16,6 +16,9 @@
 		"-----build:kkt-plugin-ssr-----": "----------",
 		"build:plugin-ssr": "lerna exec --scope @kkt/plugin-ssr -- npm run build",
 		"watch:plugin-ssr": "lerna exec --scope @kkt/plugin-ssr -- npm run watch",
+		"-----build:create-kkt-ssr-----": "----------",
+		"build:create-kkt-ssr": "lerna exec --scope create-kkt-ssr -- npm run build",
+		"watch:create-kkt-ssr": "lerna exec --scope create-kkt-ssr -- npm run watch",
 		"-------------": "-------------------",
 		"hoist": "lerna bootstrap --hoist",
 		"bootstrap": "lerna bootstrap",
