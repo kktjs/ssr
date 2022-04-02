@@ -59,6 +59,11 @@ jobs:
     - name: Compress basic Example.
       run: zip -r -y basic.zip . -x "node_modules/*" -x "build/*" -x "dist/*" -x "coverage/*" -x ".eslintcache" -x "sandbox.config.json" -x ".stackblitzrc"
       working-directory: example/basic
+
+    # 压缩 basic-ts 文件夹
+    - name: Compress basic-ts Example.
+      run: zip -r -y basic-ts.zip . -x "node_modules/*" -x "build/*" -x "dist/*" -x "coverage/*" -x ".eslintcache" -x "sandbox.config.json" -x ".stackblitzrc"
+      working-directory: example/basic-ts
     
     # 压缩 basic 文件夹
     - name: Compress basic-plugins Example.
@@ -84,6 +89,7 @@ jobs:
     - run: mkdir -p ./build/zip
     # 复制快捷开发压缩包 到 /build/zip/ 文件夹下
     - run: cp -rp ./example/basic/basic.zip ./build/zip/
+    - run: cp -rp ./example/basic-ts/basic-ts.zip ./build/zip/
     - run: cp -rp ./example/basic-plugins/basic-plugins.zip ./build/zip/
     - run: cp -rp ./example/basic-routes/basic-routes.zip ./build/zip/
     - run: cp -rp ./example/basic-routes-rematch-new/basic-routes-rematch-new.zip ./build/zip/
