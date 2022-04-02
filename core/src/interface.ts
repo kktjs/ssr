@@ -11,6 +11,7 @@ export type Paths = {
   appHtml: string;
   appIndexJs: string;
   appPackageJson: string;
+  appTsBuildInfoFile: string
   /** App Root Path */
   appSrc: string;
   appTsConfig: string;
