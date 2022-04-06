@@ -40,6 +40,119 @@ Home.getInitialProps= async ({ req, res, match, store, history, location, ...ctx
 
 ```
 
+### `Client`
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { ensureReady, RoutersController } from '@kkt/react-ssr-enhanced';
+import history from './utils/history';
+import { getRouterData } from './routes';
+import { createStore } from './store';
+
+const routes = getRouterData();
+(async () => {
+  const store = await createStore(window._KKT_STORE);
+  // Initialize store
+  ensureReady(routes).then(async (data) => {
+    window._history = history;
+    ReactDOM.hydrate(
+      <Provider store={store}>
+        <BrowserRouter  >
+          <RoutersController store={store} routes={routes} data={data} history={history} />
+        </BrowserRouter>
+      </Provider>,
+      document.getElementById('root')
+    );
+  });
+})();
+```
+
+### `Server`
+
+```js
+// serverIndex.js
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import proxy from 'http-proxy-middleware';
+import { render } from '@kkt/react-ssr-enhanced';
+import { getRouterData } from './routes';
+import Path from 'path';
+import FS from 'fs';
+import { createStore } from './store';
+
+const assetsMainifest = new Function(`return ${FS.readFileSync(`${OUTPUT_PUBLIC_PATH}/asset-client-manifest.json`, "utf-8")}`)()
+const appDirectory = FS.realpathSync(process.cwd());
+const resolveApp = (relativePath) => Path.resolve(appDirectory, relativePath);
+const isDev = process.env.NODE_ENV === "development"
+const target = `http://${process.env.HOST || "localhost"}:${process.env.PORT || 3000}`
+const routes = getRouterData();
+const server = express();
+server.disable('x-powered-by');
+// API request to pass cookies
+// `getInitialProps` gets the required value via `req.cookies.token`
+server.use(cookieParser());
+server.use(express.static(isDev ? target : resolveApp('dist')));
+server.use('/api', proxy({
+  target,
+  changeOrigin: true,
+}));
+server.get('/*', async (req, res) => {
+  try {
+    const store = await createStore();
+    const html = await render({
+      req,
+      res,
+      routes,
+      assets: assetsMainifest,
+      store, // This Redux
+    });
+    res.send(html);
+  } catch (error) {
+    // eslint-disable-next-line
+    console.log('html---server--error>>>>:', error);
+    res.json(error);
+  }
+});
+
+export default server;
+
+```
+
+```js
+// server.js
+import http from 'http';
+import app from './serverIndex';
+
+const logs = console.log; // eslint-disable-line
+const server = http.createServer(app);
+let currentApp = app;
+
+const PORT = parseInt(process.env.PORT || 3000) + 1;
+
+server.listen(PORT, (error) => {
+  if (error) {
+    logs(error);
+  }
+  console.log(process.env.GENERATE_SOURCEMAP)
+  logs('🚀 started!', `PORT: http://localhost:${PORT}`);
+});
+
+if (module.hot) {
+  logs('✅  Server-side HMR Enabled!');
+  module.hot.accept('./serverIndex', () => {
+    logs('🔁  HMR Reloading `./serverIndex`...');
+    server.removeListener('request', currentApp);
+    const newApp = require('./serverIndex').default; // eslint-disable-line
+    server.on('request', newApp);
+    currentApp = newApp;
+  });
+}
+
+```
+
 Within getInitialProps, you have access to all you need to fetch data on both the client and the server:
 
 - `req?: Request`: (server-only) A [`Express`](https://expressjs.com/) request object
