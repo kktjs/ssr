@@ -4,9 +4,10 @@ import App from './app/App';
 
 import Path from 'path';
 import FS from 'fs';
-// require 方式 打包报错
+
 // @ts-ignore
 const assetsMainifest = new Function(`return ${FS.readFileSync(`${OUTPUT_PUBLIC_PATH}/asset-client-manifest.json`, "utf-8")}`)()
+
 
 const appDirectory = FS.realpathSync(process.cwd());
 const resolveApp = (relativePath: string) => Path.resolve(appDirectory, relativePath);

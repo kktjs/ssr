@@ -5,7 +5,7 @@ const logs = console.log; // eslint-disable-line
 
 const server = http.createServer(app);
 let currentApp = app;
-const PORT = process.env.PORT || 3000;
+const PORT = parseInt(process.env.PORT || 3000) + 1;
 const HOST = process.env.HOST || 'localhost';
 server.listen(PORT, (error) => {
   if (error) {

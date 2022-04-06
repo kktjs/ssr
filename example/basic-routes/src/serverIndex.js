@@ -7,28 +7,12 @@ import FS from 'fs';
 
 import App from './routes';
 
-// require 方式 打包报错
 const assetsMainifest = new Function(`return ${FS.readFileSync(`${OUTPUT_PUBLIC_PATH}/asset-client-manifest.json`, "utf-8")}`)()
 
-const assets = {}
-
-if (assetsMainifest && assetsMainifest["entrypoints"]) {
-  Object.values(assetsMainifest.entrypoints).forEach((item) => {
-    if (/.css$/.test(item)) {
-      assets.css = item
-    }
-    if (/.js$/.test(item)) {
-      assets.js = item
-    }
-  })
-}
 
 const appDirectory = FS.realpathSync(process.cwd());
 const resolveApp = (relativePath) => Path.resolve(appDirectory, relativePath);
 const server = express();
-// server.use(express.static(resolveApp("dist")))
-
-
 
 const render = (props = {}) => {
   const html = renderToString(
@@ -60,11 +44,11 @@ server
     <meta charset="utf-8" />
     <title>Welcome to KKT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    ${assets.css ? `<link rel="stylesheet" href="${assets.css}">` : ''}
+    ${assetsMainifest.client.css ? `<link rel="stylesheet" href="${assetsMainifest.client.css}">` : ''}
   </head>
   <body>
     <div id="root">${markup}</div>
-   ${assets.js ? `<script src="${assets.js}" defer crossorigin></script>` : ""} 
+   ${assetsMainifest.client.js ? `<script src="${assetsMainifest.client.js}" defer crossorigin></script>` : ""} 
   </body>
 </html>`);
     }

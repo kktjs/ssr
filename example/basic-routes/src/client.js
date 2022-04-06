@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import App from './routes';
-// const renderMethod = !!module.hot ? ReactDOM.render : ReactDOM.hydrate
+import { BrowserRouter } from "react-router-dom"
+import App from './routes';
 
-ReactDOM.render(<div>222</div>, document.getElementById('root'));
+ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
 
-// if (module.hot) {
-//   module.hot.accept();
-// }
+if (module.hot) {
+  module.hot.accept();
+}
