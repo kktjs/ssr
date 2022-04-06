@@ -84,5 +84,6 @@ export interface OptionsProps {
   /** server 是否压缩代码 **/
   miniServer: boolean
   /** client 是否压缩代码 **/
-  miniClient: boolean
+  miniClient: boolean,
+  target: "client" | "server" | "all"
 }

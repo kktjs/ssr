@@ -41,7 +41,7 @@ export default async (env: "development" | "production", options: OptionsProps,)
   let configArr: webpack.Configuration[] = []
 
   /**------------------------  client  配置  ---------------------    */
-  if (fs.existsSync(overrides.client_path)) {
+  if (fs.existsSync(overrides.client_path) && ["all", "client"].includes(options.target)) {
     const configClient = configFactory(env);
 
     let newConfigClient = configClient
@@ -65,7 +65,7 @@ export default async (env: "development" | "production", options: OptionsProps,)
   }
 
   /**------------------------  server    配置 ---------------------    */
-  if (fs.existsSync(overrides.server_path) && overrides.isUseServerConfig) {
+  if (fs.existsSync(overrides.server_path) && overrides.isUseServerConfig && ["all", "server"].includes(options.target)) {
 
     const configServer = configFactory(env);
 

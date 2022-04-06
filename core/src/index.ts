@@ -22,6 +22,7 @@ function help() {
   console.log('   -m, --minify         ', 'All Minify output.');
   console.log('   --s-m, --s-minify         ', 'server Minify output.');
   console.log('   --c-m, --c-minify         ', 'clinet Minify output.');
+  console.log('   --target                  ', 'clent or server or all.');
 
   console.log('\n  Example:\n');
   console.log('   $ \x1b[35mkkt-ssr\x1b[0m build');
@@ -51,6 +52,7 @@ interface SSRNCCArgs extends BuildArgs {
   "original"?: boolean,
   "m"?: boolean;
   "minify"?: boolean,
+  "target"?: "client" | "server" | "all"
 }
 
 (async () => {
@@ -83,6 +85,8 @@ interface SSRNCCArgs extends BuildArgs {
     const miniServer = getBoolean(argvs["s-m"], argvs["s-minify"], mini)
     const miniClient = getBoolean(argvs["c-m"], argvs["c-minify"], mini)
 
+    const target = argvs["target"] || "all"
+
     const options: OptionsProps = {
       clientNodeExternals,
       serverNodeExternals,
@@ -91,7 +95,8 @@ interface SSRNCCArgs extends BuildArgs {
       original,
       mini,
       miniServer,
-      miniClient
+      miniClient,
+      target
     }
     // 解决 使用 react-scripts 原始情况下 PUBLIC_URL 报错
     if (!Reflect.has(process.env || {}, "PUBLIC_URL")) {
