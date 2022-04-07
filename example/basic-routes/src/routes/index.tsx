@@ -14,7 +14,8 @@ const Nav = () => {
 export default () => {
   return <Routes>
     <Route path="/" element={<Nav />} >
-      <Route index path="/home" element={<Home />} />
+      <Route index element={<Home />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="*" element={<div>无页面</div>} />
     </Route>

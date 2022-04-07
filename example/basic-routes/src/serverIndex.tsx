@@ -6,15 +6,15 @@ import Path from 'path';
 import FS from 'fs';
 
 import App from './routes';
-
+// @ts-ignore
 const assetsMainifest = new Function(`return ${FS.readFileSync(`${OUTPUT_PUBLIC_PATH}/asset-client-manifest.json`, "utf-8")}`)()
 
 
 const appDirectory = FS.realpathSync(process.cwd());
-const resolveApp = (relativePath) => Path.resolve(appDirectory, relativePath);
+const resolveApp = (relativePath: string) => Path.resolve(appDirectory, relativePath);
 const server = express();
 
-const render = (props = {}) => {
+const render = (props: any = {}) => {
   const html = renderToString(
     <StaticRouter location={props.url}>
       <App {...props} />
