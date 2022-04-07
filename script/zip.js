@@ -51,5 +51,10 @@ const createZip = async (paths, type) => {
     console.log(err)
   }
 }
-createZip(PWDTS, "ts")
-createZip(PWDJS, "js")
+
+if (FS.existsSync(PWDTS)) {
+  createZip(PWDTS, "ts")
+}
+if (FS.existsSync(PWDJS)) {
+  createZip(PWDJS, "js")
+}
