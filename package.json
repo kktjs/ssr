@@ -25,6 +25,8 @@
 		"build:basic": "lerna exec --scope @examples/basic -- npm run build",
 		"build:basic:ex": "lerna exec --scope @examples/basic -- npm run build:ex",
 		"build:basic:plugin": "lerna exec --scope @examples/basic-plugins -- npm run build",
+		"build:js": "node ./script/createjs",
+		"build:zip": "node ./script/zip.js",
 		"--------------": "-------------------",
 		"version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
 		"clean": "lerna clean && npm run remove && rm -rf ./package-lock.json && rm -rf node_modules && npm run remove:c ",
@@ -55,6 +57,7 @@
 		]
 	},
 	"devDependencies": {
+		"archiver": "5.3.0",
 		"husky": "7.0.4",
 		"lerna": "4.0.0",
 		"lint-staged": "12.3.4",

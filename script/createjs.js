@@ -48,14 +48,5 @@ const fieldMap = async () => {
 // 为了后面那一步 修改 package.json
 const ci = async () => {
   await fieldMap();
-  // 更改 package.json name 名称并且文件名称后面加 js 
-
-  // const pagPath = path.resolve(__dirname, '../examples/basejs/package.json');
-  // const pagContent = fs.readFileSync(pagPath, { encoding: 'utf-8' });
-  // const newPageContent = pagContent.replace(
-  //   /"name": "@examples\/base"/,
-  //   `"name": "@examples/basejs"`,
-  // );
-  // fs.writeFileSync(pagPath, newPageContent);
 };
 ci();
