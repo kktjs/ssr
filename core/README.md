@@ -271,7 +271,7 @@ The root directory creates the `.kktssrrc.js` file.
 | overridesClientWebpack | `(conf: webpack.Configuration, env: "development" \| "production", options: Options) => webpack.Configuration`  | `undefined` | 覆写客户端配置  |
 | overridesServerWebpack | `(conf: webpack.Configuration, env: "development" \| "production", options: Options) => webpack.Configuration` | `undefined` | 覆写服务端配置 |
 | overridesCommonWebpack | `(conf: webpack.Configuration, env: "development" \| "production", options: Options) => webpack.Configuration`| `undefined` | 公共覆盖配置 |
-| overridesWebpack| `(conf: webpack.Configuration[], env: "development" \| "production", options: Options) => webpack.Configuration[] \| webpack.Configuration` | `{}`| 最终的配置 |
+| overridesWebpack| `(conf: webpack.Configuration[], env: "development" \| "production", options: Options) => webpack.Configuration[] \| webpack.Configuration` | `undefined`| 最终的配置 |
 | server_path | `string`  | `src/server.js` | 服务端打包入口 |
 | client_path | `string`| `src/client.js` | 客户端打包入口 |
 | output_path| `string` | `dist` | 输出文件地址 |
