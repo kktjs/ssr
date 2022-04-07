@@ -5,6 +5,7 @@ import App from './app/App';
 
 import Path from 'path';
 import FS from 'fs';
+// @ts-ignore
 const assetsMainifest = new Function(`return ${FS.readFileSync(`${OUTPUT_PUBLIC_PATH}/asset-client-manifest.json`, "utf-8")}`)()
 
 const appDirectory = FS.realpathSync(process.cwd());
@@ -15,13 +16,9 @@ server
   .disable('x-powered-by')
   .use(express.static(resolveApp('http://localhost:3000')))
   .get('/*', (req, res) => {
-    const context = {};
     const markup = renderToString(<App />);
-    if (context.url) {
-      res.redirect(context.url);
-    } else {
-      res.status(200).send(
-        `
+    res.status(200).send(
+      `
 <!doctype html>
   <html lang="">
   <head>
@@ -36,8 +33,7 @@ server
       ${assetsMainifest.client.js ? `<script src="${assetsMainifest.client.js}" defer crossorigin></script>` : ""}
   </body>
 </html>`,
-      );
-    }
+    );
   });
 
 export default server;
