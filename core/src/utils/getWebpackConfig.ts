@@ -8,7 +8,7 @@ import fs from 'fs';
 import { OptionsProps } from "../interface"
 import { loaderConf } from "../overrides"
 import { restDevModuleRuleCss, removeSourceMapLoader } from "./module"
-import getWebpackConfig from "./ProcessingConfig"
+import processingConfig from "./ProcessingConfig"
 
 const { choosePort } = require('react-dev-utils/WebpackDevServerUtils');
 
@@ -49,7 +49,7 @@ export default async (env: "development" | "production", options: OptionsProps,)
     // 控制 client 是否使用 ssr，默认情况下使用
     if (!original) {
 
-      newConfigClient = getWebpackConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk, options)
+      newConfigClient = processingConfig(configClient, "client", overrides, options.clientNodeExternals, options.clientIsChunk, options)
     }
     if (!original) {
       // 去除 source-map-loader
@@ -69,7 +69,7 @@ export default async (env: "development" | "production", options: OptionsProps,)
 
     const configServer = configFactory(env);
 
-    let newConfigServer = getWebpackConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk, options)
+    let newConfigServer = processingConfig(configServer, "server", overrides, options.serverNodeExternals, options.serverIsChunk, options)
 
     newConfigServer.devtool = false
     newConfigServer.target = "node14"

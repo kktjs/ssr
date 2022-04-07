@@ -2,6 +2,8 @@ export * from "./module"
 export * from "./plugins"
 export * from "./output"
 
+export { default as getWebpackConfig } from "./getWebpackConfig"
+export { default as processingConfig } from "./ProcessingConfig"
 type BoolenValue = boolean | undefined | "false" | "true"
 
 export const getBoolean = (one: BoolenValue, two: BoolenValue, defaultValue: boolean = false) => {

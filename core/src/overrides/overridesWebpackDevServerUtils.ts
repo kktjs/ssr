@@ -4,12 +4,12 @@
 
 import { reactDevUtils } from "./pathUtils"
 import webpack from "webpack"
-const WebpackDevServerUtilsPath = `${reactDevUtils}/WebpackDevServerUtils`
+import chalk from 'chalk';
 
+const WebpackDevServerUtilsPath = `${reactDevUtils}/WebpackDevServerUtils`
 const WebpackDevServerUtils = require(`${WebpackDevServerUtilsPath}`)
 const clearConsole = require(`${reactDevUtils}/clearConsole`)
 const formatWebpackMessages = require(`${reactDevUtils}/formatWebpackMessages`)
-const chalk = require('chalk');
 
 export interface Urls {
   lanUrlForConfig?: string | undefined;

@@ -6,7 +6,7 @@ import CreateTemporaryAsset from "./plugins/CreateTemporaryAsset"
 import { restOutPut } from "./output"
 import { getWbpackBarPlugins, restWebpackManifestPlugin, clearHtmlTemp, addServerPlugins, AddDefinePlugin } from "./plugins"
 
-export type GetWebpackConfig = (
+export type ProcessingConfigProps = (
   newConfig: webpack.Configuration,
   type: "server" | "client",
   overrides: OverridesProps,
@@ -16,7 +16,7 @@ export type GetWebpackConfig = (
 ) => webpack.Configuration
 
 
-const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExternals, split, options) => {
+const processingConfig: ProcessingConfigProps = (newConfig, type, overrides, nodeExternals, split, options) => {
   const isDev = process.env.NODE_ENV === "development"
   /** 入口 */
   newConfig.entry = overrides[`${type}_path`]
@@ -100,4 +100,4 @@ const getWebpackConfig: GetWebpackConfig = (newConfig, type, overrides, nodeExte
   return newConfig
 }
 
-export default getWebpackConfig
+export default processingConfig
