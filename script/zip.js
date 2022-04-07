@@ -13,7 +13,9 @@ const createZip = async (paths, type) => {
   try {
     pathArr.forEach((itemName) => {
       const childPath = path.join(paths, itemName)
-      const createDirZIP = path.join(PWDZIP, itemName + "-" + type + ".zip")
+      const filename = type ? itemName + "-" + type + ".zip" : itemName + ".zip"
+
+      const createDirZIP = path.join(PWDZIP, filename)
       const stat = FS.lstatSync(childPath)
       if (stat.isDirectory()) {
         const output = FS.createWriteStream(createDirZIP);
@@ -23,7 +25,7 @@ const createZip = async (paths, type) => {
         });
         // 文件输出流结束
         output.on('close', function () {
-          console.log(`${itemName + "-" + type + ".zip"} 压缩完成：总共 ${archive.pointer()} 字节`);
+          console.log(`${filename} 压缩完成：总共 ${archive.pointer()} 字节`);
         });
         // 数据源是否耗尽
         output.on('end', function () {
@@ -53,7 +55,7 @@ const createZip = async (paths, type) => {
 }
 
 if (FS.existsSync(PWDTS)) {
-  createZip(PWDTS, "ts")
+  createZip(PWDTS)
 }
 if (FS.existsSync(PWDJS)) {
   createZip(PWDJS, "js")
