@@ -7,7 +7,11 @@ const server = http.createServer(app);
 let currentApp = app;
 const PORT = parseInt(process.env.PORT || "3000") + 1;
 const HOST = process.env.HOST || 'localhost';
-server.listen(PORT, () => {
+// @ts-ignore
+server.listen(PORT, (error) => {
+  if (error) {
+    logs(error);
+  }
   logs('🚀 started!', `PORT: http://${HOST}:${PORT}`);
 });
 // @ts-ignore

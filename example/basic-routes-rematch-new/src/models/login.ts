@@ -1,13 +1,14 @@
 import { createModel } from "@rematch/core"
+import { RootModel } from "./index"
 
-export default createModel()({
+export default createModel<RootModel>()({
   name: "login",
   state: {
     title: "login 标题"
   },
   effects: () => ({
-    async very(_, { login }) {
-      console.log("打印 login", login.title)
+    async very(_, store) {
+      console.log("打印 login", store.login.title)
     }
   }),
   reducers: {

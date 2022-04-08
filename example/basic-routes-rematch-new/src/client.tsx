@@ -13,7 +13,8 @@ ReactDOM.hydrate(
     </BrowserRouter>
   </Provider>
   , document.getElementById('root'));
-
+// @ts-ignore
 if (module.hot) {
+  // @ts-ignore
   module.hot.accept();
 }

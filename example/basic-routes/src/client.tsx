@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom"
 // import { BrowserRouter } from "react-router"
 import App from './routes/index';
 
-ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
+ReactDOM.hydrate(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
 
 // @ts-ignore
 if (module.hot) {

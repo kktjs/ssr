@@ -1,8 +1,9 @@
 import React from "react";
 import { useSelector } from 'react-redux'
+import { RootState } from "./../../models"
 
 const Home = () => {
-  const title = useSelector(({ login }) => login.title)
+  const title = useSelector<RootState>(({ login }) => login.title)
 
   const [count, setCount] = React.useState(1)
 

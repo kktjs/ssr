@@ -8,16 +8,16 @@ import { Provider } from 'react-redux';
 import store from "./models"
 import App from './routes';
 
-
+// @ts-ignore
 const assetsMainifest = new Function(`return ${FS.readFileSync(`${OUTPUT_PUBLIC_PATH}/asset-client-manifest.json`, "utf-8")}`)()
 
 
 const appDirectory = FS.realpathSync(process.cwd());
-const resolveApp = (relativePath) => Path.resolve(appDirectory, relativePath);
+const resolveApp = (relativePath: string) => Path.resolve(appDirectory, relativePath);
 const server = express();
 // server.use(express.static(resolveApp("dist")))
 
-const render = (props = {}) => {
+const render = (props: any = {}) => {
   const html = renderToString(
     <Provider store={store}>
       <StaticRouter location={props.url}>
