@@ -94,10 +94,11 @@ jobs:
         <table class="list">
           <tbody>
         $(for file in $(ls *.zip); do
+          var filename = file.replace(/.zip$/,"").replace(/-js$/,"")
           echo "<tr>"
-          echo "<td>${ICON}</td>"
+          echo "<td>${ICON}${filename}</td>"
           echo "<td><a href=\"${file}\">$file</a></td>"
-          echo "<td><a target=\"__blank\" href=\"$GITHUBREADME${file//.zip/}\">Document</a></td>"
+          echo "<td><a target=\"__blank\" href=\"$GITHUBREADME${file//.zip//-js/}\">Document</a></td>"
           echo "</tr>"
         done)
           </tbody>
