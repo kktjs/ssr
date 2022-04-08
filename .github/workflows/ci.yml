@@ -97,7 +97,7 @@ jobs:
           echo "<tr>"
           echo "<td>${ICON}${file.replace(/.zip$/,"").replace(/-js$/,"")}</td>"
           echo "<td><a href=\"${file}\">$file</a></td>"
-          echo "<td><a target=\"__blank\" href=\"$GITHUBREADME${file//.zip//-js/}\">Document</a></td>"
+          echo "<td><a target=\"__blank\" href=\"$GITHUBREADME${file//.zip/}\">Document</a></td>"
           echo "</tr>"
         done)
           </tbody>
