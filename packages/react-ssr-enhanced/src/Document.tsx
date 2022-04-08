@@ -61,7 +61,8 @@ const Document = (props: DocumentProps) => {
   );
 }
 // @ts-ignore
-Document.getInitialProps = async ({ assets, data, extractor, renderPage, store }) => {
+Document.getInitialProps = async (props) => {
+  const { assets, data, extractor, renderPage, store, } = props
   // https://reacttraining.com/react-router/web/example/static-router
   // This example renders a route within a StaticRouter and populates its
   // staticContext, which it then prints out. In the real world you would
