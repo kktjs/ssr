@@ -56,6 +56,8 @@ jobs:
       uses: jaywcjlove/changelog-generator@v1.5.0
 
     # 批量生成压缩包
+    - run: npm run build:js
+    - run: npm run test
     - run: npm run build:zip
 
     # 生成 zip 文件夹 用于存储压缩包
