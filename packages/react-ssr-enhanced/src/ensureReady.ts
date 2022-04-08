@@ -1,7 +1,7 @@
 import { matchPath } from 'react-router-dom';
 import { RouteNewObject } from "./interface"
 
-export default async function ensureReady(routes: RouteNewObject[], pathname: string) {
+export default async function ensureReady(routes: RouteNewObject[], pathname?: string) {
 
   await Promise.all(
     routes.map((route) => {
