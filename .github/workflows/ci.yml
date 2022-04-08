@@ -63,7 +63,7 @@ jobs:
     # 生成 zip 文件夹 用于存储压缩包
     - run: mkdir -p ./build/zip
     # 复制快捷开发压缩包 到 /build/zip/ 文件夹下
-    - run: cp -rp ./zip/ ./build/zip/
+    - run: cp -rp ./zip/* ./build/zip/
 
     - name: Add Download Page
       working-directory: ./build/zip
