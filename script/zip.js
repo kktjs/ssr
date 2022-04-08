@@ -4,7 +4,7 @@ const path = require("path")
 
 const PWDTS = path.resolve(__dirname, '../example/');
 const PWDJS = path.resolve(__dirname, '../examplejs/');
-const PWDZIP = path.resolve(__dirname, '../zip');
+const PWDZIP = path.resolve(__dirname, '../build/zip');
 
 FS.emptyDirSync(PWDZIP)
 

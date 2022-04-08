@@ -9,6 +9,7 @@ yarn.lock
 package-lock.json
 /examplejs
 /zip
+/build
 *.bak
 *.tem
 *.temp
