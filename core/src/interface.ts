@@ -30,7 +30,9 @@ export type Paths = {
   moduleFileExtensions?: string[]
 };
 
-export type Options = Omit<OverridesProps, "overridesClientWebpack" | "overridesServerWebpack" | "overridesCommonWebpack" | "overridesWebpack"> & OptionsProps
+export type Options = Omit<OverridesProps, "overridesClientWebpack" | "overridesServerWebpack" | "overridesCommonWebpack" | "overridesWebpack" | "paths"> & OptionsProps & {
+  paths: Partial<Omit<Paths, "moduleFileExtensions">>
+}
 
 export type WebpackConfigFunction = (conf: webpack.Configuration[], env: "development" | "production", options: Options) => webpack.Configuration[] | webpack.Configuration;
 
