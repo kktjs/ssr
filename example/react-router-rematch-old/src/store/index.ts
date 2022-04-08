@@ -1,13 +1,13 @@
-import { init } from '@rematch/core';
+import { init, Models } from '@rematch/core';
 import cookie from 'cookiejs';
 import global from '../models/global';
-import stores from '../models';
+import stores, { Store, RootModel, FullModel } from '../models';
 
-let storeInit = {};
+let storeInit: any = {};
 
-export const store = () => storeInit;
+export const store = (): Store => storeInit;
 export const createStore = async (initialState = stores.getState() || {}) => {
-  const promises = [];
+  const promises: Promise<void>[] = [];
 
   Object.keys(initialState).forEach((name) => {
     promises.push(import(`../models/${name}.js`).then((md) => {
@@ -19,15 +19,18 @@ export const createStore = async (initialState = stores.getState() || {}) => {
   });
 
   const models = await Promise.all(promises);
-  storeInit = init({
-    models: {},
-    models: models.length > 0 ? models : {
-      global: global,
-    },
-    models: {},
+
+  let model: any = { global: global }
+
+  if (models.length > 0) {
+    model = models
+  }
+
+  storeInit = init<RootModel, FullModel>({
+    models: model,
     plugins: [
       {
-        middleware: () => next => async (action) => {
+        createMiddleware: () => () => next => async (action) => {
           if (typeof window !== 'undefined') {
             const token = cookie.get('token');
             if (token) {

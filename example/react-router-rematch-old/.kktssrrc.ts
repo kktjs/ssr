@@ -1,17 +1,20 @@
 import pluginLess from "@kkt/plugin-less"
+import { Options } from "@kkt/ssr/lib/interface"
 import webpack from "webpack"
+import { Application } from "express"
+
 export default {
   GENERATE_SOURCEMAP: JSON.stringify(false),
-  proxySetup: (app) => ({
+  proxySetup: (app: Application) => ({
     path: "./mocker/index.js",
   }),
-  overridesServerWebpack:(conf)=>{
-    conf.plugins.push( new webpack.DefinePlugin({
-        window:JSON.stringify(undefined)
-      }))    
+  overridesServerWebpack: (conf: webpack.Configuration) => {
+    conf.plugins?.push(new webpack.DefinePlugin({
+      window: JSON.stringify(undefined)
+    }))
     return conf
   },
-  overridesClientWebpack: (conf, env, options) => {
+  overridesClientWebpack: (conf: webpack.Configuration, env: "production" | "development", options: Options): webpack.Configuration => {
     return {
       ...conf,
       resolve: {
@@ -33,7 +36,7 @@ export default {
       }
     }
   },
-  overridesCommonWebpack: (conf, env, options) => {
+  overridesCommonWebpack: (conf: webpack.Configuration, env: "production" | "development", options: Options): webpack.Configuration => {
     const newConfig = pluginLess(conf, {
       target: conf.target === "node14" ? "node" : "web",
       env,

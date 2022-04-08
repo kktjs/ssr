@@ -7,6 +7,13 @@ import history from './utils/history';
 import { getRouterData } from './routes';
 import { createStore } from './store';
 
+declare global {
+  interface Window {
+    _KKT_STORE: any;
+    _history: typeof history,
+  }
+}
+
 const routes = getRouterData();
 (async () => {
   const store = await createStore(window._KKT_STORE);
@@ -32,6 +39,8 @@ const routes = getRouterData();
   });
 })();
 
+// @ts-ignore
 if (module.hot) {
+  // @ts-ignore
   module.hot.accept();
 }

@@ -17,6 +17,10 @@
         "--no-yarn-lock",
         "--no-package-lock"
       ],
+      "npmClientArgs": [
+        "--no-yarn-lock",
+        "--no-package-lock"
+      ],
       "forceLocal": true
     }
   },

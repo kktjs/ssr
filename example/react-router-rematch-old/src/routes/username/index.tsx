@@ -1,8 +1,6 @@
 import React from 'react';
 import './index.css';
-
-
-const Container = import('../../components/Container');
+import Container from "../../components/Container"
 
 class User extends React.Component {
   render() {

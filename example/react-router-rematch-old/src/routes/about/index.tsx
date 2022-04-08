@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import Container from '../../components/Container';
 import './index.css';
-
-class About extends React.Component {
+import { RootState, Dispatch } from "./../../models"
+class About extends React.Component<{ test: string }> {
   render() {
     return (
       <Container title="About">
@@ -20,11 +20,11 @@ class About extends React.Component {
   }
 }
 
-const mapState = ({ about }) => ({
+const mapState = ({ about }: RootState) => ({
   test: about.test,
 });
 
-const mapDispatch = ({ global }) => ({
+const mapDispatch = ({ global }: Dispatch) => ({
   verify: global.verify,
 });
 

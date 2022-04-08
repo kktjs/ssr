@@ -6,12 +6,12 @@ import { getRouterData } from './routes';
 import Path from 'path';
 import FS from 'fs';
 import { createStore } from './store';
-
+// @ts-ignore
 const assetsMainifest = new Function(`return ${FS.readFileSync(`${OUTPUT_PUBLIC_PATH}/asset-client-manifest.json`, "utf-8")}`)()
 
 
 const appDirectory = FS.realpathSync(process.cwd());
-const resolveApp = (relativePath) => Path.resolve(appDirectory, relativePath);
+const resolveApp = (relativePath: string) => Path.resolve(appDirectory, relativePath);
 
 const isDev = process.env.NODE_ENV === "development"
 

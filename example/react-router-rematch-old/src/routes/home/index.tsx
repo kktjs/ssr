@@ -5,11 +5,13 @@ import { Helmet } from 'react-helmet';
 import cookie from 'cookiejs';
 import Container from '../../components/Container';
 import styles from './home.module.css';
+import { GetInitialProps } from "@kkt/react-ssr-enhanced"
+import { RootState, Dispatch } from "./../../models"
 
-class Home extends React.Component {
+class Home extends React.Component<{ test: string, testHome: string, whatever?: string }> {
 
-  static getInitialProps = async (ctx) => {
-    const {req, res, match, store, history, location } =ctx
+  static getInitialProps = async (ctx: GetInitialProps) => {
+    const { req, res, match, store, history, location } = ctx
     let token = null;
     // // only on the server side
     if (req && store.dispatch.global && store.dispatch.global.verify && req.cookies) {
@@ -52,13 +54,13 @@ class Home extends React.Component {
   }
 }
 
-const mapState = ({ global, home }) => ({
+const mapState = ({ global, home }: RootState) => ({
   test: global.test,
   testHome: home.test,
   name: global.name,
 });
 
-const mapDispatch = ({ global }) => ({
+const mapDispatch = ({ global }: Dispatch) => ({
   verify: global.verify,
 });
 

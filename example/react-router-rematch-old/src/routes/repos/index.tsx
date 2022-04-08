@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import styles from './home.module.css';
 import avatar from './avatar.png';
-
 import Container from '../../components/Container';
 
-export default class Repos extends React.Component {
-  // eslint-disable-next-line
-  static async getInitialProps({ req, res, match, history, location, ...ctx }) {
+export default class Repos extends React.Component<{ whatever?: string }> {
+  static async getInitialProps() {
     return { whatever: 'Repos stuff' };
   }
   render() {

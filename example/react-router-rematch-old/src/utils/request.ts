@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 let HOST = process.env.HOST;
 
@@ -10,9 +10,9 @@ if (typeof window !== 'undefined' && window.location && window.location.hostname
 axios.defaults.baseURL = `http://${HOST}:${process.env.PORT}`;
 
 // 拼接url参数
-function splitUrl(url, options) {
+function splitUrl(url: any, options: { [x: string]: any; }) {
   let urlNew = url;
-  const paramsArray = [];
+  const paramsArray: string[] = [];
   Object.keys(options).forEach(key => paramsArray.push(`${key}=${options[key]}`));
   if (Object.keys(options).length === 0) {
     return url;
@@ -28,7 +28,7 @@ function splitUrl(url, options) {
 
 // Get the current location.
 // const location = history.location;
-const codeMessage = {
+const codeMessage: Record<number, string> = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
   202: '一个请求已经进入后台排队（异步任务）。',
@@ -46,6 +46,11 @@ const codeMessage = {
   504: '网关超时。',
 };
 
+
+export interface RequestOptions extends AxiosRequestConfig {
+  body?: any
+}
+
 /**
  * Requests a URL, returning a promise.
  *
@@ -53,7 +58,7 @@ const codeMessage = {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, options = {}) {
+export default function request(url: string, options: RequestOptions = {}) {
   const method = options.method || 'GET';
   const newOptions = {
     url,
@@ -67,7 +72,7 @@ export default function request(url, options = {}) {
 
   if (/(GET)/.test(method)) {
     newOptions.url = splitUrl(url, { ...options.body });
-    delete newOptions.body;
+    delete options.body;
   }
 
   return axios.request(newOptions)
@@ -91,6 +96,7 @@ export default function request(url, options = {}) {
       }
       const error = new Error(errortext);
       error.name = response.status;
+      // @ts-ignore
       error.response = response;
       if (response.data) {
         // response.data

@@ -1,4 +1,6 @@
-export default {
+import { createModel } from "@rematch/core"
+import { RootModel } from "./index"
+export default createModel<RootModel>()({
   state: {
     test: 'home state test',
   },
@@ -6,4 +8,4 @@ export default {
     updateState: (state, payload) => ({ ...state, ...payload }),
   },
   effects: {},
-};
+});

@@ -4,7 +4,12 @@ import logo from './react.svg';
 import styles from './index.module.css';
 import './index.css';
 
-const Container = (props) => {
+interface ContainerProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+const Container = (props: ContainerProps) => {
   const { title } = props;
   return (
     <div className={styles.Home}>

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { GetInitialProps } from "@kkt/react-ssr-enhanced"
 import Container from '../../../components/Container';
 import './index.css';
 
-const Details = (props) => {
+const Details = (props: { whatever?: string }) => {
   return (
     <Container title={`Repos Details`}>
       <Helmet titleTemplate="%s - kkt">
@@ -17,7 +18,7 @@ const Details = (props) => {
     </Container>
   );
 }
-Details.getInitialProps = ({ req, res, history, location, match, ...ctx }) => {
+Details.getInitialProps = ({ match }: GetInitialProps) => {
   return { whatever: `This params id: ${match.params.id}. ` };
 }
 export default Details 

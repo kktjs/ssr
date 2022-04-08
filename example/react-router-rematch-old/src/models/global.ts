@@ -1,6 +1,7 @@
 import request from '../utils/request';
-
-export default {
+import { createModel } from "@rematch/core"
+import { RootModel } from "./index"
+export default createModel<RootModel>()({
   state: {
     test: 'global state test',
     name: 'kkt ssr',
@@ -20,4 +21,4 @@ export default {
     //   await this.updateState({ ...state });
     // },
   }),
-};
+});

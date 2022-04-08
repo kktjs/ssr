@@ -1,4 +1,6 @@
-export default {
+import { createModel } from "@rematch/core"
+import { RootModel } from "./index"
+export default createModel<RootModel>()({
   state: {
     test: 'abouts state test',
   },
@@ -11,4 +13,4 @@ export default {
       // this.updateState({ test: 'test111' });
     },
   },
-};
+});
