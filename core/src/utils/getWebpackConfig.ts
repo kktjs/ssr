@@ -5,7 +5,7 @@ require(`${reactScripts}/config/env`);
 import { reactScripts, webpackConfigPath } from "../overrides/pathUtils"
 import webpack from "webpack"
 import fs from 'fs';
-import { OptionsProps } from "../interface"
+import { OptionsProps, Options } from "../interface"
 import { loaderConf } from "../overrides"
 import { restDevModuleRuleCss, removeSourceMapLoader } from "./module"
 import processingConfig from "./ProcessingConfig"
@@ -56,10 +56,10 @@ export default async (env: "development" | "production", options: OptionsProps,)
       newConfigClient = removeSourceMapLoader(newConfigClient)
     }
     if (overridesCommonWebpack) {
-      newConfigClient = overridesCommonWebpack(newConfigClient, env, { ...rest, ...options })
+      newConfigClient = overridesCommonWebpack(newConfigClient, env, { ...rest, ...options } as Options)
     }
     if (overridesClientWebpack) {
-      newConfigClient = overridesClientWebpack(newConfigClient, env, { ...rest, ...options })
+      newConfigClient = overridesClientWebpack(newConfigClient, env, { ...rest, ...options } as Options)
     }
     configArr.push(newConfigClient)
   }
@@ -81,13 +81,13 @@ export default async (env: "development" | "production", options: OptionsProps,)
 
     if (overridesCommonWebpack) {
 
-      newConfigServer = overridesCommonWebpack(newConfigServer, env, { ...rest, ...options })
+      newConfigServer = overridesCommonWebpack(newConfigServer, env, { ...rest, ...options } as Options)
 
     }
 
     if (overridesServerWebpack) {
 
-      newConfigServer = overridesServerWebpack(newConfigServer, env, { ...rest, ...options })
+      newConfigServer = overridesServerWebpack(newConfigServer, env, { ...rest, ...options } as Options)
 
     }
 
@@ -97,7 +97,7 @@ export default async (env: "development" | "production", options: OptionsProps,)
   /**------------------------  other    ---------------------    */
   if (overridesWebpack && typeof overridesWebpack === "function") {
 
-    configArr = overridesWebpack(configArr, env, { ...rest, ...options }) as webpack.Configuration[]
+    configArr = overridesWebpack(configArr, env, { ...rest, ...options } as Options) as webpack.Configuration[]
 
   }
 
