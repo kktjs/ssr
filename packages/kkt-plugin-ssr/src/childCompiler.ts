@@ -89,14 +89,38 @@ const getCreateChildCompiler = (compilation: webpack.Compilation, options: Webpa
     config = overridesWebpack(config)
   }
 
+  const HOST = process.env.HOST || 'localhost'
+  const PORT = process.env.PORT || 3000
+
+  const define = {
+    /** 输出文件地址 */
+    OUTPUT_PUBLIC_PATH: JSON.stringify(config.output.path),
+    /** server 端获取 asset-client-mainifest.json 文件的最终输出位置  */
+    KKT_PUBLIC_DIR: JSON.stringify(process.env.KKT_PUBLIC_DIR || config.output.path),
+    /** 当前ip地址 **/
+    HOST: JSON.stringify(HOST),
+    /** 当前端口 **/
+    PORT: JSON.stringify(PORT),
+    /** 是否是 start 模式 **/
+    /** start 模式下 文件获取地址 */
+    HOSTAPI: JSON.stringify(undefined),
+    "process.env.PORT": JSON.stringify(PORT),
+    "process.env.HOSTAPI": JSON.stringify(undefined),
+    "process.env.HOST": JSON.stringify(HOST)
+  }
+
+  if (process.env.NODE_ENV === "development") {
+    // 代理 服务的 ip 地址
+    define.HOSTAPI = JSON.stringify(httpPath)
+    define["process.env.HOSTAPI"] = JSON.stringify(httpPath)
+  }
+
   config.plugins.push(
     new nodemonWebpackPlugin({
       script: `${config.output.path}/${config.output.filename}`,
       watch: [`${config.output.path}`]
     }),
-    new webpack.DefinePlugin({
-      "OUTPUT_PUBLIC_PATH": JSON.stringify(config.output.path)
-    })
+    new webpack.DefinePlugin(define)
   )
 
   // 起一个服务, 处理 server 服务文件
