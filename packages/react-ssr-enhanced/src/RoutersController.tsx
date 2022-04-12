@@ -42,7 +42,7 @@ const ChildRoutes = (props: ControllerProps) => {
         // @ts-ignore
         routeItem.element = <Navigate to={routeItem.path} />
       }
-      return <Route key={ind}  {...routeItem} />
+      return <Route key={ind}  {...routeItem} children={routeItem.children as React.ReactNode} />
     })
   }
   const dom2 = useRoutes(createRoutesFromChildren(deepRoutes(props.routes)))
