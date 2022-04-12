@@ -27,7 +27,7 @@ export const createStore = async (initialState = stores.getState() || {}) => {
   const promises: Promise<void>[] = [];
   Object.keys(initialState).forEach((name) => {
     if (name !== "loading") {
-      promises.push(import(`../models/${name}.ts`).then((md) => {
+      promises.push(import(`../models/${name}`).then((md) => {
         const model = md.default || md;
         model.state = initialState[name] || {};
         model.name = name;
