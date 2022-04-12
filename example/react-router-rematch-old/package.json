@@ -15,6 +15,7 @@
   "dependencies": {
     "@kkt/react-ssr-enhanced": "~3.1.12",
     "@rematch/core": "2.2.0",
+    "@rematch/loading": "2.1.2",
     "axios": "0.26.0",
     "cookie-parser": "1.4.3",
     "cookiejs": "1.0.15",
@@ -29,6 +30,7 @@
     "redux": "^4.1.2"
   },
   "devDependencies": {
+    "@types/react-helmet": "^6.1.5",
     "@kkt/plugin-less": "~3.1.12",
     "@kkt/ssr": "~3.1.12",
     "@types/cookie-parser": "^1.4.2",
