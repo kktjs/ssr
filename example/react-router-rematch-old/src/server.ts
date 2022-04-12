@@ -12,7 +12,6 @@ server.listen(PORT, (error) => {
   if (error) {
     logs(error);
   }
-  console.log(process.env.GENERATE_SOURCEMAP)
   logs('🚀 started!', `PORT: http://localhost:${PORT}`);
 });
 // @ts-ignore
