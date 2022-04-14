@@ -2,7 +2,8 @@ import webpack from "webpack"
 import DevServerPlugins from "./devServer"
 import { WebpackConfiguration } from 'kkt';
 import nodemonWebpackPlugin from "nodemon-webpack-plugin"
-import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
+import { WebpackManifestPlugin, Manifest, } from 'webpack-manifest-plugin';
+import { FileDescriptor } from 'webpack-manifest-plugin/dist/helpers';
 import path from "path"
 import { Paths, OverridesProps } from "./../../interface"
 import FS from 'fs-extra';
@@ -36,10 +37,81 @@ export const clearHtmlTemp = (conf: WebpackConfiguration): WebpackConfiguration 
   return { ...conf, plugins };
 };
 
+export interface WebpackManifestPluginGenerateProps {
+  seed: Record<any, any>,
+  files: FileDescriptor[],
+  entrypoints: Record<string, string[]>,
+  isCreateAsset: boolean,
+  httpPath: string
+  paths: Partial<Paths>,
+  type?: string,
+}
+
+/**   WebpackManifestPlugin 中 generate    **/
+export const WebpackManifestPluginGenerate = ({ seed, files, entrypoints, isCreateAsset, httpPath, paths, type }: WebpackManifestPluginGenerateProps): Manifest => {
+  const getPahts = (name: string) => {
+    if (!isCreateAsset || /^http/.test(name)) {
+      if (/^\//.test(name) || /^http/.test(name)) {
+        return name
+      }
+      return "/" + name
+    }
+    if (/^\//.test(name)) {
+      return httpPath + name
+    }
+    return httpPath + "/" + name
+  }
+  const routhPaths: Record<string, { css?: string, js?: string }> = {}
+  const manifestFiles = files.reduce((manifest, file) => {
+    manifest[file.name] = getPahts(file.path);
+    if (!(file.name.endsWith('.map') || file.name.endsWith('.hot-update.js'))) {
+      const routePath = `${file.name}`.replace(/.(css|js)$/, "")
+      if (!routhPaths[routePath]) {
+        routhPaths[routePath] = {}
+      }
+      const extname = path.extname(file.name).replace(".", "") as "css" | "js";	 //获取文件的后缀名
+      routhPaths[routePath][extname] = getPahts(file.path);
+    }
+    return manifest;
+  }, seed);
+
+  const clientOrServer: Record<string, string> = { css: null, js: null }
+
+  const entrypointFiles = entrypoints.main.filter(
+    fileName => !(fileName.endsWith('.map') || fileName.endsWith('.hot-update.js'))
+  ).map((fileName) => getPahts(fileName));
+  if (type) {
+    entrypointFiles.forEach((filename) => {
+      const extname = path.extname(filename).replace(".", "") as "css" | "js";	 //获取文件的后缀名
+      clientOrServer[extname] = getPahts(filename)
+    })
+  }
+  const result = {
+    ...routhPaths,
+    files: manifestFiles,
+    entrypoints: entrypointFiles,
+    [type]: clientOrServer,
+  }
+  if (!type) {
+    delete result[type]
+  }
+  if (isCreateAsset) {
+    if (!FS.existsSync(paths.appBuild)) {
+      FS.ensureDirSync(paths.appBuild)
+    }
+    const outPath = type ? `${paths.appBuild}/asset-${type}-manifest.json` : `${paths.appBuild}/asset-manifest.json`
+    FS.writeFileSync(outPath, JSON.stringify(result, null, 2), { flag: "w+", encoding: "utf-8" })
+  }
+  return {
+    ...result,
+  };
+}
+
 /** 重置 WebpackManifestPlugin 输出名称 */
 export const restWebpackManifestPlugin = (
   conf: WebpackConfiguration,
-  paths: Partial<Paths>, type?: string,
+  paths: Partial<Paths>,
+  type?: string,
   isCreateAsset: boolean = false,
   httpPath: string = ''
 ): WebpackConfiguration => {
@@ -52,61 +124,15 @@ export const restWebpackManifestPlugin = (
       new WebpackManifestPlugin({
         fileName: type ? `asset-${type}-manifest.json` : 'asset-manifest.json',
         publicPath: paths.publicUrlOrPath,
-        generate: (seed, files, entrypoints) => {
-
-          const getPahts = (name: string) => {
-            if (!isCreateAsset || /^http/.test(name)) {
-              if (/^\//.test(name) || /^http/.test(name)) {
-                return name
-              }
-              return "/" + name
-            }
-            if (/^\//.test(name)) {
-              return httpPath + name
-            }
-            return httpPath + "/" + name
-          }
-
-          const routhPaths: Record<string, { css?: string, js?: string }> = {}
-          const manifestFiles = files.reduce((manifest, file) => {
-            manifest[file.name] = getPahts(file.path);
-            if (!(file.name.endsWith('.map') || file.name.endsWith('.hot-update.js'))) {
-              const routePath = `${file.name}`.replace(/.(css|js)$/, "")
-              if (!routhPaths[routePath]) {
-                routhPaths[routePath] = {}
-              }
-              const extname = path.extname(file.name).replace(".", "") as "css" | "js";	 //获取文件的后缀名
-              routhPaths[routePath][extname] = getPahts(file.path);
-            }
-            return manifest;
-          }, seed);
-
-          const clientOrServer: Record<string, string> = { css: null, js: null }
-
-          const entrypointFiles = entrypoints.main.filter(
-            fileName => !(fileName.endsWith('.map') || fileName.endsWith('.hot-update.js'))
-          ).map((fileName) => getPahts(fileName));
-
-          entrypointFiles.forEach((filename) => {
-            const extname = path.extname(filename).replace(".", "") as "css" | "js";	 //获取文件的后缀名
-            clientOrServer[extname] = getPahts(filename)
-          })
-          const result = {
-            ...routhPaths,
-            files: manifestFiles,
-            entrypoints: entrypointFiles,
-            [type]: clientOrServer,
-          }
-          if (isCreateAsset) {
-            if (!FS.existsSync(paths.appBuild)) {
-              FS.ensureDirSync(paths.appBuild)
-            }
-            FS.writeFileSync(`${paths.appBuild}/asset-${type}-manifest.json`, JSON.stringify(result, null, 2), { flag: "w+", encoding: "utf-8" })
-          }
-          return {
-            ...result,
-          };
-        },
+        generate: (seed, files, entrypoints) => WebpackManifestPluginGenerate({
+          seed,
+          files,
+          entrypoints,
+          isCreateAsset,
+          httpPath,
+          paths,
+          type
+        }),
       }),
     ]);
   return { ...conf, plugins };
