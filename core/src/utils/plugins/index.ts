@@ -70,7 +70,7 @@ export const restWebpackManifestPlugin = (
           const routhPaths: Record<string, { css?: string, js?: string }> = {}
           const manifestFiles = files.reduce((manifest, file) => {
             manifest[file.name] = getPahts(file.path);
-            if (!file.name.endsWith('.map')) {
+            if (!(file.name.endsWith('.map') || file.name.endsWith('.hot-update.js'))) {
               const routePath = `${file.name}`.replace(/.(css|js)$/, "")
               if (!routhPaths[routePath]) {
                 routhPaths[routePath] = {}
@@ -84,7 +84,7 @@ export const restWebpackManifestPlugin = (
           const clientOrServer: Record<string, string> = { css: null, js: null }
 
           const entrypointFiles = entrypoints.main.filter(
-            fileName => !fileName.endsWith('.map')
+            fileName => !(fileName.endsWith('.map') || fileName.endsWith('.hot-update.js'))
           ).map((fileName) => getPahts(fileName));
 
           entrypointFiles.forEach((filename) => {
