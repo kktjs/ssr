@@ -7,7 +7,7 @@
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "bin": {
-    "kkt-ssr": "lib/index.js"
+    "kkt-ssr": "bin/ssr"
   },
   "scripts": {
     "build": "tsbb build",
