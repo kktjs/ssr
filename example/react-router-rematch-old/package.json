@@ -1,6 +1,6 @@
 {
   "name": "@examples/basic-routes-rematch-old",
-  "version": "3.1.12",
+  "version": "3.1.13",
   "description": "",
   "private": true,
   "scripts": {
@@ -13,7 +13,7 @@
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@kkt/react-ssr-enhanced": "~3.1.12",
+    "@kkt/react-ssr-enhanced": "3.1.13",
     "@rematch/core": "2.2.0",
     "@rematch/loading": "2.1.2",
     "axios": "0.26.0",
@@ -30,11 +30,11 @@
     "redux": "^4.1.2"
   },
   "devDependencies": {
-    "@types/react-helmet": "^6.1.5",
-    "@kkt/plugin-less": "~3.1.12",
-    "@kkt/ssr": "~3.1.12",
+    "@kkt/plugin-less": "3.1.13",
+    "@kkt/ssr": "3.1.13",
     "@types/cookie-parser": "^1.4.2",
     "@types/cookiejs": "^1.2.0",
+    "@types/react-helmet": "^6.1.5",
     "assert": "2.0.0",
     "browserify-zlib": "0.2.0",
     "buffer": "6.0.3",

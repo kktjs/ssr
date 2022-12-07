@@ -7,7 +7,7 @@
     "packages/kkt-plugin-less",
     "packages/kkt-plugin-ssr"
   ],
-  "version": "3.1.12",
+  "version": "3.1.13",
   "command": {
     "create": {
       "license": "MIT"
