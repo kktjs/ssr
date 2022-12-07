@@ -105,7 +105,7 @@ const getCreateChildCompiler = (compilation: webpack.Compilation, options: Webpa
     /** start 模式下 文件获取地址 */
     HOSTAPI: JSON.stringify(undefined),
     "process.env.PORT": JSON.stringify(PORT),
-    "process.env.HOSTAPI": JSON.stringify(undefined),
+    "process.env.HOSTAPI": JSON.stringify(process.env.HOSTAPI || undefined),
     "process.env.HOST": JSON.stringify(HOST)
   }
 
