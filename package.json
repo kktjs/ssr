@@ -74,5 +74,6 @@
 			"packages/kkt-plugin-ssr"
 		],
 		"nohoist": []
-	}
+	},
+	"version": "0.0.0"
 }
