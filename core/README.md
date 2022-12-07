@@ -39,6 +39,40 @@ Create [React](https://github.com/facebook/react) server-side rendering universa
 You will need [`Node.js`](https://nodejs.org) installed on your system.
 Support multiple webpack configurations to execute together.
 
+## Command Help
+
+```bash
+
+  Usage: kkt-ssr [build|start] [--help|h]
+
+  Displays help information.
+
+  Options:
+
+   --version, -v         Show version number
+   --help, -h            Displays help information.
+   --s-ne, --s-nodeExternals          server use webpack-node-external .
+   --c-ne, --c-nodeExternals          client use webpack-node-external .
+   --s-st, --s-split          server Split code .
+   --c-st, --c-split          client Split code .
+   -o, --original          Use original react-scripts config .
+   -m, --minify          All Minify output.
+   --s-m, --s-minify          server Minify output.
+   --c-m, --c-minify          clinet Minify output.
+   --target                   clent or server or all.
+
+  Example:
+
+   $ kkt-ssr build
+   $ kkt-ssr start
+   $ kkt-ssr build --s-ne
+   $ kkt-ssr start --s-ne
+   $ kkt-ssr build --s-st
+   $ kkt-ssr start --s-st
+   $ kkt-ssr start -o
+
+```
+
 ## Quick Start
 
 ```bash
